@@ -1,2 +1,11 @@
-1. Define MVP features
-2. 
+Define MVP features
+
+1. JSON/DB that will save the format of the rules
+3. Write the code that handle packets in/out from the PC
+3. Start adding rules
+4. UI
+  4.1 Show status of the rules
+  4.2 add rules and delete them -- not mvp
+4. Save logs - Define which
+5. Show all traffic on PC
+6. Check python versions
