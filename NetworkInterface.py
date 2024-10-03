@@ -7,6 +7,7 @@ from scapy.all import sniff, IP
 import logging
 from datetime import datetime
 from PacketHandler import Packet
+import HandleDB
 from RuleManagement import RuleSet
 
 # Configure logging to output network traffic to a file
