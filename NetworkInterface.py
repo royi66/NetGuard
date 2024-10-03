@@ -35,7 +35,7 @@ def manage_sniffed_packet(packet: Packet, direction: str) -> None:
     rule_set = RuleSet()
     rule_check_result = rule_set.check_packet(packet)
     #TODO: Action Based On Rule Check
-    
+    log_packet(packet, direction)
 
 
 def capture_packet(direction: str):
