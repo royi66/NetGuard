@@ -1,7 +1,7 @@
 import typing
 import threading
 
-from utiles import singleton
+from utils import singleton
 
 RULE_ERROR_MSG = 'Did not match any rules'
 class Rule:
