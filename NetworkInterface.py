@@ -1,11 +1,13 @@
 """
 Handles network interface - get output and input packets
 """
+import typing
 import threading
 from scapy.all import sniff, IP
 import logging
 from datetime import datetime
 from PacketHandler import Packet
+from RuleManagement import RuleSet
 
 # Configure logging to output network traffic to a file
 logging.basicConfig(
@@ -16,7 +18,7 @@ logging.basicConfig(
 )
 
 
-def log_packet(packet, direction):
+def log_packet(packet: Packet, direction: str) -> None:
     """
     Log the details of a captured packet.
     :param packet: The captured packet.
@@ -29,32 +31,13 @@ def log_packet(packet, direction):
     print(log_message)
 
 
-def capture_incoming():
+def manage_sniffed_packet(packet: Packet, direction: str) -> None:
+    rule_set = RuleSet()
+    rule_check_result = rule_set.check_packet(packet)
+    #TODO: Action Based On Rule Check
+    log_packet(packet, direction)
+
+
+def capture_packet(direction: str):
     """Capture and log incoming packets."""
-    sniff(filter="ip", prn=lambda pkt: log_packet(pkt, "IN"), store=0, iface="en0")
-
-
-def capture_outgoing():
-    """Capture and log outgoing packets."""
-    sniff(filter="ip", prn=lambda pkt: log_packet(pkt, "OUT"), store=0, iface="en0")
-
-
-def main():
-    print("Starting network capture...")
-    # Create two threads: one for incoming and one for outgoing packets
-    incoming_thread = threading.Thread(target=capture_incoming)
-    outgoing_thread = threading.Thread(target=capture_outgoing)
-
-    # Start both threads
-    incoming_thread.start()
-    outgoing_thread.start()
-
-    # Join threads to ensure they run indefinitely
-    incoming_thread.join()
-    outgoing_thread.join()
-
-
-
-
-if __name__ == '__main__':
-    main()
+    sniff(filter="ip", prn=lambda pkt: manage_sniffed_packet(pkt, direction), store=0, iface="en0")

@@ -1,4 +1,5 @@
 import socket
+import typing
 from scapy.all import IP, TCP, UDP, ICMP
 
 PROTOCOL_MAP = {

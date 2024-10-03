@@ -1,3 +1,9 @@
+import typing
+import threading
+
+from utiles import singleton
+
+RULE_ERROR_MSG = 'Did not match any rules'
 class Rule:
     """Represents a firewall rule with matching criteria and an action (allow or block)."""
 
@@ -17,7 +23,7 @@ class Rule:
         self.src_port = src_port
         self.dest_port = dest_port
         self.protocol = protocol
-        self.action = action  # Action to be taken: 'allow' or 'block'
+        self.action = action  # Action to be taken: Save where/alert/and staff TODO: create const of actions
 
     def matches(self, packet):
         """
@@ -35,29 +41,24 @@ class Rule:
         )
 
 
+@singleton
 class RuleSet:
-    """A collection of rules for packet filtering."""
+    """A thread-safe singleton collection of rules for packet filtering."""
 
     def __init__(self):
-        """Initialize an empty list of rules."""
         self.rules = []
+        self._lock = threading.Lock()  # Lock for thread-safe access
 
     def add_rule(self, rule):
-        """
-        Add a rule to the rule set.
-
-        :param rule: A Rule object to be added to the rules list.
-        """
-        self.rules.append(rule)
+        """Add a rule to the rule set in a thread-safe manner."""
+        with self._lock:  # Lock is needed for write operations
+            self.rules.append(rule)
 
     def check_packet(self, packet):
-        """
-        Check a packet against all rules in the rule set.
-
-        :param packet: The packet to check.
-        :return: The action (allow/block) based on the first matching rule, or block by default.
-        """
-        for rule in self.rules:
-            if rule.matches(packet):
-                return rule.action  # Return the action if a rule matches
-        return 'block'  # Default action is to block if no rule matches
+        """Check a packet against all rules in the rule set."""
+        # No need to lock for read-only access unless the rules can be modified while reading
+        with self._lock:  # Lock needed if concurrent modifications (writing) can happen
+            for rule in self.rules:
+                if rule.matches(packet):
+                    return rule.action
+        return RULE_ERROR_MSG
