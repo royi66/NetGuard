@@ -1,8 +1,7 @@
 import socket
 from scapy.all import IP, TCP, UDP, ICMP, Raw
 import HandleDB
-
-
+import typing
 PROTOCOL_MAP = {
     1: "ICMP",   # Internet Control Message Protocol
     2: "IGMP",   # Internet Group Management Protocol
