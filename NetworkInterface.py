@@ -19,7 +19,7 @@ logging.basicConfig(
 )
 
 
-def log_packet(packet: Packet, direction: str) -> None:
+def log_packet(packet: Packet) -> None:
     """
     Log the details of a captured packet.
     :param packet: The captured packet.
@@ -27,16 +27,24 @@ def log_packet(packet: Packet, direction: str) -> None:
     """
     new_packet = Packet(packet)
 
-    log_message = f"[{direction}] Source: {new_packet.src_ip}, Destination: {new_packet.dest_ip}, Protocol: {new_packet.protocol}"
+    log_message = f"[{new_packet.direction}] Source: {new_packet.src_ip}, Destination: {new_packet.dest_ip}, Protocol: {new_packet.protocol}"
     logging.info(log_message)
     print(log_message)
+
+
+def process_packet(packet, direction) -> None:
+    """Process and save packet data."""
+    new_packet = Packet(packet, direction)
+    packet_data = new_packet.to_dict()  # Convert packet object to dictionary
+    HandleDB.save_packet_to_db(packet_data)  # Save to MongoDB
 
 
 def manage_sniffed_packet(packet: Packet, direction: str) -> None:
     rule_set = RuleSet()
     rule_check_result = rule_set.check_packet(packet)
     #TODO: Action Based On Rule Check
-    log_packet(packet, direction)
+    log_packet(packet)
+    process_packet(packet, direction)
 
 
 def capture_packet(direction: str):
