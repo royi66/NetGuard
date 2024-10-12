@@ -25,7 +25,7 @@ Install Mongo DB GUI for local run - ``` https://www.mongodb.com/try/download/co
 
 ```pip3 install --use-pep517 pywebio```
 
-##### pyWebio
+##### pyQT
 
 1. ```conda install pyqt```
 2. ```brew install qt```
