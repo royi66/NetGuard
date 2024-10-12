@@ -4,8 +4,10 @@ import threading
 from utils import singleton
 
 RULE_ERROR_MSG = 'Did not match any rules'
+
+
 class Rule:
-    """Represents a firewall rule with matching criteria and an action (allow or block)."""
+    """Represents a Scanner rule with matching criteria and an action (allow or block)."""
 
     def __init__(self, src_ip=None, dest_ip=None, src_port=None, dest_port=None, protocol=None, action='block'):
         """

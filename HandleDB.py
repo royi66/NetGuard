@@ -12,5 +12,6 @@ class MongoDbClient:
         packets_collection = db[collection_name]
         packets_collection.insert_one(packet)
 
-    def __del__(self) -> None:
-        self.client.close()
+    # def __del__(self) -> None:
+    #     print("closeee")
+    #     self.client.close()

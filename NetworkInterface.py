@@ -6,11 +6,10 @@ import threading
 
 from HandleDB import MongoDbClient
 from scapy.all import sniff, IP
-from consts import ALL_PACKETS, PACKETS
+from consts import DBNames, Collections
 import logging
 from datetime import datetime
 from PacketHandler import Packet
-import HandleDB
 from RuleManagement import RuleSet
 
 # Configure logging to output network traffic to a file
@@ -35,24 +34,23 @@ def log_packet(packet: Packet, direction: str) -> None:
     print(log_message)
 
 
-def save_packet(packet: Packet) -> None:
+def save_packet(packet: Packet, db_name: str, collection_name: str) -> None:
     mongo_db_client = MongoDbClient()
     packet_data = packet.to_dict()
     print(packet_data)
-    mongo_db_client.insert_to_db(ALL_PACKETS, PACKETS, packet_data)
+    mongo_db_client.insert_to_db(db_name, collection_name, packet_data)
 
 
 def manage_sniffed_packet(packet: Packet, direction: str) -> None:
     new_packet = Packet(packet, direction)
-    save_packet(new_packet)
-
+    save_packet(new_packet, DBNames.ALL_PACKETS, Collections.PACKETS)
     rule_set = RuleSet()
     rule_check_result = rule_set.check_packet(packet)
     #TODO: Action Based On Rule Check
-    log_packet(packet, direction)
+    # log_packet(packet, direction)
 
 
-def capture_packet(direction: str):
+def capture_packet(direction: str) -> None:
     """Capture and log incoming packets."""
     try:
         sniff(filter="ip", prn=lambda pkt: manage_sniffed_packet(pkt, direction), store=0, iface="en0")
