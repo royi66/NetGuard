@@ -1,20 +1,17 @@
 """
 Handles network interface - get output and input packets
 """
-import typing
-import threading
 
-from HandleDB import MongoDbClient
-from scapy.all import sniff, IP
-from consts import DBNames, Collections
+from netguard.handle_db import MongoDbClient
+from scapy.all import sniff
+from netguard.consts import DBNames, Collections
 import logging
-from datetime import datetime
-from PacketHandler import Packet
-from RuleManagement import RuleSet
+from packet_handler import Packet
+from rule_management import RuleSet
 
 # Configure logging to output network traffic to a file
 logging.basicConfig(
-    filename="network_traffic.log",
+    filename="../log/network_traffic.log",
     level=logging.INFO,
     format="%(asctime)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",

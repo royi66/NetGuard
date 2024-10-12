@@ -56,6 +56,12 @@ class RuleSet:
         with self._lock:  # Lock is needed for write operations
             self.rules.append(rule)
 
+    def delet_rule(self, rule):
+        """Remove a rule from the rule set in a"""
+        pass
+    def edit_rule(self, rule):
+        pass
+
     def check_packet(self, packet):
         """Check a packet against all rules in the rule set."""
         # No need to lock for read-only access unless the rules can be modified while reading

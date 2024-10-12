@@ -1,6 +1,4 @@
-import socket
 from scapy.all import IP, TCP, UDP, ICMP, Raw
-import HandleDB
 from typing import Optional
 
 PROTOCOL_MAP = {

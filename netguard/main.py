@@ -1,12 +1,7 @@
 #!/usr/bin/sudo python
 import threading
-import typing
 
-import NetworkInterface
-from HandleDB import MongoDbClient
-from PacketHandler import Packet
-from datetime import datetime
-
+import network_interface
 
 OUT_DIRECTION = "OUT"
 IN_DIRECTION = "IN"

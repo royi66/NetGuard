@@ -1,12 +1,10 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QTableWidget, QTableWidgetItem, QMainWindow, QLabel
 from PyQt5.QtWidgets import QDialog, QFormLayout, QLineEdit, QDialogButtonBox
-from pymongo import MongoClient
 import matplotlib.pyplot as plt
-from io import BytesIO
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from HandleDB import MongoDbClient
-from consts import DBNames, Collections
+from handle_db import MongoDbClient
+from netguard.consts import DBNames, Collections
 
 
 class NetworkScanner(QMainWindow):
