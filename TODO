@@ -9,3 +9,8 @@ Define MVP features
 4. Save logs - Define which
 5. Show all traffic on PC
 6. Check python versions
+
+
+ROYI -
+1. Fix Packet.match
+2. Check if packet inserted into DB with ruleid
