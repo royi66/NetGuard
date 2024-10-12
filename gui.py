@@ -20,7 +20,7 @@ def get_rules():
 def manage_rules():
     clear()
     mongo_client = MongoDbClient()
-    db = mongo_client.client[DBNames.ALL_PACKETS]
+    db = mongo_client.client[DBNames.NET_GUARD_DB]
 
     rules = get_rules()
     put_buttons(['Add New Rule'], onclick=[lambda: add_new_rule(db)])
@@ -97,7 +97,7 @@ def delete_rule(rule_id):
 def show_dashboard():
     clear()
     mongo_client = MongoDbClient()
-    db = mongo_client.client[DBNames.ALL_PACKETS]
+    db = mongo_client.client[DBNames.NET_GUARD_DB]
     dashboard_collection = db[Collections.PACKETS]
 
     generate_protocol_pie_chart(dashboard_collection)

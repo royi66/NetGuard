@@ -43,7 +43,7 @@ def save_packet(packet: Packet, db_name: str, collection_name: str) -> None:
 
 def manage_sniffed_packet(packet: Packet, direction: str) -> None:
     new_packet = Packet(packet, direction)
-    save_packet(new_packet, DBNames.ALL_PACKETS, Collections.PACKETS)
+    save_packet(new_packet, DBNames.NET_GUARD_DB, Collections.PACKETS)
     rule_set = RuleSet()
     rule_check_result = rule_set.check_packet(packet)
     #TODO: Action Based On Rule Check

@@ -145,7 +145,7 @@ class ManageRulesWindow(QMainWindow):
         """Retrieve and display packets that match the rule from MongoDB."""
         # Connect to MongoDB
         client = MongoDbClient()
-        db = client.client[DBNames.ALL_PACKETS]  # Replace with your actual database name
+        db = client.client[DBNames.NET_GUARD_DB]  # Replace with your actual database name
         packets_collection = db[Collections.PACKETS]  # Replace with your collection name
 
         # Query MongoDB based on the rule's source IP, destination IP, and protocol
@@ -250,7 +250,7 @@ class DashboardWindow(QMainWindow):
     def display_pie_charts(self, layout):
         """Fetch data from MongoDB and display pie charts."""
         mongo_client = MongoDbClient().client
-        db = mongo_client[DBNames.ALL_PACKETS]
+        db = mongo_client[DBNames.NET_GUARD_DB]
         collection = db[Collections.PACKETS]
 
         # Get data for "IN" packets

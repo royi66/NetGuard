@@ -1,7 +1,8 @@
 
 class DBNames:
-    ALL_PACKETS = 'all_packets'
+    NET_GUARD_DB = 'net_guard_db'
 
 
 class Collections:
-    PACKETS = 'packets'
+    PACKETS = 'all_packets'
+    RULES = 'rules'
