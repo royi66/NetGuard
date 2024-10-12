@@ -2,3 +2,4 @@ scapy
 pymongo
 matplotlib
 pywebio
+pyqt5
