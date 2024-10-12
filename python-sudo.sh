@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo python main.py
+sudo python netguard/main.py
