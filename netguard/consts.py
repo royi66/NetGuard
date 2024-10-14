@@ -6,3 +6,6 @@ class DBNames:
 class Collections:
     PACKETS = 'all_packets'
     RULES = 'rules'
+
+
+HOURS_BACK = 3
