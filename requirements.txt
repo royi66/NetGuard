@@ -3,3 +3,6 @@ pymongo
 matplotlib
 pywebio
 pyqt5
+web3
+plotly
+pandas
