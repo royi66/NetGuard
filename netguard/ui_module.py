@@ -3,12 +3,15 @@ from pywebio.output import *
 from pywebio.input import *
 from pymongo import MongoClient
 import os
-from netguard.handle_db import MongoDbClient
-from netguard.consts import DBNames, Collections, HOURS_BACK
+from handle_db import MongoDbClient
+from consts import DBNames, Collections, HOURS_BACK, ICON_URL
 from datetime import timedelta, datetime
+from rule_management import Rule, RuleSet
+
 
 mongo_client = MongoDbClient()
 db = mongo_client.client[DBNames.NET_GUARD_DB]
+images_dir = os.path.join(os.path.dirname(__file__), '../Images')
 
 
 def get_recent_packets():
@@ -152,6 +155,87 @@ def put_latest_packets():
 def manage_rules():
     put_markdown("## Manage Rules")
 
+    # Get rules from MongoDB
+    rules = get_rules()
+
+    put_table(
+        tdata=[
+            [
+                rule["src_ip"],
+                rule["dest_ip"],
+                rule["protocol"],
+                rule["action"],
+                put_button("Edit", onclick=lambda r=rule: edit_rule(r), small=True),
+                put_button("Delete", onclick=lambda r=rule: delete_rule(r["_id"]), small=True),
+            ]
+            for rule in rules
+        ],
+        header=["Source IP", "Destination IP", "Protocol", "Action", "Edit", "Delete"]
+    )
+
+    # Add button for adding a new rule
+    put_button("Add New Rule", onclick=lambda: add_rule(), color="primary", outline=True)
+
+
+@use_scope("latest")
+def get_rules():
+    """Fetch rules from MongoDB."""
+    rules_collection = db[Collections.RULES]
+    rules = list(rules_collection.find())
+    return [
+        {
+            "_id": str(rule.get("_id", "")),
+            "src_ip": rule.get("src_ip", ""),
+            "dest_ip": rule.get("dest_ip", ""),
+            "protocol": rule.get("protocol", ""),
+            "action": rule.get("action", "")
+        }
+        for rule in rules
+    ]
+
+
+@use_scope("latest")
+def add_rule():
+    """Show form to add a new rule and insert it into MongoDB."""
+    new_rule = input_group("Add New Rule", [
+        input("Source IP", name="src_ip"),
+        input("Destination IP", name="dest_ip"),
+        input("Protocol (e.g., TCP, UDP)", name="protocol"),
+        input("Action (allow/deny)", name="action")
+    ])
+    # rule_set.add_rule(src_ip=new_rule["src_ip"], dest_ip=new_rule["dest_ip"], protocol=new_rule["protocol"], action=new_rule["action"])
+
+    db[Collections.RULES].insert_one(new_rule)
+
+    # Refresh the rules display
+    manage_rules()
+
+
+@use_scope("latest")
+def edit_rule(rule):
+    """Edit an existing rule."""
+    updated_rule = input_group("Edit Rule", [
+        input("Source IP", name="src_ip", value=rule["src_ip"]),
+        input("Destination IP", name="dest_ip", value=rule["dest_ip"]),
+        input("Protocol", name="protocol", value=rule["protocol"]),
+        input("Action", name="action", value=rule["action"])
+    ])
+
+    # rule_set.edit_rule(rule["_id"], updated_rule)
+
+    db[Collections.RULES].update_one({"_id": rule["_id"]}, {"$set": updated_rule})
+
+    manage_rules()
+
+
+@use_scope("latest")
+def delete_rule(rule_id):
+    """Delete a rule from MongoDB."""
+    # rule_set.delete_rule(rule_id)
+    db[Collections.RULES].delete_one({"_id": rule_id})
+
+    manage_rules()
+
 @use_scope("dashboard", clear=True)
 def put_dashboard():
     put_markdown("## Dashboard")
@@ -159,12 +243,15 @@ def put_dashboard():
     put_markdown("###### Network packet distribution across protocols.")
     put_markdown("---")
 
+
 @use_scope("left_navbar")
 def put_navbar():
+    print(os.getcwd())
     put_grid(
         [
             [
                 put_markdown("### NetGuard"),
+                put_image(open(os.path.join(images_dir, 'icon2.png'), 'rb').read(), format='png'),
                 put_markdown("#### Packets").onclick(lambda: put_blocks()),
                 put_markdown("#### Manage Rules").onclick(lambda: manage_rules()),
                 put_markdown("#### Dashboard").onclick(lambda: put_dashboard()),
@@ -175,7 +262,7 @@ def put_navbar():
 
 
 @config(theme="dark")
-def main():
+def ui_main():
     session.set_env(title="NetGuard", output_max_width="100%")
     put_row(
         [put_scope("left_navbar"), None, put_scope("dashboard")],
@@ -185,5 +272,5 @@ def main():
     put_blocks()
 
 
-if __name__ == "__main__":
-    start_server(main, port=8080)
+# if __name__ == "__main__":
+#     start_server(ui_main), port=8081)

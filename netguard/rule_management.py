@@ -27,6 +27,7 @@ class Rule:
         :param protocol: Protocol to match (TCP/UDP) (default: None).
         :param action: Action to take if rule matches (allow/block) (default: 'block').
         """
+        # TODO - maybe no need of rule id because mongo db automatically adds an id
         self.rule_id: int = rule_id
         self.src_ip: typing.Optional[str] = src_ip
         self.dest_ip: typing.Optional[str] = dest_ip
@@ -90,6 +91,7 @@ class RuleSet:
         :param protocol: Protocol to match (TCP/UDP).
         :param action: Action to take if rule matches (allow/block).
         """
+        # TODO - Create same function that gets a Rule, or maybe change this one
         with self.lock:  # Acquire the lock before modifying shared data
             self.rule_id_counter += 1  # Increment the rule ID counter
             rule = Rule(rule_id=self.rule_id_counter, src_ip=src_ip, dest_ip=dest_ip,

@@ -9,3 +9,5 @@ class Collections:
 
 
 HOURS_BACK = 3
+ICON_URL = '../Images/icon2.png'
+
