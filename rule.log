@@ -1,0 +1,3 @@
+INFO:rule_management:Added rule: <rule_management.Rule object at 0x107556960>
+INFO:rule_management:Added rule: <rule_management.Rule object at 0x10760a660>
+INFO:rule_management:Cleared all rules from the ruleset and database.

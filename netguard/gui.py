@@ -4,8 +4,8 @@ from pywebio import start_server
 import matplotlib.pyplot as plt
 from io import BytesIO
 
-from HandleDB import MongoDbClient
-from consts import DBNames, Collections
+from handle_db import MongoDbClient
+from netguard.consts import DBNames, Collections
 
 
 def get_rules():

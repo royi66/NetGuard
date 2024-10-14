@@ -1,5 +1,5 @@
-# Network Scanner
-Royi and Danielle python firewall
+# Net Guard Network Scanner
+<img src="Images/icon.png" alt="My Image" width="600"/>
 
 # prerequisites
 ```bash
