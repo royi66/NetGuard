@@ -264,7 +264,6 @@ def put_dashboard():
 
 @use_scope("left_navbar")
 def put_navbar():
-    print(os.getcwd())
     put_grid(
         [
             [
