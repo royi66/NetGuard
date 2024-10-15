@@ -7,8 +7,17 @@ from handle_db import MongoDbClient
 from consts import DBNames, Collections, HOURS_BACK, ICON_URL
 from datetime import timedelta, datetime
 from rule_management import Rule, RuleSet
+import matplotlib.pyplot as plt
+from io import BytesIO
+import matplotlib
+matplotlib.use('Agg')  # Use non-GUI backend
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from dash import Dash, dcc, html
+import plotly.graph_objs as go
+from threading import Thread
+from dashboard import run_dash_app
 
-
+app = Dash(__name__)
 mongo_client = MongoDbClient()
 db = mongo_client.client[DBNames.NET_GUARD_DB]
 images_dir = os.path.join(os.path.dirname(__file__), '../Images')
@@ -131,6 +140,7 @@ def put_packet_search_results(field, value):
 @use_scope("latest")
 def put_latest_packets():
     latest_packets = get_recent_packets()  # Replace with real scanning function
+    print("latest_packets", latest_packets)
     packets = []
     for packet in latest_packets:
         packets.append(
@@ -236,17 +246,24 @@ def delete_rule(rule_id):
 
     manage_rules()
 
+
+def start_dash_thread():
+    dash_thread = Thread(target=run_dash_app)
+    dash_thread.setDaemon(True)
+    dash_thread.start()
+
+# PyWebIO dashboard with embedded iframe
 @use_scope("dashboard", clear=True)
 def put_dashboard():
     put_markdown("## Dashboard")
-    put_html("<canvas id='myChart'></canvas>").style("width: 60vw; height: 40rem")
-    put_markdown("###### Network packet distribution across protocols.")
+    put_markdown("###### Network packet distribution across directions (IN vs OUT).")
     put_markdown("---")
+    # Embed the Dash app into the PyWebIO dashboard using an iframe
+    put_html('<iframe src="http://127.0.0.1:8050" width="100%" height="600" style="border:none;"></iframe>')
 
 
 @use_scope("left_navbar")
 def put_navbar():
-    print(os.getcwd())
     put_grid(
         [
             [
@@ -262,7 +279,8 @@ def put_navbar():
 
 
 @config(theme="dark")
-def ui_main():
+def main():
+    start_dash_thread()
     session.set_env(title="NetGuard", output_max_width="100%")
     put_row(
         [put_scope("left_navbar"), None, put_scope("dashboard")],
@@ -272,5 +290,5 @@ def ui_main():
     put_blocks()
 
 
-# if __name__ == "__main__":
-#     start_server(ui_main), port=8081)
+if __name__ == "__main__":
+    start_server(main, port=8081)

@@ -4,10 +4,14 @@ Handles network interface - get output and input packets
 
 from handle_db import MongoDbClient
 from scapy.all import sniff
+
 from consts import DBNames, Collections
 import logging
 from packet_handler import Packet
 from rule_management import RuleSet
+from scapy.config import conf
+conf.debug_dissector = 2
+
 
 # Configure logging to output network traffic to a file
 logging.basicConfig(
@@ -43,6 +47,7 @@ def manage_sniffed_packet(packet: Packet, direction: str, rule_set: RuleSet) -> 
     if matched_rule_id:
         packet.matched_rule_id = matched_rule_id
     save_packet(new_packet, DBNames.NET_GUARD_DB, Collections.PACKETS)
+    print(new_packet.src_ip)
 
     # TODO: Action Based On Rule Check
     # log_packet(packet, direction)
