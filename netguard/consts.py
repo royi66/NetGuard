@@ -8,6 +8,6 @@ class Collections:
     RULES = 'rules'
 
 
-HOURS_BACK = 3
+HOURS_BACK = 1
 ICON_URL = '../Images/icon2.png'
 
