@@ -10,6 +10,7 @@ import logging
 from packet_handler import Packet
 from rule_management import RuleSet
 from scapy.config import conf
+import time
 conf.debug_dissector = 2
 
 
@@ -32,7 +33,7 @@ def log_packet(packet: Packet, direction: str) -> None:
 
     log_message = f"[{new_packet.direction}] Source: {new_packet.src_ip}, Destination: {new_packet.dest_ip}, Protocol: {new_packet.protocol}"
     logging.info(log_message)
-    print(log_message)
+    # print(log_message)
 
 
 def save_packet(packet: Packet, db_name: str, collection_name: str) -> None:
@@ -42,12 +43,12 @@ def save_packet(packet: Packet, db_name: str, collection_name: str) -> None:
 
 
 def manage_sniffed_packet(packet: Packet, direction: str, rule_set: RuleSet) -> None:
+    time.sleep(2)
     new_packet = Packet(packet, direction)
     matched_rule_id = rule_set.check_packet(packet)
     if matched_rule_id:
         packet.matched_rule_id = matched_rule_id
     save_packet(new_packet, DBNames.NET_GUARD_DB, Collections.PACKETS)
-    print(new_packet.src_ip)
 
     # TODO: Action Based On Rule Check
     # log_packet(packet, direction)

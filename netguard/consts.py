@@ -7,7 +7,10 @@ class Collections:
     PACKETS = 'all_packets'
     RULES = 'rules'
 
+class Ui:
+    HOURS_BACK = 1
+    PAGE_SIZE = 20
 
-HOURS_BACK = 1
-ICON_URL = '../Images/icon2.png'
+class Paths:
+    ICON_URL = 'icon2.png'
 

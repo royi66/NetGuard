@@ -155,9 +155,9 @@ class RuleSet:
         with self.lock:  # Acquire the lock before reading shared data
             for rule in self.rules:
                 if rule.matches(packet):
-                    print(f"Packet matched rule: {rule}")
+                    # print(f"Packet matched rule: {rule}")
                     return rule.rule_id
-        print(f"Packet didn't match any rule: {packet}")
+        # print(f"Packet didn't match any rule: {packet}")
         return RULE_ERROR_ID
 
     def clear_all_rules(self) -> None:
