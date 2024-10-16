@@ -4,7 +4,7 @@ from pywebio.input import *
 from pymongo import MongoClient
 import os
 from handle_db import MongoDbClient
-from consts import DBNames, Collections, HOURS_BACK, ICON_URL
+from consts import DBNames, Collections, Ui, Paths
 from datetime import timedelta, datetime
 from rule_management import Rule, RuleSet
 import matplotlib.pyplot as plt
@@ -21,13 +21,20 @@ app = Dash(__name__)
 mongo_client = MongoDbClient()
 db = mongo_client.client[DBNames.NET_GUARD_DB]
 images_dir = os.path.join(os.path.dirname(__file__), '../Images')
+current_page = 0
 
 
-def get_recent_packets():
+def get_recent_packets(page=0):
+    """Retrieve 20 packets per page with pagination."""
     packets_collection = db[Collections.PACKETS]
-    one_hour_ago = datetime.now() - timedelta(hours=HOURS_BACK)
+    one_hour_ago = datetime.now() - timedelta(hours=Ui.HOURS_BACK)
+
+    # Query to find packets in the last hour
     query = {"insertion_time": {"$gte": one_hour_ago}}
-    matching_packets = list(packets_collection.find(query))
+
+    skip = page * Ui.PAGE_SIZE
+    matching_packets = list(packets_collection.find(query).skip(skip).limit(Ui.PAGE_SIZE))
+
     return [
         {
             "_id": packet.get("_id", None),
@@ -42,14 +49,53 @@ def get_recent_packets():
     ]
 
 
+def handle_pagination(btn):
+    # Function to handle pagination control clicks
+    global current_page
+    if btn == 'next':
+        current_page += 1
+    elif btn == 'prev' and current_page > 0:
+        current_page -= 1
+
+    update_packets_list(current_page)
+
+
+def update_packets_list(page=0):
+    global current_page
+    current_page = page
+    packets = get_recent_packets(current_page)
+
+    with use_scope('latest', clear=True):
+        put_markdown(f"### Showing packets for page {current_page + 1}")
+
+        # Create table structure with the "+" button
+        packet_rows = []
+        for packet in packets:
+            packet_rows.append([
+                put_button("+", onclick=lambda x=packet["_id"]: put_packet_search(x), link_style=True),
+                packet["src_ip"],
+                packet["dest_ip"],
+                packet["protocol"],
+                packet["src_port"],
+                packet["dest_port"],
+                packet["action"]
+            ])
+
+        put_table(tdata=packet_rows, header=["More Info", "Source IP", "Destination IP", "Protocol", "Source Port", "Destination Port", "Action"])
+
+        # Pagination controls: Next and Previous buttons
+        put_row([
+            put_button("Previous", onclick=lambda: handle_pagination('prev'), disabled=current_page == 0, color="warning"),
+            put_button("Next", onclick=lambda: handle_pagination('next'), color="success")
+        ], size="auto auto auto")
+
+
 def put_packet_search(packet_id):
     """Retrieve and display the packet details based on src_ip or packet_id."""
     popup("Packet Info", [put_scope("popup_content")], PopupSize.LARGE)
     with use_scope("popup_content"):
         # Query MongoDB for the packet by src_ip
-        print(packet_id)
         packet = mongo_client.get_data_by_field(DBNames.NET_GUARD_DB, Collections.PACKETS, "_id", packet_id)
-        print("find", packet)
 
         if packet:
             put_table(
@@ -74,7 +120,6 @@ def put_packet_search(packet_id):
             )
         else:
             put_markdown(f"**Packet not found**").style("color: red")
-
 
 
 @use_scope("dashboard", clear=True)
@@ -110,9 +155,7 @@ def put_blocks():
 @use_scope("results", clear=True)
 def put_packet_search_results(field, value):
     try:
-        print({field: value})
         packets = mongo_client.get_data_by_field(DBNames.NET_GUARD_DB, Collections.PACKETS, field, value)
-        print("packets", packets)
 
         if packets:
             put_markdown(f"### Packets matching {field}: {value}")
@@ -139,35 +182,15 @@ def put_packet_search_results(field, value):
 
 @use_scope("latest")
 def put_latest_packets():
-    latest_packets = get_recent_packets()  # Replace with real scanning function
-    print("latest_packets", latest_packets)
-    packets = []
-    for packet in latest_packets:
-        packets.append(
-            [
-                put_button(
-                    "+",
-                    onclick=lambda x=packet["_id"]: put_packet_search(x),
-                    link_style=True,
-                ),
-                packet["src_ip"],
-                packet["dest_ip"],
-                packet["protocol"],
-                packet["src_port"],
-                packet["dest_port"],
-                packet["action"],
-            ]
-        )
-    put_markdown(f"### Packets from the last {HOURS_BACK} hours")
-    put_table(tdata=packets, header=["More data", "Source IP", "Dest IP", "Protocol", "Src Port", "Dest port", "Action"])
+    global current_page  # Ensure the current page is tracked
+    update_packets_list(current_page)
+
 
 @use_scope("dashboard", clear=True)
 def manage_rules():
     put_markdown("## Manage Rules")
-
     # Get rules from MongoDB
     rules = get_rules()
-
     put_table(
         tdata=[
             [
@@ -252,14 +275,19 @@ def start_dash_thread():
     dash_thread.setDaemon(True)
     dash_thread.start()
 
-# PyWebIO dashboard with embedded iframe
+
 @use_scope("dashboard", clear=True)
 def put_dashboard():
     put_markdown("## Dashboard")
     put_markdown("###### Network packet distribution across directions (IN vs OUT).")
     put_markdown("---")
     # Embed the Dash app into the PyWebIO dashboard using an iframe
-    put_html('<iframe src="http://127.0.0.1:8050" width="100%" height="600" style="border:none;"></iframe>')
+    # Set iframe container to dark mode
+    iframe_style = 'border:none; background-color:#1f1f1f;'
+    iframe_html = f'<iframe src="http://127.0.0.1:8050" width="100%" height="600" style="{iframe_style}"></iframe>'
+
+    # Embed the Dash app into the PyWebIO dashboard using an iframe
+    put_html(iframe_html)
 
 
 @use_scope("left_navbar")
@@ -268,7 +296,7 @@ def put_navbar():
         [
             [
                 put_markdown("### NetGuard"),
-                put_image(open(os.path.join(images_dir, 'icon2.png'), 'rb').read(), format='png'),
+                put_image(open(os.path.join(images_dir, Paths.ICON_URL), 'rb').read(), format='png'),
                 put_markdown("#### Packets").onclick(lambda: put_blocks()),
                 put_markdown("#### Manage Rules").onclick(lambda: manage_rules()),
                 put_markdown("#### Dashboard").onclick(lambda: put_dashboard()),
