@@ -35,7 +35,7 @@ def main():
     outgoing_thread.start()
 
     # Start the UI server on the main thread (crucial for GUI to work on macOS)
-    start_server(lambda: ui_main(), port=8080)
+    start_server(lambda: ui_main(rule_set), port=8080)
 
     # Join the packet capture threads (optional if they need to be waited for)
     incoming_thread.join()

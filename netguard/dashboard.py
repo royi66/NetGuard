@@ -99,7 +99,7 @@ def create_packet_count_line_graph():
 app.layout = html.Div(
     style={'backgroundColor': '#1f1f1f', 'color': 'white'},
     children=[
-        html.H1("Packet Dashboard", style={'textAlign': 'center'}),
+        html.H1("", style={'textAlign': 'center'}),
 
         # Container Div for side-by-side layout of both charts
         html.Div([
@@ -126,6 +126,7 @@ app.layout = html.Div(
 
 
 def run_dash_app():
+    # TODO - change the port if refreshed
     app.run_server(debug=True, use_reloader=False, port=8050)
 
 

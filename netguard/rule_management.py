@@ -185,3 +185,12 @@ class RuleSet:
 
             for rule in self.rules:
                 print(f"{rule.rule_id:<10} {rule.src_ip or 'N/A':<20} {rule.dest_ip or 'N/A':<20} {rule.src_port or 'N/A':<15} {rule.dest_port or 'N/A':<15} {rule.protocol or 'N/A':<10} {rule.action:<10}")
+
+    def get_all_rules(self):
+        all_rules = []
+        for rule in self.rules:
+            all_rules.append({"_id": rule.rule_id, "src_ip": rule.src_ip,  "dest_ip": rule.dest_ip,
+                              "src_port": rule.src_port, "dest_port": rule.dest_port,
+                              "protocol": rule.protocol, "action": rule.action})
+
+        return all_rules
