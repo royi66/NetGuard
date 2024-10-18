@@ -1,19 +1,14 @@
 from pywebio import *
 from pywebio.output import *
 from pywebio.input import *
-from pymongo import MongoClient
 import os
 from handle_db import MongoDbClient
 from consts import DBNames, Collections, Ui, Paths
 from datetime import timedelta, datetime
 from rule_management import Rule, RuleSet
-import matplotlib.pyplot as plt
-from io import BytesIO
 import matplotlib
 matplotlib.use('Agg')  # Use non-GUI backend
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from dash import Dash, dcc, html
-import plotly.graph_objs as go
 from threading import Thread
 from dashboard import run_dash_app
 
@@ -34,10 +29,12 @@ def get_recent_packets(page=0):
 
     skip = page * Ui.PAGE_SIZE
     matching_packets = list(packets_collection.find(query).skip(skip).limit(Ui.PAGE_SIZE))
+    more_packets = packets_collection.count_documents(query) > (skip + Ui.PAGE_SIZE)
 
     return [
         {
             "_id": packet.get("_id", None),
+            "direction": packet.get("direction", ""),
             "src_ip": packet.get("src_ip", ""),
             "dest_ip": packet.get("dest_ip", ""),
             "src_port": packet.get("src_port", ""),
@@ -46,7 +43,7 @@ def get_recent_packets(page=0):
             "action": packet.get("action", "")
         }
         for packet in matching_packets
-    ]
+    ], more_packets
 
 
 def handle_pagination(btn):
@@ -63,16 +60,16 @@ def handle_pagination(btn):
 def update_packets_list(page=0):
     global current_page
     current_page = page
-    packets = get_recent_packets(current_page)
+    packets, has_next_page = get_recent_packets(current_page)
 
     with use_scope('latest', clear=True):
         put_markdown(f"### Showing packets for page {current_page + 1}")
-
         # Create table structure with the "+" button
         packet_rows = []
         for packet in packets:
             packet_rows.append([
                 put_button("+", onclick=lambda x=packet["_id"]: put_packet_search(x), link_style=True),
+                packet["direction"],
                 packet["src_ip"],
                 packet["dest_ip"],
                 packet["protocol"],
@@ -81,13 +78,17 @@ def update_packets_list(page=0):
                 packet["action"]
             ])
 
-        put_table(tdata=packet_rows, header=["More Info", "Source IP", "Destination IP", "Protocol", "Source Port", "Destination Port", "Action"])
+        put_table(tdata=packet_rows, header=["More Info", "Direction", "Source IP", "Destination IP", "Protocol", "Source Port", "Destination Port", "Action"])
 
         # Pagination controls: Next and Previous buttons
-        put_row([
-            put_button("Previous", onclick=lambda: handle_pagination('prev'), disabled=current_page == 0, color="warning"),
-            put_button("Next", onclick=lambda: handle_pagination('next'), color="success")
-        ], size="auto auto auto")
+        buttons = []
+        if current_page > 0:
+            buttons.append(put_button("Previous", onclick=lambda: handle_pagination('prev'), color="warning"))
+        if has_next_page:
+            buttons.append(put_button("Next", onclick=lambda: handle_pagination('next'), color="success"))
+
+        if buttons:
+            put_row(buttons, size="auto auto auto")
 
 
 def put_packet_search(packet_id):
@@ -132,11 +133,13 @@ def put_blocks():
     with use_scope("search"):
         # Dropdown for choosing the search field
         pin.put_select(name='search_field', label='Select Field to Search', options=[
+            ('Direction', 'direction'),
             ('Source IP', 'src_ip'),
             ('Destination IP', 'dest_ip'),
-            ('Direction', 'direction'),
-        ], value='src_ip')  # Default value is Source IP
+            ('Protocol', 'protocol'),
+        ], value='direction')
         selected_field = pin.pin['search_field']
+        defined_value = pin.pin["search_value"]
 
         # Input for search query
         pin.put_input(name='search_value', placeholder="Enter value for the selected field")
@@ -144,7 +147,7 @@ def put_blocks():
         put_button(
             "Search",
             onclick=lambda: put_packet_search_results(
-                field=pin.pin["search_field"], value=pin.pin["search_value"]
+                field=selected_field, value=defined_value
             ),
             outline=True,
         )
@@ -187,65 +190,93 @@ def put_latest_packets():
 
 
 @use_scope("dashboard", clear=True)
-def manage_rules():
+def manage_rules(rule_set):
     put_markdown("## Manage Rules")
     # Get rules from MongoDB
-    rules = get_rules()
-    put_table(
-        tdata=[
-            [
-                rule["src_ip"],
-                rule["dest_ip"],
-                rule["protocol"],
-                rule["action"],
-                put_button("Edit", onclick=lambda r=rule: edit_rule(r), small=True),
-                put_button("Delete", onclick=lambda r=rule: delete_rule(r["_id"]), small=True),
-            ]
-            for rule in rules
-        ],
-        header=["Source IP", "Destination IP", "Protocol", "Action", "Edit", "Delete"]
-    )
+    rules = get_rules(rule_set)
+    if rules:
+        put_table(
+            tdata=[
+                [
+                    rule["src_ip"],
+                    rule["dest_ip"],
+                    rule["protocol"],
+                    rule["action"],
+                    put_row([
+                        put_button("Edit", onclick=lambda r=rule: edit_rule(r, rule_set), small=True),
+                        put_button("Delete", onclick=lambda r=rule: delete_rule(r["_id"], rule_set), small=True)
+                    ], size="auto auto")
+                ]
+                for rule in rules
+            ],
+            header=["Source IP", "Destination IP", "Protocol", "Action", ""]
+        )
 
-    # Add button for adding a new rule
-    put_button("Add New Rule", onclick=lambda: add_rule(), color="primary", outline=True)
+    # Use a scope for the Add New Rule button, so it can be cleared when needed
+    with use_scope("add_button", clear=True):
+        put_button("Add New Rule", onclick=lambda: show_add_rule_form(rule_set), color="primary", outline=True)
+
+
+def show_add_rule_form(rule_set):
+    """Show the form and hide the Add New Rule button."""
+    clear("add_button")  # Clear the add button scope to hide the button
+    add_rule(rule_set)  # Display the form for adding a new rule
 
 
 @use_scope("latest")
-def get_rules():
+def get_rules(rule_set):
     """Fetch rules from MongoDB."""
-    rules_collection = db[Collections.RULES]
-    rules = list(rules_collection.find())
-    return [
-        {
-            "_id": str(rule.get("_id", "")),
-            "src_ip": rule.get("src_ip", ""),
-            "dest_ip": rule.get("dest_ip", ""),
-            "protocol": rule.get("protocol", ""),
-            "action": rule.get("action", "")
+    return rule_set.get_all_rules()
+
+
+@use_scope("latest")
+def add_rule(rule_set):
+    """Show form to add a new rule and insert it into MongoDB directly under the Add New Rule button."""
+    put_html(Ui.DARK_MODE_CSS)  # Apply the dark mode CSS globally
+
+    # Display the input fields for adding a new rule directly below the Add New Rule button
+    with use_scope("add_rule_form", clear=True):  # Clear the scope to avoid form duplication
+        put_markdown("### Add New Rule")
+
+        # Separate inputs without input_group
+        pin.put_input("src_ip", label="Source IP")
+        pin.put_input("dest_ip", label="Destination IP")
+        pin.put_input("protocol", label="Protocol (e.g., TCP, UDP)")
+        pin.put_input("action", label="Action (allow/deny)")
+
+        # Display the buttons below the input fields
+        put_buttons(
+            buttons=[
+                {'label': 'Submit', 'value': 'submit', 'color': 'success'},
+                {'label': 'Cancel', 'value': 'cancel', 'color': 'danger'}
+            ],
+            onclick=lambda btn: handle_rule_form_action(btn, rule_set)
+        )
+
+
+def handle_rule_form_action(action, rule_set):
+    #TODO: Add validation and fix submit butting when no input is given (display error)
+    """Handle the form submission or cancellation."""
+    if action == 'submit':
+        # Fetch the input data using pin
+        new_rule = {
+            "src_ip": pin.pin['src_ip'],
+            "dest_ip": pin.pin['dest_ip'],
+            "protocol": pin.pin['protocol'],
+            "action": pin.pin['action']
         }
-        for rule in rules
-    ]
+        rule_set.add_rule(**new_rule)  # Add the new rule to the database
+
+        # Refresh the rules display after adding the new rule
+        manage_rules(rule_set)
+    elif action == 'cancel':
+        # If the cancel button is clicked, clear the form and go back to manage_rules
+        clear("add_rule_form")
+        manage_rules(rule_set)  # Refresh the rules view after cancellation
 
 
 @use_scope("latest")
-def add_rule():
-    """Show form to add a new rule and insert it into MongoDB."""
-    new_rule = input_group("Add New Rule", [
-        input("Source IP", name="src_ip"),
-        input("Destination IP", name="dest_ip"),
-        input("Protocol (e.g., TCP, UDP)", name="protocol"),
-        input("Action (allow/deny)", name="action")
-    ])
-    # rule_set.add_rule(src_ip=new_rule["src_ip"], dest_ip=new_rule["dest_ip"], protocol=new_rule["protocol"], action=new_rule["action"])
-
-    db[Collections.RULES].insert_one(new_rule)
-
-    # Refresh the rules display
-    manage_rules()
-
-
-@use_scope("latest")
-def edit_rule(rule):
+def edit_rule(rule, rule_set):
     """Edit an existing rule."""
     updated_rule = input_group("Edit Rule", [
         input("Source IP", name="src_ip", value=rule["src_ip"]),
@@ -254,20 +285,20 @@ def edit_rule(rule):
         input("Action", name="action", value=rule["action"])
     ])
 
-    # rule_set.edit_rule(rule["_id"], updated_rule)
+    rule_set.edit_rule(rule["_id"], updated_rule)
 
-    db[Collections.RULES].update_one({"_id": rule["_id"]}, {"$set": updated_rule})
+    # db[Collections.RULES].update_one({"_id": rule["_id"]}, {"$set": updated_rule})
 
     manage_rules()
 
 
 @use_scope("latest")
-def delete_rule(rule_id):
+def delete_rule(rule_id, rule_set):
     """Delete a rule from MongoDB."""
-    # rule_set.delete_rule(rule_id)
-    db[Collections.RULES].delete_one({"_id": rule_id})
+    rule_set.delete_rule(rule_id)
+    # db[Collections.RULES].delete_one({"_id": rule_id})
 
-    manage_rules()
+    manage_rules(rule_set)
 
 
 def start_dash_thread():
@@ -283,23 +314,25 @@ def put_dashboard():
     put_markdown("---")
     # Embed the Dash app into the PyWebIO dashboard using an iframe
     # Set iframe container to dark mode
-    iframe_style = 'border:none; background-color:#1f1f1f;'
-    iframe_html = f'<iframe src="http://127.0.0.1:8050" width="100%" height="600" style="{iframe_style}"></iframe>'
+    iframe_style = 'border:#1f1f1f; background-color:#1f1f1f;'
+    iframe_html = f'<iframe src="http://127.0.0.1:8050" width="100%" height="1000" style="{iframe_style}"></iframe>'
 
     # Embed the Dash app into the PyWebIO dashboard using an iframe
     put_html(iframe_html)
 
 
 @use_scope("left_navbar")
-def put_navbar():
+def put_navbar(rule_set):
+    put_html(Ui.DARK_MODE_CSS)  # Apply the dark mode CSS
     put_grid(
         [
             [
-                put_markdown("### NetGuard"),
-                put_image(open(os.path.join(images_dir, Paths.ICON_URL), 'rb').read(), format='png'),
-                put_markdown("#### Packets").onclick(lambda: put_blocks()),
-                put_markdown("#### Manage Rules").onclick(lambda: manage_rules()),
-                put_markdown("#### Dashboard").onclick(lambda: put_dashboard()),
+                put_markdown("### NetGuard", 'sidebar-item'),
+                put_image(open(os.path.join(images_dir, Paths.ICON_URL), 'rb').read(), format='png')
+                .style("width: 200px; height: 250px; background-color: #1f1f1f;"),  # Adjust width/height here
+                put_markdown("#### Packets", 'sidebar-item').onclick(lambda: put_blocks()),
+                put_markdown("#### Manage Rules", 'sidebar-item').onclick(lambda: manage_rules(rule_set)),
+                put_markdown("#### Dashboard", 'sidebar-item').onclick(lambda: put_dashboard()),
             ]
         ],
         direction="column",
@@ -307,16 +340,20 @@ def put_navbar():
 
 
 @config(theme="dark")
-def main():
+def main(rule_set):
     start_dash_thread()
-    session.set_env(title="NetGuard", output_max_width="100%")
+    session.set_env(title="NetGuard", output_max_width="100%",)  # Apply the theme dynamically
+    put_html(Ui.DARK_MODE_CSS)
+
     put_row(
         [put_scope("left_navbar"), None, put_scope("dashboard")],
         size="1fr 50px 4fr",
     )
-    put_navbar()
+    put_navbar(rule_set)
     put_blocks()
 
 
 if __name__ == "__main__":
-    start_server(main, port=8081)
+    db_client = MongoDbClient()
+    rule_set = RuleSet(db_client)
+    start_server(lambda: main(rule_set), port=8081)
