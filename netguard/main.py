@@ -22,10 +22,11 @@ def main():
 
     # Clear all rules
     rule_set.clear_all_rules()
-
+    rule_set.add_rule(src_ip='10.0.0.5')
+    rule_set.add_rule(dest_ip='10.0.0.255')
     # Add example rules
     rule_set.print_all_rules()
-
+    
     # Start packet capturing in separate threads
     incoming_thread = threading.Thread(target=network_interface.capture_packet, args=[IN_DIRECTION, rule_set])
     outgoing_thread = threading.Thread(target=network_interface.capture_packet, args=[OUT_DIRECTION, rule_set])
@@ -35,7 +36,7 @@ def main():
     outgoing_thread.start()
 
     # Start the UI server on the main thread (crucial for GUI to work on macOS)
-    start_server(lambda: ui_main(rule_set), port=8080)
+    start_server(lambda: ui_main(rule_set), port=8088)
 
     # Join the packet capture threads (optional if they need to be waited for)
     incoming_thread.join()

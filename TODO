@@ -11,6 +11,5 @@ Define MVP features
 6. Check python versions
 
 
-ROYI -
-1. Fix Packet.match
-2. Check if packet inserted into DB with ruleid
+DB - Think how to pass the DB connection and should we open and close in the same function
+Create a logger for the project

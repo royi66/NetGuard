@@ -30,7 +30,7 @@ class Packet:
         self.protocol = PROTOCOL_MAP.get(self.protocol_num, f"Unknown protocol number {self.protocol_num}")
         self.ttl = scapy_packet[IP].ttl
         self.length = len(scapy_packet)
-        self.matched_rule_id = 0
+        self.matched_rule_id = None
 
         """
         The IP layer can fragment packets. Monitoring fragmentation is useful to detect fragmentation attacks, 

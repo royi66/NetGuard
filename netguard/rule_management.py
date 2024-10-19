@@ -1,5 +1,7 @@
 import typing
 from pymongo import MongoClient
+from scapy.all import IP
+
 from utils import singleton
 from handle_db import MongoDbClient
 from consts import DBNames, Collections
@@ -38,12 +40,13 @@ class Rule:
 
     def matches(self, packet) -> bool:
         """Check if the rule matches the given packet."""
+
         return (
-            (self.src_ip is None or self.src_ip == packet.src_ip) and
-            (self.dest_ip is None or self.dest_ip == packet.dest_ip) and
-            (self.src_port is None or self.src_port == packet.src_port) and
-            (self.dest_port is None or self.dest_port == packet.dest_port) and
-            (self.protocol is None or self.protocol == packet.protocol)
+                (self.src_ip is None or ('IP' in packet and packet[IP].src == self.src_ip)) and
+                (self.dest_ip is None or ('IP' in packet and packet[IP].dst == self.dest_ip)) and
+                (self.src_port is None or hasattr(packet, 'sport') and packet.sport == self.src_port) and
+                (self.dest_port is None or hasattr(packet, 'dport') and packet.dport == self.dest_port) and
+                (self.protocol is None or hasattr(packet, 'proto') and packet.proto == self.protocol)
         )
 
 
@@ -155,7 +158,6 @@ class RuleSet:
         with self.lock:  # Acquire the lock before reading shared data
             for rule in self.rules:
                 if rule.matches(packet):
-                    # print(f"Packet matched rule: {rule}")
                     return rule.rule_id
         # print(f"Packet didn't match any rule: {packet}")
         return RULE_ERROR_ID
@@ -188,9 +190,9 @@ class RuleSet:
 
     def get_all_rules(self):
         all_rules = []
-        for rule in self.rules:
-            all_rules.append({"_id": rule.rule_id, "src_ip": rule.src_ip,  "dest_ip": rule.dest_ip,
-                              "src_port": rule.src_port, "dest_port": rule.dest_port,
-                              "protocol": rule.protocol, "action": rule.action})
-
+        with self.lock:
+            for rule in self.rules:
+                all_rules.append({"_id": rule.rule_id, "src_ip": rule.src_ip,  "dest_ip": rule.dest_ip,
+                                  "src_port": rule.src_port, "dest_port": rule.dest_port,
+                                  "protocol": rule.protocol, "action": rule.action})
         return all_rules
