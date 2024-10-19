@@ -43,7 +43,7 @@ def save_packet(packet: Packet, db_name: str, collection_name: str) -> None:
 
 
 def manage_sniffed_packet(packet: Packet, direction: str, rule_set: RuleSet) -> None:
-    time.sleep(2)
+    # time.sleep(2)
     new_packet = Packet(packet, direction)
     matched_rule_id = rule_set.check_packet(packet)
     if matched_rule_id:
