@@ -1,5 +1,7 @@
 # Net Guard Network Scanner
-<img src="Images/icon.png" alt="My Image" width="600"/>
+<div style="text-align: center;">
+    <img src="Images/icon.png" alt="My Image" width="300"/>
+</div>
 
 # prerequisites
 ```bash
