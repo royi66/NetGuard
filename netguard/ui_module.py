@@ -194,23 +194,24 @@ def manage_rules(rule_set):
     put_markdown("## Manage Rules")
     # Get rules from MongoDB
     rules = get_rules(rule_set)
-    if rules:
-        put_table(
-            tdata=[
-                [
-                    rule["src_ip"],
-                    rule["dest_ip"],
-                    rule["protocol"],
-                    rule["action"],
-                    put_row([
-                        put_button("Edit", onclick=lambda r=rule: edit_rule(r, rule_set), small=True),
-                        put_button("Delete", onclick=lambda r=rule: delete_rule(r["_id"], rule_set), small=True)
-                    ], size="auto auto")
-                ]
-                for rule in rules
-            ],
-            header=["Source IP", "Destination IP", "Protocol", "Action", ""]
-        )
+    with use_scope("rules_table", clear=True):
+        if rules:
+            put_table(
+                tdata=[
+                    [
+                        rule["src_ip"],
+                        rule["dest_ip"],
+                        rule["protocol"],
+                        rule["action"],
+                        put_row([
+                            put_button("Edit", onclick=lambda r=rule: edit_rule(r, rule_set), small=True),
+                            put_button("Delete", onclick=lambda r=rule: delete_rule(r["_id"], rule_set), small=True)
+                        ], size="auto auto")
+                    ]
+                    for rule in rules
+                ],
+                header=["Source IP", "Destination IP", "Protocol", "Action", ""]
+            )
 
     # Use a scope for the Add New Rule button, so it can be cleared when needed
     with use_scope("add_button", clear=True):
@@ -219,6 +220,7 @@ def manage_rules(rule_set):
 
 def show_add_rule_form(rule_set):
     """Show the form and hide the Add New Rule button."""
+    clear("rules_table")
     clear("add_button")  # Clear the add button scope to hide the button
     add_rule(rule_set)  # Display the form for adding a new rule
 
@@ -289,7 +291,7 @@ def edit_rule(rule, rule_set):
 
     # db[Collections.RULES].update_one({"_id": rule["_id"]}, {"$set": updated_rule})
 
-    manage_rules()
+    manage_rules(rule_set)
 
 
 @use_scope("latest")
@@ -329,7 +331,7 @@ def put_navbar(rule_set):
             [
                 put_markdown("### NetGuard", 'sidebar-item'),
                 put_image(open(os.path.join(images_dir, Paths.ICON_URL), 'rb').read(), format='png')
-                .style("width: 200px; height: 250px; background-color: #1f1f1f;"),  # Adjust width/height here
+                .style("width: 150px; height: auto; background-color: #1f1f1f; margin-left: -20px;"),
                 put_markdown("#### Packets", 'sidebar-item').onclick(lambda: put_blocks()),
                 put_markdown("#### Manage Rules", 'sidebar-item').onclick(lambda: manage_rules(rule_set)),
                 put_markdown("#### Dashboard", 'sidebar-item').onclick(lambda: put_dashboard()),
@@ -347,7 +349,7 @@ def main(rule_set):
 
     put_row(
         [put_scope("left_navbar"), None, put_scope("dashboard")],
-        size="1fr 50px 4fr",
+        size="0.5fr 20px 4fr",
     )
     put_navbar(rule_set)
     put_blocks()

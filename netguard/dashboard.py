@@ -1,4 +1,4 @@
-from dash import Dash, dcc, html
+from dash import Dash, dcc, html, Input, Output
 import plotly.graph_objs as go
 from pymongo import MongoClient
 from handle_db import MongoDbClient
@@ -11,29 +11,28 @@ db = mongo_client.client[DBNames.NET_GUARD_DB]
 
 app = Dash(__name__)
 
-
 # Fetch packet direction data from MongoDB
-def get_packet_distribution_by_direction():
+def get_packet_distribution_by_direction(days_back):
     packets_collection = db[Collections.PACKETS]
+    time_threshold = datetime.now() - timedelta(days=days_back)
 
-    # Count IN and OUT packets
-    in_count = packets_collection.count_documents({'direction': 'IN'})
-    out_count = packets_collection.count_documents({'direction': 'OUT'})
+    # Count IN and OUT packets from the specified time period
+    in_count = packets_collection.count_documents({'direction': 'IN', 'insertion_time': {'$gte': time_threshold}})
+    out_count = packets_collection.count_documents({'direction': 'OUT', 'insertion_time': {'$gte': time_threshold}})
 
     return {'IN': in_count, 'OUT': out_count}
 
-
-# Fetch packet count per hour for the last 24 hours
-def get_packet_count_by_hour():
+# Fetch packet count per hour for the specified number of days back
+def get_packet_count_by_hour(days_back):
     packets_collection = db[Collections.PACKETS]
 
-    # Get current time and 24 hours ago
+    # Get the current time and the time threshold based on days back
     now = datetime.now()
-    one_day_ago = now - timedelta(hours=24)
+    time_threshold = now - timedelta(days=days_back)
 
     # Query MongoDB and group by hour
     pipeline = [
-        {"$match": {"insertion_time": {"$gte": one_day_ago}}},
+        {"$match": {"insertion_time": {"$gte": time_threshold}}},
         {"$group": {
             "_id": {
                 "hour": {"$hour": "$insertion_time"},
@@ -58,10 +57,9 @@ def get_packet_count_by_hour():
 
     return hours, counts
 
-
 # Create the packet direction pie chart
-def create_direction_pie_chart():
-    data = get_packet_distribution_by_direction()  # Fetch actual data from MongoDB
+def create_direction_pie_chart(days_back):
+    data = get_packet_distribution_by_direction(days_back)  # Fetch actual data from MongoDB
     fig = go.Figure(data=[go.Pie(labels=list(data.keys()), values=list(data.values()), hole=.3)])
 
     # Set dark mode colors for the chart
@@ -74,10 +72,9 @@ def create_direction_pie_chart():
 
     return fig
 
-
 # Create the packet count per hour line graph
-def create_packet_count_line_graph():
-    hours, counts = get_packet_count_by_hour()  # Fetch packet counts by hour
+def create_packet_count_line_graph(days_back):
+    hours, counts = get_packet_count_by_hour(days_back)  # Fetch packet counts by hour
     fig = go.Figure(
         data=[go.Scatter(x=hours, y=counts, mode='lines+markers', line=dict(color='cyan'))]
     )
@@ -94,20 +91,35 @@ def create_packet_count_line_graph():
 
     return fig
 
-
 # Set up the layout for the Dash app with both charts
 app.layout = html.Div(
     style={'backgroundColor': '#1f1f1f', 'color': 'white'},
     children=[
-        html.H1("", style={'textAlign': 'center'}),
+        html.H1("Network Packet Analysis", style={'textAlign': 'center'}),
+
+        # Dropdown to select the number of days back for the query
+        html.Div([
+            html.Label("Select Days Back:"),
+            dcc.Dropdown(
+                id='days-back-dropdown',
+                options=[
+                    {'label': '1 Day', 'value': 1},
+                    {'label': '3 Days', 'value': 3},
+                    {'label': '7 Days', 'value': 7},
+                    {'label': '14 Days', 'value': 14}
+                ],
+                value=1,  # Default selection
+                style={'width': '200px', 'backgroundColor': '#D3D3D3', 'color': 'black'}
+            ),
+        ], style={'textAlign': 'left', 'marginBottom': '20px', 'color': 'white'}),
 
         # Container Div for side-by-side layout of both charts
         html.Div([
-            # First Chart: Packet Direction (50% width)
+            # First Chart: Packet Direction (45% width)
             html.Div(
                 dcc.Graph(
-                    figure=create_direction_pie_chart(),
-                    style={'width': '45vw', 'height': '45vh'}  # Reduce size to fit both charts
+                    id='direction-pie-chart',
+                    style={'width': '40vw', 'height': '40vh'}  # Reduce size
                 ),
                 style={'display': 'inline-block', 'vertical-align': 'top', 'width': '48%'}
             ),
@@ -115,8 +127,8 @@ app.layout = html.Div(
             # Second Chart: Packet Count by Hour (50% width)
             html.Div(
                 dcc.Graph(
-                    figure=create_packet_count_line_graph(),
-                    style={'width': '45vw', 'height': '45vh'}  # Reduce size to fit both charts
+                    id='packet-count-line-graph',
+                    style={'width': '45vw', 'height': '40vh'}  # Reduce size
                 ),
                 style={'display': 'inline-block', 'vertical-align': 'top', 'width': '48%'}
             )
@@ -124,11 +136,19 @@ app.layout = html.Div(
     ]
 )
 
+# Callback to update the charts based on the selected days back
+@app.callback(
+    [Output('direction-pie-chart', 'figure'), Output('packet-count-line-graph', 'figure')],
+    [Input('days-back-dropdown', 'value')]
+)
+def update_charts(days_back):
+    # Generate updated charts based on the selected number of days back
+    pie_chart = create_direction_pie_chart(days_back)
+    line_graph = create_packet_count_line_graph(days_back)
+    return pie_chart, line_graph
 
 def run_dash_app():
-    # TODO - change the port if refreshed
     app.run_server(debug=True, use_reloader=False, port=8050)
-
 
 if __name__ == '__main__':
     run_dash_app()
