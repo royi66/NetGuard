@@ -40,13 +40,13 @@ def get_recent_packets(page=0):
             "src_port": packet.get("src_port", ""),
             "dest_port": packet.get("dest_port", ""),
             "protocol": packet.get("protocol", ""),
-            "action": packet.get("action", "")
+            "matched_rule_id": packet.get("matched_rule_id", "")
         }
         for packet in matching_packets
     ], more_packets
 
 
-def handle_pagination(btn):
+def handle_pagination(rule_set, btn):
     # Function to handle pagination control clicks
     global current_page
     if btn == 'next':
@@ -54,41 +54,89 @@ def handle_pagination(btn):
     elif btn == 'prev' and current_page > 0:
         current_page -= 1
 
-    update_packets_list(current_page)
+    update_packets_list(rule_set, current_page)
 
 
-def update_packets_list(page=0):
+def update_packets_list(rule_set, page=0):
     global current_page
     current_page = page
     packets, has_next_page = get_recent_packets(current_page)
 
     with use_scope('latest', clear=True):
         put_markdown(f"### Showing packets for page {current_page + 1}")
-        # Create table structure with the "+" button
+
+        # Create headers for the table
+        headers = ["More Info", "Direction", "Source IP", "Destination IP", "Protocol", "Source Port", "Destination Port", "Rule"]
+
+        # Create rows with conditional styling
         packet_rows = []
         for packet in packets:
-            packet_rows.append([
-                put_button("+", onclick=lambda x=packet["_id"]: put_packet_search(x), link_style=True),
-                packet["direction"],
-                packet["src_ip"],
-                packet["dest_ip"],
-                packet["protocol"],
-                packet["src_port"],
-                packet["dest_port"],
-                packet["action"]
-            ])
+            # Default styling for `matched_rule_id`
+            rule_style = ''
+            if packet["matched_rule_id"]:
+                if packet["matched_rule_id"] > 0:
+                    packet["rule"] = rule_set.get_rule_by_id(packet["matched_rule_id"])
+                    rule_style = 'color: #ff0000;'
 
-        put_table(tdata=packet_rows, header=["More Info", "Direction", "Source IP", "Destination IP", "Protocol", "Source Port", "Destination Port", "Action"])
+            # Create the row data
+            packet_row = [
+                put_button("+", onclick=lambda x=packet["_id"]: put_packet_search(x), link_style=True),
+                put_text(packet["direction"]),
+                put_text(packet["src_ip"]),
+                put_text(packet["dest_ip"]),
+                put_text(packet["protocol"]),
+                put_text(packet["src_port"]),
+                put_text(packet["dest_port"])
+            ]
+            if packet.get("matched_rule_id"):
+                if packet["matched_rule_id"] > 0:
+                    packet_row.append(
+                        put_button(packet["matched_rule_id"],
+                                   onclick=lambda x=packet["matched_rule_id"]: rule_search(x, rule_set),
+                                   color="danger").style('background-color: red; color: white; border: none; padding: 5px;')
+                    )
+            else:
+                packet_row.append(put_text(""))  # Placeholder if no matched_rule_id
+
+            packet_rows.append(packet_row)
+
+        # Display the table with headers
+        put_table(
+            tdata=packet_rows,
+            header=headers
+        )
 
         # Pagination controls: Next and Previous buttons
         buttons = []
         if current_page > 0:
-            buttons.append(put_button("Previous", onclick=lambda: handle_pagination('prev'), color="warning"))
+            buttons.append(put_button("Previous", onclick=lambda: handle_pagination(rule_set, 'prev'), color="warning"))
         if has_next_page:
-            buttons.append(put_button("Next", onclick=lambda: handle_pagination('next'), color="success"))
+            buttons.append(put_button("Next", onclick=lambda: handle_pagination(rule_set, 'next'), color="success"))
 
         if buttons:
             put_row(buttons, size="auto auto auto")
+
+
+def rule_search(rule_id, rule_set):
+    popup("Rule Info", [put_scope("popup_content")], PopupSize.LARGE)
+    with use_scope("popup_content"):
+        # Query MongoDB for the packet by src_ip
+        rules = rule_set.get_rule_by_id(rule_id)
+
+        if rules:
+            put_table(
+                tdata=[
+                    ["rule_id", rules.get("rule_id", "")],
+                    ["Source IP", rules.get("src_ip", "")],
+                    ["Destination IP", rules.get("dest_ip", "")],
+                    ["Protocol", rules.get("protocol", "")],
+                    ["Action", rules.get("action", "")],
+                    ["Insertion Time", str(rules.get("insertion_time", ""))]
+                ],
+                header=["Field", "Value"]
+            )
+        else:
+            put_markdown(f"**Packet not found**").style("color: red")
 
 
 def put_packet_search(packet_id):
@@ -124,7 +172,7 @@ def put_packet_search(packet_id):
 
 
 @use_scope("dashboard", clear=True)
-def put_blocks():
+def put_blocks(rule_set):
     put_markdown("## Network Packets")
     put_scope("search")
     put_scope("results")
@@ -152,7 +200,7 @@ def put_blocks():
             outline=True,
         )
 
-    put_latest_packets()
+    put_latest_packets(rule_set)
 
 
 @use_scope("results", clear=True)
@@ -184,9 +232,9 @@ def put_packet_search_results(field, value):
 
 
 @use_scope("latest")
-def put_latest_packets():
+def put_latest_packets(rule_set):
     global current_page  # Ensure the current page is tracked
-    update_packets_list(current_page)
+    update_packets_list(rule_set, current_page)
 
 
 @use_scope("dashboard", clear=True)
@@ -199,6 +247,7 @@ def manage_rules(rule_set):
             put_table(
                 tdata=[
                     [
+                        put_button("Get Packets", onclick=lambda r=rule: show_packets_for_rule(r), small=True),
                         rule["src_ip"],
                         rule["dest_ip"],
                         rule["protocol"],
@@ -210,12 +259,45 @@ def manage_rules(rule_set):
                     ]
                     for rule in rules
                 ],
-                header=["Source IP", "Destination IP", "Protocol", "Action", ""]
+                header=["Get Packets", "Source IP", "Destination IP", "Protocol", "Action", ""]
             )
 
     # Use a scope for the Add New Rule button, so it can be cleared when needed
     with use_scope("add_button", clear=True):
         put_button("Add New Rule", onclick=lambda: show_add_rule_form(rule_set), color="primary", outline=True)
+
+
+def show_packets_for_rule(rule):
+    """Fetch and display packets that match the given rule."""
+    # TODO - Get all packets that match rules from the Packet or Rules Object
+    packets_collection = db[Collections.PACKETS]
+    query = {
+        "src_ip": rule["src_ip"],
+        # "dest_ip": rule["dest_ip"],
+        # "protocol": rule["protocol"]
+    }
+    matching_packets = list(packets_collection.find(query))
+
+    # Display the results in a new scope
+    with use_scope("packets_display", clear=True):
+        if matching_packets:
+            put_markdown(f"### Packets matching rule: src_ip = {rule['src_ip']} and dest_ip = {rule['dest_ip']} and protocol = {rule['protocol']}")
+            put_table(
+                tdata=[
+                    [
+                        packet.get("src_ip", ""),
+                        packet.get("dest_ip", ""),
+                        packet.get("src_port", ""),
+                        packet.get("dest_port", ""),
+                        packet.get("protocol", ""),
+                        packet.get("action", "")
+                    ]
+                    for packet in matching_packets
+                ],
+                header=["Source IP", "Destination IP", "Source Port", "Destination Port", "Protocol", "Action"]
+            )
+        else:
+            put_text("No packets found matching this rule.")
 
 
 def show_add_rule_form(rule_set):
@@ -332,7 +414,7 @@ def put_navbar(rule_set):
                 put_markdown("### NetGuard", 'sidebar-item'),
                 put_image(open(os.path.join(images_dir, Paths.ICON_URL), 'rb').read(), format='png')
                 .style("width: 150px; height: auto; background-color: #1f1f1f; margin-left: -20px;"),
-                put_markdown("#### Packets", 'sidebar-item').onclick(lambda: put_blocks()),
+                put_markdown("#### Packets", 'sidebar-item').onclick(lambda: put_blocks(rule_set)),
                 put_markdown("#### Manage Rules", 'sidebar-item').onclick(lambda: manage_rules(rule_set)),
                 put_markdown("#### Dashboard", 'sidebar-item').onclick(lambda: put_dashboard()),
             ]
@@ -352,7 +434,7 @@ def main(rule_set):
         size="0.5fr 20px 4fr",
     )
     put_navbar(rule_set)
-    put_blocks()
+    put_blocks(rule_set)
 
 
 if __name__ == "__main__":
