@@ -196,3 +196,9 @@ class RuleSet:
                                   "src_port": rule.src_port, "dest_port": rule.dest_port,
                                   "protocol": rule.protocol, "action": rule.action})
         return all_rules
+
+    def get_rule_by_id(self, rule_id):
+        rule = self.db_client.get_data_by_field(self.db_name, self.collection_name, 'rule_id', rule_id)
+        print(rule)
+        return rule[0]
+

@@ -9,7 +9,7 @@ class Collections:
 
 
 class Ui:
-    HOURS_BACK = 4
+    HOURS_BACK = 1
     PAGE_SIZE = 20
     DARK_MODE_CSS = """
     <style>
