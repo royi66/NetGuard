@@ -17,7 +17,7 @@ class Rule:
 
     def __init__(self, rule_id: int, src_ip: str = None, dest_ip: str = None,
                  src_port: int = None, dest_port: int = None, protocol: str = None,
-                 action: str = 'block') -> None:
+                 action: str = 'block', ttl: int = None, checksum: int = None, tcp_flags: str = None) -> None:
         """
         Initialize the Rule object with optional filtering criteria.
 
@@ -36,6 +36,9 @@ class Rule:
         self.src_port: typing.Optional[int] = src_port
         self.dest_port: typing.Optional[int] = dest_port
         self.protocol: typing.Optional[str] = protocol
+        self.ttl = ttl
+        self.checksum = checksum
+        self.tcp_flags = tcp_flags
         self.action: str = action
 
     def matches(self, packet) -> bool:
@@ -64,7 +67,6 @@ class RuleSet:
         self.collection_name: str = collection_name
         self.load_rules_from_db()
         self.rule_id_counter: int = self.db_client.find_max_rule_id(self.db_name, self.collection_name)
-          # Create a lock for thread synchronization
 
     def load_rules_from_db(self) -> None:
         """Load rules from MongoDB into the ruleset."""
@@ -84,7 +86,8 @@ class RuleSet:
 
     def add_rule(self, src_ip: str = None, dest_ip: str = None,
                  src_port: int = None, dest_port: int = None,
-                 protocol: str = None, action: str = 'block') -> None:
+                 protocol: str = None, action: str = 'block', ttl: int = None,
+                 checksum:int = None, tcp_flags:str = None) -> None:
         """Add a rule to the rule set and save it to the database.
 
         :param src_ip: Source IP address to match.
@@ -93,12 +96,16 @@ class RuleSet:
         :param dest_port: Destination port to match.
         :param protocol: Protocol to match (TCP/UDP).
         :param action: Action to take if rule matches (allow/block).
+        :param ttl: Time to live of the packet
+        :param checksum: The
+        :param tcp_flags: Flags in the TCP packet
         """
         # TODO - Create same function that gets a Rule, or maybe change this one
         with self.lock:  # Acquire the lock before modifying shared data
             self.rule_id_counter += 1  # Increment the rule ID counter
             rule = Rule(rule_id=self.rule_id_counter, src_ip=src_ip, dest_ip=dest_ip,
-                        src_port=src_port, dest_port=dest_port, protocol=protocol, action=action)
+                        src_port=src_port, dest_port=dest_port, protocol=protocol, action=action,
+                        ttl=ttl, checksum=checksum, tcp_flags=tcp_flags)
             self.rules.append(rule)
 
             # Save rule to the database
@@ -109,6 +116,9 @@ class RuleSet:
                 'src_port': rule.src_port,
                 'dest_port': rule.dest_port,
                 'protocol': rule.protocol,
+                'ttl': rule.ttl,
+                'checksum': rule.checksum,
+                'tcp_flags': rule.tcp_flags,
                 'action': rule.action
             })
             print(f"Added rule: {rule.rule_id}")
@@ -194,7 +204,8 @@ class RuleSet:
             for rule in self.rules:
                 all_rules.append({"_id": rule.rule_id, "src_ip": rule.src_ip,  "dest_ip": rule.dest_ip,
                                   "src_port": rule.src_port, "dest_port": rule.dest_port,
-                                  "protocol": rule.protocol, "action": rule.action})
+                                  "protocol": rule.protocol, "action": rule.action, "ttl": rule.ttl,
+                                  "checksum": rule.checksum, "tcp_flags": rule.tcp_flags})
         return all_rules
 
     def get_rule_by_id(self, rule_id):

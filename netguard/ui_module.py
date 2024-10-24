@@ -185,50 +185,102 @@ def put_blocks(rule_set):
             ('Source IP', 'src_ip'),
             ('Destination IP', 'dest_ip'),
             ('Protocol', 'protocol'),
+            ('Source Port', 'src_port'),
+            ('Destination Port', 'dest_port'),
+            ('Rule', 'matched_rule_id'),
         ], value='direction')
-        selected_field = pin.pin['search_field']
-        defined_value = pin.pin["search_value"]
 
-        # Input for search query
         pin.put_input(name='search_value', placeholder="Enter value for the selected field")
 
-        put_button(
-            "Search",
-            onclick=lambda: put_packet_search_results(
-                field=selected_field, value=defined_value
-            ),
-            outline=True,
-        )
+        put_button("Search", onclick=lambda: put_packet_search_results(pin.pin["search_field"], pin.pin["search_value"], rule_set), color="primary")
 
     put_latest_packets(rule_set)
 
 
-@use_scope("results", clear=True)
-def put_packet_search_results(field, value):
-    try:
-        packets = mongo_client.get_data_by_field(DBNames.NET_GUARD_DB, Collections.PACKETS, field, value)
+def clear_filter(rule_set):
+    """Clear the search filter and show all packets."""
+    # Clear the input field values
+    pin.pin["search_value"] = ""
 
-        if packets:
-            put_markdown(f"### Packets matching {field}: {value}")
-            for packet in packets:
-                put_table(
-                    tdata=[
-                        ["Source IP", packet.get("src_ip", "")],
-                        ["Destination IP", packet.get("dest_ip", "")],
-                        ["Protocol", packet.get("protocol", "")],
-                        ["Action", packet.get("action", "")],
-                        ["TTL", packet.get("ttl", "")],
-                        ["Length", packet.get("length", "")],
-                        ["Payload", packet.get("payload", "")],
-                        ["Insertion Time", str(packet.get("insertion_time", ""))]
-                    ],
-                    header=["Field", "Value"]
-                )
-                put_markdown("---")  # Separator between packet entries
-        else:
-            put_text("Packet not found.")
+    # Clear results scope and show all packets
+    with use_scope("results", clear=True):
+        pass
+    put_latest_packets(rule_set)
+
+
+@use_scope("results", clear=True)
+def put_packet_search_results(field, value, rule_set):
+    """Fetch and filter packets based on the search field and value, and update the existing table."""
+    try:
+        # Fetch filtered packets from MongoDB based on the search field and value
+        filtered_packets = mongo_client.get_data_by_field(DBNames.NET_GUARD_DB, Collections.PACKETS, field, value)
+
+        # Directly update the table by reusing the existing `update_packets_list` functionality
+        update_packets_list_with_filter(filtered_packets)
+
+        # Show "Clear Filter" button if a filter is applied
+        if value:
+            put_clear_filter_button(rule_set)
+
     except Exception as e:
         print(f"Error: {e}")
+        put_text("Error fetching search results.").style("color: red;")
+
+
+def put_clear_filter_button(rule_set):
+    """Display the Clear Filter button to reset the search filter."""
+    with use_scope("results", clear=False):
+        put_button("Clear Filter", onclick=lambda: clear_filter(rule_set), color="warning", outline=True)
+
+
+
+def update_packets_list_with_filter(filtered_packets):
+    """Update the existing packets table with filtered packets based on search criteria."""
+    with use_scope('latest', clear=True):
+        put_markdown(f"### Showing filtered packets")
+
+        # Create headers for the table
+        headers = ["More Info", "Direction", "Source IP", "Destination IP", "Protocol", "Source Port", "Destination Port", "Rule"]
+
+        # Create rows for the filtered packets
+        packet_rows = []
+        for packet in filtered_packets:
+            rule_style = ''
+            matched_rule_id = packet.get("matched_rule_id", None)  # Safely fetch `matched_rule_id`
+
+            if matched_rule_id:
+                if matched_rule_id > 0:
+                    packet["rule"] = rule_set.get_rule_by_id(matched_rule_id)
+                    rule_style = 'color: #ff0000;'  # Example red color for visual emphasis
+
+            # Create the row data
+            packet_row = [
+                put_button("+", onclick=lambda x=packet["_id"]: put_packet_search(x), link_style=True),
+                put_text(packet.get("direction", "")),
+                put_text(packet.get("src_ip", "")),
+                put_text(packet.get("dest_ip", "")),
+                put_text(packet.get("protocol", "")),
+                put_text(packet.get("src_port", "")),
+                put_text(packet.get("dest_port", "")),
+            ]
+
+            if matched_rule_id and matched_rule_id > 0:
+                packet_row.append(
+                    put_button(str(matched_rule_id),
+                               onclick=lambda x=matched_rule_id: rule_search(x, rule_set),
+                               color="danger").style('background-color: red; color: white; border: none; padding: 5px;')
+                )
+            else:
+                packet_row.append(put_text(""))  # Placeholder if no matched_rule_id
+
+            packet_rows.append(packet_row)
+
+        # Display the table with headers
+        put_table(
+            tdata=packet_rows,
+            header=headers
+        )
+
 
 
 @use_scope("latest")
@@ -251,6 +303,9 @@ def manage_rules(rule_set):
                         rule["src_ip"],
                         rule["dest_ip"],
                         rule["protocol"],
+                        rule["tcp_flags"],
+                        rule["ttl"],
+                        rule["checksum"],
                         rule["action"],
                         put_row([
                             put_button("Edit", onclick=lambda r=rule: edit_rule(r, rule_set), small=True),
@@ -259,7 +314,8 @@ def manage_rules(rule_set):
                     ]
                     for rule in rules
                 ],
-                header=["Get Packets", "Source IP", "Destination IP", "Protocol", "Action", ""]
+                header=["Get Packets", "Source IP", "Destination IP", "Protocol", "Tcp Flags",
+                        "TTL", "Checksum", "Action", ""]
             )
 
     # Use a scope for the Add New Rule button, so it can be cleared when needed
@@ -318,15 +374,34 @@ def add_rule(rule_set):
     """Show form to add a new rule and insert it into MongoDB directly under the Add New Rule button."""
     put_html(Ui.DARK_MODE_CSS)  # Apply the dark mode CSS globally
 
+    # State to track if the advanced options should be shown
+    advanced_visible = False
+
+    def toggle_advanced():
+        nonlocal advanced_visible
+        advanced_visible = not advanced_visible
+        show_advanced_fields(advanced_visible)  # Show/hide advanced fields based on toggle
+
     # Display the input fields for adding a new rule directly below the Add New Rule button
     with use_scope("add_rule_form", clear=True):  # Clear the scope to avoid form duplication
         put_markdown("### Add New Rule")
 
-        # Separate inputs without input_group
+        # Basic inputs
         pin.put_input("src_ip", label="Source IP")
         pin.put_input("dest_ip", label="Destination IP")
         pin.put_input("protocol", label="Protocol (e.g., TCP, UDP)")
-        pin.put_input("action", label="Action (allow/deny)")
+
+        # Action dropdown
+        pin.put_select("action", label="Action", options=[
+            {'label': 'Allow', 'value': 'allow'},
+            {'label': 'Deny', 'value': 'deny'}
+        ])
+
+        # Button to toggle advanced options
+        put_button("Advanced", onclick=toggle_advanced, outline=True, color="info")
+
+        # Placeholder for advanced fields, added above the Submit and Cancel buttons
+        put_scope("advanced_fields")
 
         # Display the buttons below the input fields
         put_buttons(
@@ -338,6 +413,16 @@ def add_rule(rule_set):
         )
 
 
+def show_advanced_fields(visible):
+    """Show or hide the advanced fields based on visibility toggle."""
+    with use_scope("advanced_fields", clear=True):
+        if visible:
+            put_markdown("### Advanced Options")
+            pin.put_input("ttl", label="TTL (Time To Live)")
+            pin.put_input("tcp_flags", label="TCP Flags")
+            pin.put_input("checksum", label="Checksum")
+
+
 def handle_rule_form_action(action, rule_set):
     #TODO: Add validation and fix submit butting when no input is given (display error)
     """Handle the form submission or cancellation."""
@@ -347,7 +432,11 @@ def handle_rule_form_action(action, rule_set):
             "src_ip": pin.pin['src_ip'],
             "dest_ip": pin.pin['dest_ip'],
             "protocol": pin.pin['protocol'],
-            "action": pin.pin['action']
+            "action": pin.pin['action'],
+            "ttl": pin.pin['ttl'],
+            "checksum": pin.pin['checksum'],
+            "tcp_flags": pin.pin['tcp_flags'],
+
         }
         rule_set.add_rule(**new_rule)  # Add the new rule to the database
 

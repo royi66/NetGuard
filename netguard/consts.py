@@ -8,8 +8,13 @@ class Collections:
     RULES = 'rules'
 
 
+class TYPES:
+    INTEGER_VALUES_IN_DB = ['protocol_num', 'ttl', 'length', 'matched_rule_id', 'fragment_offset',
+                            'src_port', 'dest_port', 'checksum']
+
+
 class Ui:
-    HOURS_BACK = 1
+    HOURS_BACK = 3
     PAGE_SIZE = 20
     DARK_MODE_CSS = """
     <style>
