@@ -1,7 +1,7 @@
 from pymongo import MongoClient, errors
 from datetime import datetime
 from bson import ObjectId
-
+from consts import TYPES
 
 class MongoDbClient:
     def __init__(self):
@@ -83,12 +83,14 @@ class MongoDbClient:
             if field == "_id":
                 return self.find_by_id(db_name, collection_name, value)
             else:
+                if field in TYPES.INTEGER_VALUES_IN_DB:
+                    value = int(value)
                 query = {field: value}
                 result = collection.find(query)
                 return list(result)
         except Exception as e:
             print(f"Error fetching data by field '{field}': {e}")
-            raise e  # Raise the exception after logging the error
+            raise e
 
     def find_by_id(self, db_name: str, collection_name: str, packet_id: str):
         try:
