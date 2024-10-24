@@ -202,7 +202,7 @@ class RuleSet:
         all_rules = []
         with self.lock:
             for rule in self.rules:
-                all_rules.append({"_id": rule.rule_id, "src_ip": rule.src_ip,  "dest_ip": rule.dest_ip,
+                all_rules.append({"rule_id": rule.rule_id, "src_ip": rule.src_ip,  "dest_ip": rule.dest_ip,
                                   "src_port": rule.src_port, "dest_port": rule.dest_port,
                                   "protocol": rule.protocol, "action": rule.action, "ttl": rule.ttl,
                                   "checksum": rule.checksum, "tcp_flags": rule.tcp_flags})

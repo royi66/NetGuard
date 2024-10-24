@@ -11,6 +11,7 @@ class Collections:
 class TYPES:
     INTEGER_VALUES_IN_DB = ['protocol_num', 'ttl', 'length', 'matched_rule_id', 'fragment_offset',
                             'src_port', 'dest_port', 'checksum']
+    UPPER_CASE_VALUES = ["direction"]
 
 
 class Ui:

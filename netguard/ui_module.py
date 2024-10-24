@@ -5,10 +5,10 @@ import os
 from handle_db import MongoDbClient
 from consts import DBNames, Collections, Ui, Paths
 from datetime import timedelta, datetime
-from rule_management import Rule, RuleSet
+from rule_management import RuleSet
 import matplotlib
-matplotlib.use('Agg')  # Use non-GUI backend
-from dash import Dash, dcc, html
+matplotlib.use('Agg')
+from dash import Dash
 from threading import Thread
 from dashboard import run_dash_app
 
@@ -65,20 +65,14 @@ def update_packets_list(rule_set, page=0):
     with use_scope('latest', clear=True):
         put_markdown(f"### Showing packets for page {current_page + 1}")
 
-        # Create headers for the table
         headers = ["More Info", "Direction", "Source IP", "Destination IP", "Protocol", "Source Port", "Destination Port", "Rule"]
 
-        # Create rows with conditional styling
         packet_rows = []
         for packet in packets:
-            # Default styling for `matched_rule_id`
-            rule_style = ''
             if packet["matched_rule_id"]:
                 if packet["matched_rule_id"] > 0:
                     packet["rule"] = rule_set.get_rule_by_id(packet["matched_rule_id"])
-                    rule_style = 'color: #ff0000;'
 
-            # Create the row data
             packet_row = [
                 put_button("+", onclick=lambda x=packet["_id"]: put_packet_search(x), link_style=True),
                 put_text(packet["direction"]),
@@ -233,7 +227,6 @@ def put_clear_filter_button(rule_set):
         put_button("Clear Filter", onclick=lambda: clear_filter(rule_set), color="warning", outline=True)
 
 
-
 def update_packets_list_with_filter(filtered_packets):
     """Update the existing packets table with filtered packets based on search criteria."""
     with use_scope('latest', clear=True):
@@ -299,7 +292,8 @@ def manage_rules(rule_set):
             put_table(
                 tdata=[
                     [
-                        put_button("Get Packets", onclick=lambda r=rule: show_packets_for_rule(r), small=True),
+                        put_button("Get Packets", onclick=lambda r=rule: show_packets_for_rule(r, rule_set), small=True),
+                        rule["rule_id"],
                         rule["src_ip"],
                         rule["dest_ip"],
                         rule["protocol"],
@@ -323,37 +317,42 @@ def manage_rules(rule_set):
         put_button("Add New Rule", onclick=lambda: show_add_rule_form(rule_set), color="primary", outline=True)
 
 
-def show_packets_for_rule(rule):
-    """Fetch and display packets that match the given rule."""
-    # TODO - Get all packets that match rules from the Packet or Rules Object
-    packets_collection = db[Collections.PACKETS]
-    query = {
-        "src_ip": rule["src_ip"],
-        # "dest_ip": rule["dest_ip"],
-        # "protocol": rule["protocol"]
-    }
-    matching_packets = list(packets_collection.find(query))
+def show_packets_for_rule(rule, rule_set):
+    """Redirect to the packets page and apply a filter based on the selected rule."""
+    field = 'matched_rule_id'
+    value = rule.get('rule_id')
 
-    # Display the results in a new scope
-    with use_scope("packets_display", clear=True):
-        if matching_packets:
-            put_markdown(f"### Packets matching rule: src_ip = {rule['src_ip']} and dest_ip = {rule['dest_ip']} and protocol = {rule['protocol']}")
-            put_table(
-                tdata=[
-                    [
-                        packet.get("src_ip", ""),
-                        packet.get("dest_ip", ""),
-                        packet.get("src_port", ""),
-                        packet.get("dest_port", ""),
-                        packet.get("protocol", ""),
-                        packet.get("action", "")
-                    ]
-                    for packet in matching_packets
-                ],
-                header=["Source IP", "Destination IP", "Source Port", "Destination Port", "Protocol", "Action"]
-            )
-        else:
-            put_text("No packets found matching this rule.")
+    # Update the blocks to display packets with the applied filter
+    with use_scope("dashboard", clear=True):
+        # Directly call the `put_blocks` function and pass the rule filter
+        put_blocks_with_filter(field, value, rule_set)
+
+
+def put_blocks_with_filter(field, value, rule_set):
+    """Display the packets page with a specific filter applied."""
+    put_markdown("## Network Packets")
+    put_scope("search")
+    put_scope("results")
+    put_scope("latest")
+
+    with use_scope("search"):
+        # Dropdown for choosing the search field
+        pin.put_select(name='search_field', label='Select Field to Search', options=[
+            ('Direction', 'direction'),
+            ('Source IP', 'src_ip'),
+            ('Destination IP', 'dest_ip'),
+            ('Protocol', 'protocol'),
+            ('Source Port', 'src_port'),
+            ('Destination Port', 'dest_port'),
+            ('Rule', 'matched_rule_id'),
+        ], value=field)  # Set the dropdown to match the rule field
+
+        pin.put_input(name='search_value', placeholder="Enter value for the selected field", value=value)
+
+        put_button("Search", onclick=lambda: put_packet_search_results(field, value, rule_set), color="primary")
+
+    # Directly display the filtered packets
+    put_packet_search_results(field, value, rule_set)
 
 
 def show_add_rule_form(rule_set):

@@ -85,6 +85,8 @@ class MongoDbClient:
             else:
                 if field in TYPES.INTEGER_VALUES_IN_DB:
                     value = int(value)
+                if field in TYPES.UPPER_CASE_VALUES:
+                    value = value.upper()
                 query = {field: value}
                 result = collection.find(query)
                 return list(result)
