@@ -14,6 +14,25 @@ class TYPES:
     UPPER_CASE_VALUES = ["direction"]
 
 
+class ERROR_CODE:
+    RULE_ERROR_ID = -1
+
+
+class FIELDS:
+    DIRECTION = 'direction'
+    SRC_IP = 'src_ip'
+    DEST_IP = 'dest_ip'
+    PROTOCOL = 'protocol'
+    SRC_PORT = 'src_port'
+    DEST_PORT = 'dest_port'
+    MATCHED_RULE = 'matched_rule_id'
+    ACTION = 'action'
+    TTL = 'ttl'
+    CHECKSUM = 'checksum'
+    TCP_FLAGS = 'tcp_flags'
+    RULE_ID = 'rule_id'
+
+
 class Ui:
     HOURS_BACK = 3
     PAGE_SIZE = 20

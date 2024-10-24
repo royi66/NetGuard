@@ -4,12 +4,8 @@ from scapy.all import IP
 
 from utils import singleton
 from handle_db import MongoDbClient
-from consts import DBNames, Collections
+from consts import DBNames, Collections, FIELDS, ERROR_CODE
 import threading
-
-
-
-RULE_ERROR_ID = -1
 
 
 class Rule:
@@ -53,6 +49,13 @@ class Rule:
         )
 
 
+def get_rule_dict(rule):
+    return {FIELDS.RULE_ID: rule.rule_id, FIELDS.SRC_IP: rule.src_ip, FIELDS.DEST_IP: rule.dest_ip,
+            FIELDS.SRC_PORT: rule.src_port, FIELDS.DEST_PORT: rule.dest_port, FIELDS.PROTOCOL: rule.protocol,
+            FIELDS.ACTION: rule.action, FIELDS.TTL: rule.ttl, FIELDS.CHECKSUM: rule.checksum,
+            FIELDS.TCP_FLAGS: rule.tcp_flags}
+
+
 @singleton
 class RuleSet:
     """A singleton collection of rules for packet filtering."""
@@ -74,12 +77,12 @@ class RuleSet:
         with self.lock:  # Acquire the lock before modifying shared data
             for rule_data in rules_data:
                 rule = Rule(
-                    rule_id=rule_data['rule_id'],
-                    src_ip=rule_data.get('src_ip'),
-                    dest_ip=rule_data.get('dest_ip'),
-                    src_port=rule_data.get('src_port'),
-                    dest_port=rule_data.get('dest_port'),
-                    protocol=rule_data.get('protocol'),
+                    rule_id=rule_data[FIELDS.RULE_ID],
+                    src_ip=rule_data.get(FIELDS.SRC_IP),
+                    dest_ip=rule_data.get(FIELDS.DEST_IP),
+                    src_port=rule_data.get(FIELDS.SRC_PORT),
+                    dest_port=rule_data.get(FIELDS.DEST_PORT),
+                    protocol=rule_data.get(FIELDS.PROTOCOL),
                     action=rule_data.get('action', 'block')
                 )
                 self.rules.append(rule)
@@ -109,18 +112,7 @@ class RuleSet:
             self.rules.append(rule)
 
             # Save rule to the database
-            self.db_client.insert_to_db(self.db_name, self.collection_name, {
-                'rule_id': rule.rule_id,
-                'src_ip': rule.src_ip,
-                'dest_ip': rule.dest_ip,
-                'src_port': rule.src_port,
-                'dest_port': rule.dest_port,
-                'protocol': rule.protocol,
-                'ttl': rule.ttl,
-                'checksum': rule.checksum,
-                'tcp_flags': rule.tcp_flags,
-                'action': rule.action
-            })
+            self.db_client.insert_to_db(self.db_name, self.collection_name, get_rule_dict(rule))
             print(f"Added rule: {rule.rule_id}")
 
     def delete_rule(self, rule_id: int) -> None:
@@ -153,7 +145,7 @@ class RuleSet:
 
                     # Update the rule in the MongoDB collection
                     self.db_client.update_in_db(self.db_name, self.collection_name,
-                                                {'rule_id': rule_id}, kwargs)
+                                                {FIELDS.RULE_ID: rule_id}, kwargs)
                     print(f"Edited rule with ID: {rule_id} to {kwargs}")
                     return  # Exit once the rule is updated
 
@@ -170,7 +162,7 @@ class RuleSet:
                 if rule.matches(packet):
                     return rule.rule_id
         # print(f"Packet didn't match any rule: {packet}")
-        return RULE_ERROR_ID
+        return ERROR_CODE.RULE_ERROR_ID
 
     def clear_all_rules(self) -> None:
         """Clear all rules from both the local ruleset and the database."""
@@ -202,10 +194,7 @@ class RuleSet:
         all_rules = []
         with self.lock:
             for rule in self.rules:
-                all_rules.append({"rule_id": rule.rule_id, "src_ip": rule.src_ip,  "dest_ip": rule.dest_ip,
-                                  "src_port": rule.src_port, "dest_port": rule.dest_port,
-                                  "protocol": rule.protocol, "action": rule.action, "ttl": rule.ttl,
-                                  "checksum": rule.checksum, "tcp_flags": rule.tcp_flags})
+                all_rules.append(get_rule_dict(rule))
         return all_rules
 
     def get_rule_by_id(self, rule_id):
