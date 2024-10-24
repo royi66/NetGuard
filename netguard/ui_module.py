@@ -3,7 +3,7 @@ from pywebio.output import *
 from pywebio.input import *
 import os
 from handle_db import MongoDbClient
-from consts import DBNames, Collections, Ui, Paths, FIELDS
+from consts import DBNames, Collections, Ui, Paths, FIELDS, LABELS
 from datetime import timedelta, datetime
 from rule_management import RuleSet
 import matplotlib
@@ -25,7 +25,7 @@ def get_recent_packets(page=0):
     one_hour_ago = datetime.now() - timedelta(hours=Ui.HOURS_BACK)
 
     # Query to find packets in the last hour
-    query = {"insertion_time": {"$gte": one_hour_ago}}
+    query = {FIELDS.INSERTION_TIME: {"$gte": one_hour_ago}}
 
     skip = page * Ui.PAGE_SIZE
     matching_packets = list(packets_collection.find(query).skip(skip).limit(Ui.PAGE_SIZE))
@@ -33,14 +33,14 @@ def get_recent_packets(page=0):
 
     return [
         {
-            "_id": packet.get("_id", None),
+            FIELDS.ID: packet.get(FIELDS.ID, None),
             FIELDS.DIRECTION: packet.get(FIELDS.DIRECTION, ""),
             FIELDS.SRC_IP: packet.get(FIELDS.SRC_IP, ""),
             FIELDS.DEST_IP: packet.get(FIELDS.DEST_IP, ""),
-            "src_port": packet.get("src_port", ""),
-            "dest_port": packet.get("dest_port", ""),
+            FIELDS.SRC_PORT: packet.get(FIELDS.SRC_PORT, ""),
+            FIELDS.DEST_PORT: packet.get(FIELDS.DEST_PORT, ""),
             FIELDS.PROTOCOL: packet.get(FIELDS.PROTOCOL, ""),
-            "matched_rule_id": packet.get("matched_rule_id", "")
+            FIELDS.MATCHED_RULE: packet.get(FIELDS.MATCHED_RULE, "")
         }
         for packet in matching_packets
     ], more_packets
@@ -65,28 +65,28 @@ def update_packets_list(rule_set, page=0):
     with use_scope('latest', clear=True):
         put_markdown(f"### Showing packets for page {current_page + 1}")
 
-        headers = ["More Info", "Direction", "Source IP", "Destination IP", "Protocol", "Source Port", "Destination Port", "Rule"]
+        headers = ["More Info", "Direction", LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, LABELS.SRC_PORT, LABELS.DEST_PORT, "Rule"]
 
         packet_rows = []
         for packet in packets:
-            if packet["matched_rule_id"]:
-                if packet["matched_rule_id"] > 0:
-                    packet["rule"] = rule_set.get_rule_by_id(packet["matched_rule_id"])
+            if packet[FIELDS.MATCHED_RULE]:
+                if packet[FIELDS.MATCHED_RULE] > 0:
+                    packet["rule"] = rule_set.get_rule_by_id(packet[FIELDS.MATCHED_RULE])
 
             packet_row = [
-                put_button("+", onclick=lambda x=packet["_id"]: put_packet_search(x), link_style=True),
+                put_button("+", onclick=lambda x=packet[FIELDS.ID]: put_packet_search(x), link_style=True),
                 put_text(packet[FIELDS.DIRECTION]),
                 put_text(packet[FIELDS.SRC_IP]),
                 put_text(packet[FIELDS.DEST_IP]),
                 put_text(packet[FIELDS.PROTOCOL]),
-                put_text(packet["src_port"]),
-                put_text(packet["dest_port"])
+                put_text(packet[FIELDS.SRC_PORT]),
+                put_text(packet[FIELDS.DEST_PORT])
             ]
-            if packet.get("matched_rule_id"):
-                if packet["matched_rule_id"] > 0:
+            if packet.get(FIELDS.MATCHED_RULE):
+                if packet[FIELDS.MATCHED_RULE] > 0:
                     packet_row.append(
-                        put_button(packet["matched_rule_id"],
-                                   onclick=lambda x=packet["matched_rule_id"]: rule_search(x, rule_set),
+                        put_button(packet[FIELDS.MATCHED_RULE],
+                                   onclick=lambda x=packet[FIELDS.MATCHED_RULE]: rule_search(x, rule_set),
                                    color="danger").style('background-color: red; color: white; border: none; padding: 5px;')
                     )
             else:
@@ -120,12 +120,12 @@ def rule_search(rule_id, rule_set):
         if rules:
             put_table(
                 tdata=[
-                    ["rule_id", rules.get("rule_id", "")],
-                    ["Source IP", rules.get(FIELDS.SRC_IP, "")],
-                    ["Destination IP", rules.get(FIELDS.DEST_IP, "")],
-                    ["Protocol", rules.get(FIELDS.PROTOCOL, "")],
-                    ["Action", rules.get(FIELDS.ACTION, "")],
-                    ["Insertion Time", str(rules.get("insertion_time", ""))]
+                    [LABELS.RULE_ID, rules.get(FIELDS.RULE_ID, "")],
+                    [LABELS.SRC_IP, rules.get(FIELDS.SRC_IP, "")],
+                    [LABELS.DEST_IP, rules.get(FIELDS.DEST_IP, "")],
+                    [LABELS.PROTOCOL, rules.get(FIELDS.PROTOCOL, "")],
+                    [LABELS.ACTION, rules.get(FIELDS.ACTION, "")],
+                    [LABELS.INSERTION_TIME, str(rules.get(FIELDS.INSERTION_TIME, ""))]
                 ],
                 header=["Field", "Value"]
             )
@@ -144,20 +144,20 @@ def put_packet_search(packet_id):
             put_table(
                 tdata=[
                     ["_id", str(packet.get("_id", ""))],
-                    ["Direction", packet.get(FIELDS.DIRECTION, "")],
-                    ["Source IP", packet.get(FIELDS.SRC_IP, "")],
-                    ["Destination IP", packet.get(FIELDS.DEST_IP, "")],
-                    ["Protocol", packet.get(FIELDS.PROTOCOL, "")],
-                    ["Protocol Number", packet.get("protocol_num", "")],
-                    ["TTL", packet.get("ttl", "")],
-                    ["Length", packet.get("length", "")],
-                    ["Source Port", packet.get("src_port", "")],
-                    ["Destination Port", packet.get("dest_port", "")],
-                    ["Matched Rule ID", packet.get("matched_rule_id", "")],
-                    ["Fragment Offset", packet.get("fragment_offset", "")],
-                    ["More Fragments", packet.get("more_fragments", "")],
-                    ["Payload", packet.get("payload", "")],
-                    ["Insertion Time", str(packet.get("insertion_time", ""))]
+                    [LABELS.DIRECTION, packet.get(FIELDS.DIRECTION, "")],
+                    [LABELS.SRC_IP, packet.get(FIELDS.SRC_IP, "")],
+                    [LABELS.DEST_IP, packet.get(FIELDS.DEST_IP, "")],
+                    [LABELS.PROTOCOL, packet.get(FIELDS.PROTOCOL, "")],
+                    [LABELS.PROTOCOL_NUMBER, packet.get("protocol_num", "")],
+                    [LABELS.TTL, packet.get("ttl", "")],
+                    [LABELS.PACKET_LENGTH, packet.get("length", "")],
+                    [LABELS.SRC_PORT, packet.get("src_port", "")],
+                    [LABELS.DEST_PORT, packet.get("dest_port", "")],
+                    [LABELS.MATCHED_RULE_ID, packet.get("matched_rule_id", "")],
+                    [LABELS.FRAGMENT_OFFSET, packet.get("fragment_offset", "")],
+                    [LABELS.MORE_FRAGMENTS, packet.get("more_fragments", "")],
+                    [LABELS.PAYLOAD, packet.get("payload", "")],
+                    [LABELS.INSERTION_TIME, str(packet.get("insertion_time", ""))]
                 ],
                 header=["Field", "Value"]
             )
@@ -175,18 +175,20 @@ def put_blocks(rule_set):
     with use_scope("search"):
         # Dropdown for choosing the search field
         pin.put_select(name='search_field', label='Select Field to Search', options=[
-            ('Direction', FIELDS.DIRECTION),
-            ('Source IP', FIELDS.SRC_IP),
-            ('Destination IP', FIELDS.DEST_IP),
-            ('Protocol', FIELDS.PROTOCOL),
-            ('Source Port', FIELDS.SRC_PORT),
-            ('Destination Port', FIELDS.DEST_PORT),
+            (LABELS.DIRECTION, FIELDS.DIRECTION),
+            (LABELS.SRC_IP, FIELDS.SRC_IP),
+            (LABELS.DEST_IP, FIELDS.DEST_IP),
+            (LABELS.PROTOCOL, FIELDS.PROTOCOL),
+            (LABELS.SRC_PORT, FIELDS.SRC_PORT),
+            (LABELS.DEST_PORT, FIELDS.DEST_PORT),
             ('Rule', FIELDS.MATCHED_RULE),
         ], value=FIELDS.DIRECTION)
 
         pin.put_input(name='search_value', placeholder="Enter value for the selected field")
 
+        # Fetch field and value when the button is clicked
         put_button("Search", onclick=lambda: put_packet_search_results(pin.pin["search_field"], pin.pin["search_value"], rule_set), color="primary")
+
 
     put_latest_packets(rule_set)
 
@@ -204,6 +206,7 @@ def clear_filter(rule_set):
 
 @use_scope("results", clear=True)
 def put_packet_search_results(field, value, rule_set):
+    print("???", value)
     """Fetch and filter packets based on the search field and value, and update the existing table."""
     try:
         # Fetch filtered packets from MongoDB based on the search field and value
@@ -233,7 +236,7 @@ def update_packets_list_with_filter(filtered_packets):
         put_markdown(f"### Showing filtered packets")
 
         # Create headers for the table
-        headers = ["More Info", "Direction", "Source IP", "Destination IP", "Protocol", "Source Port", "Destination Port", "Rule"]
+        headers = ["More Info", "Direction", LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, LABELS.SRC_PORT, LABELS.DEST_PORT, "Rule"]
 
         # Create rows for the filtered packets
         packet_rows = []
@@ -308,8 +311,8 @@ def manage_rules(rule_set):
                     ]
                     for rule in rules
                 ],
-                header=["Get Packets", "Source IP", "Destination IP", "Protocol", "Tcp Flags",
-                        "TTL", "Checksum", "Action", ""]
+                header=["Get Packets", LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, "Tcp Flags",
+                        LABELS.TTL, "Checksum", "Action", ""]
             )
 
     # Use a scope for the Add New Rule button, so it can be cleared when needed
@@ -338,12 +341,12 @@ def put_blocks_with_filter(field, value, rule_set):
     with use_scope("search"):
         # Dropdown for choosing the search field
         pin.put_select(name='search_field', label='Select Field to Search', options=[
-            ('Direction', FIELDS.DIRECTION),
-            ('Source IP', FIELDS.SRC_IP),
-            ('Destination IP', FIELDS.DEST_IP),
-            ('Protocol', FIELDS.PROTOCOL),
-            ('Source Port', FIELDS.SRC_PORT),
-            ('Destination Port', FIELDS.DEST_PORT),
+            (LABELS.DIRECTION, FIELDS.DIRECTION),
+            (LABELS.SRC_IP, FIELDS.SRC_IP),
+            (LABELS.DEST_IP, FIELDS.DEST_IP),
+            (LABELS.PROTOCOL, FIELDS.PROTOCOL),
+            (LABELS.SRC_PORT, FIELDS.SRC_PORT),
+            (LABELS.DEST_PORT, FIELDS.DEST_PORT),
             ('Rule', FIELDS.MATCHED_RULE),
         ], value=field)  # Set the dropdown to match the rule field
 
@@ -351,7 +354,6 @@ def put_blocks_with_filter(field, value, rule_set):
 
         put_button("Search", onclick=lambda: put_packet_search_results(field, value, rule_set), color="primary")
 
-    # Directly display the filtered packets
     put_packet_search_results(field, value, rule_set)
 
 
@@ -386,8 +388,8 @@ def add_rule(rule_set):
         put_markdown("### Add New Rule")
 
         # Basic inputs
-        pin.put_input(FIELDS.SRC_IP, label="Source IP")
-        pin.put_input(FIELDS.DEST_IP, label="Destination IP")
+        pin.put_input(FIELDS.SRC_IP, label=LABELS.SRC_IP)
+        pin.put_input(FIELDS.DEST_IP, label=LABELS.DEST_IP)
         pin.put_input(FIELDS.PROTOCOL, label="Protocol (e.g., TCP, UDP)")
 
         # Action dropdown
@@ -451,9 +453,9 @@ def handle_rule_form_action(action, rule_set):
 def edit_rule(rule, rule_set):
     """Edit an existing rule."""
     updated_rule = input_group("Edit Rule", [
-        input("Source IP", name=FIELDS.SRC_IP, value=rule[FIELDS.SRC_IP]),
-        input("Destination IP", name=FIELDS.DEST_IP, value=rule[FIELDS.DEST_IP]),
-        input("Protocol", name=FIELDS.PROTOCOL, value=rule[FIELDS.PROTOCOL]),
+        input(LABELS.SRC_IP, name=FIELDS.SRC_IP, value=rule[FIELDS.SRC_IP]),
+        input(LABELS.DEST_IP, name=FIELDS.DEST_IP, value=rule[FIELDS.DEST_IP]),
+        input(LABELS.PROTOCOL, name=FIELDS.PROTOCOL, value=rule[FIELDS.PROTOCOL]),
         input("Action", name=FIELDS.ACTION, value=rule[FIELDS.ACTION])
     ])
 

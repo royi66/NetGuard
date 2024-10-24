@@ -19,6 +19,7 @@ class ERROR_CODE:
 
 
 class FIELDS:
+    ID = '_id'
     DIRECTION = 'direction'
     SRC_IP = 'src_ip'
     DEST_IP = 'dest_ip'
@@ -30,7 +31,27 @@ class FIELDS:
     TTL = 'ttl'
     CHECKSUM = 'checksum'
     TCP_FLAGS = 'tcp_flags'
+    INSERTION_TIME = 'insertion_time'
     RULE_ID = 'rule_id'
+
+
+class LABELS:
+    SRC_IP = "Source IP"
+    DEST_IP = "Destination IP"
+    PROTOCOL = "Protocol"
+    RULE_ID = "Rule ID"
+    ACTION = "Action"
+    DIRECTION = "Direction"
+    INSERTION_TIME = 'Insertion Time'
+    PROTOCOL_NUMBER = "Protocol Number"
+    TTL = "TTL"
+    PACKET_LENGTH = "Packet Length"
+    SRC_PORT = 'Source Port'
+    DEST_PORT = 'Destination Port'
+    MATCHED_RULE_ID = 'Matched Rule ID'
+    FRAGMENT_OFFSET = "Frame Offset"
+    MORE_FRAGMENTS = "More Fragments"
+    PAYLOAD = 'Payload'
 
 
 class Ui:
