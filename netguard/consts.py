@@ -14,6 +14,46 @@ class TYPES:
     UPPER_CASE_VALUES = ["direction"]
 
 
+class ERROR_CODE:
+    RULE_ERROR_ID = -1
+
+
+class FIELDS:
+    ID = '_id'
+    DIRECTION = 'direction'
+    SRC_IP = 'src_ip'
+    DEST_IP = 'dest_ip'
+    PROTOCOL = 'protocol'
+    SRC_PORT = 'src_port'
+    DEST_PORT = 'dest_port'
+    MATCHED_RULE = 'matched_rule_id'
+    ACTION = 'action'
+    TTL = 'ttl'
+    CHECKSUM = 'checksum'
+    TCP_FLAGS = 'tcp_flags'
+    INSERTION_TIME = 'insertion_time'
+    RULE_ID = 'rule_id'
+
+
+class LABELS:
+    SRC_IP = "Source IP"
+    DEST_IP = "Destination IP"
+    PROTOCOL = "Protocol"
+    RULE_ID = "Rule ID"
+    ACTION = "Action"
+    DIRECTION = "Direction"
+    INSERTION_TIME = 'Insertion Time'
+    PROTOCOL_NUMBER = "Protocol Number"
+    TTL = "TTL"
+    PACKET_LENGTH = "Packet Length"
+    SRC_PORT = 'Source Port'
+    DEST_PORT = 'Destination Port'
+    MATCHED_RULE_ID = 'Matched Rule ID'
+    FRAGMENT_OFFSET = "Frame Offset"
+    MORE_FRAGMENTS = "More Fragments"
+    PAYLOAD = 'Payload'
+
+
 class Ui:
     HOURS_BACK = 3
     PAGE_SIZE = 20
