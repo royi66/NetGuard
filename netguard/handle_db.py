@@ -7,7 +7,7 @@ class MongoDbClient:
     def __init__(self):
         try:
             self.client = MongoClient('mongodb://localhost:27017/')
-            print("MongoDB connection established successfully.")
+            # print("MongoDB connection established successfully.")
         except errors.ConnectionFailure as e:
             print(f"Failed to connect to MongoDB: {e}")
             raise e  # Raise the exception after logging the error
@@ -18,7 +18,7 @@ class MongoDbClient:
             db = self.client[db_name]
             collection = db[collection_name]
             collection.insert_one(document)
-            print("Document inserted successfully.")
+            # print("Document inserted successfully.")
         except Exception as e:
             print(f"Error inserting document: {e}")
             raise e  # Raise the exception after logging the error

@@ -300,15 +300,6 @@ def show_add_alert_form(rule_set, rule_id=None):
     else:
         pin.put_input("rule_id", label="Rule ID")
 
-    # Submit and Cancel buttons
-    put_buttons(
-        buttons=[
-            {'label': 'Submit', 'value': 'submit', 'color': 'success'},
-            {'label': 'Cancel', 'value': 'cancel', 'color': 'danger'}
-        ],
-        onclick=lambda btn: handle_alert_form_action(btn, rule_set)
-    )
-
 
 def show_packets_for_rule(rule, rule_set):
     """Redirect to the packets page and apply a filter based on the selected rule."""
@@ -483,11 +474,6 @@ def put_dashboard():
     put_html(iframe_html)
 
 
-@use_scope("dashboard", clear=True)
-def manage_alerts():
-    pass
-
-
 def toggle_button(rule_id, is_on, rule_set):
     """
     Returns a toggle button that calls toggle_alert when clicked.
@@ -558,20 +544,6 @@ def toggle_cell(rule_id, is_on, rule_set):
                       onclick=lambda: toggle_alert(rule_id, rule_set))
 
 
-def handle_alert_form_action(action, rule_set):
-    """Process the form submission or cancellation for an alert."""
-    if action == 'submit':
-        new_alert = {
-            "rule_id": pin.pin["rule_id"],
-            "alert_name": pin.pin["alert_name"],
-            "description": pin.pin["description"]
-        }
-        rule_set.add_alert(new_alert)  # Assuming `add_alert` method to save to the database
-        manage_alerts(rule_set)  # Refresh alerts view after addition
-    elif action == 'cancel':
-        manage_alerts(rule_set)  # Just refresh the alerts view
-
-
 @use_scope("left_navbar")
 def put_navbar(rule_set):
     put_html(Ui.DARK_MODE_CSS)  # Apply the dark mode CSS
@@ -584,7 +556,6 @@ def put_navbar(rule_set):
                 put_markdown("#### Packets", 'sidebar-item').onclick(lambda: put_blocks(rule_set)),
                 put_markdown("#### Manage Rules", 'sidebar-item').onclick(lambda: manage_rules(rule_set)),
                 put_markdown("#### Dashboard", 'sidebar-item').onclick(lambda: put_dashboard()),
-                put_markdown("#### Manage Alerts", 'sidebar-item').onclick(lambda: manage_alerts(rule_set)),
             ]
         ],
         direction="column",
