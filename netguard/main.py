@@ -6,7 +6,7 @@ from rule_management import RuleSet
 from handle_db import MongoDbClient
 from pywebio.platform.tornado_http import start_server
 from pywebio import config
-from ui_module import main as ui_main
+from Frontened.ui_module import main as ui_main
 
 
 OUT_DIRECTION = "OUT"

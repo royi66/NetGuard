@@ -2,17 +2,17 @@ from pywebio import *
 from pywebio.output import *
 from pywebio.input import *
 import os
-from handle_db import MongoDbClient
-from consts import DBNames, Collections, Ui, Paths, FIELDS, LABELS
+from netguard.handle_db import MongoDbClient
+from netguard.consts import DBNames, Collections, Ui, Paths, FIELDS, LABELS
 from datetime import timedelta, datetime
-from rule_management import RuleSet
+from netguard.rule_management import RuleSet
 import matplotlib
-matplotlib.use('Agg')
 from dash import Dash
 from threading import Thread
 from dashboard import run_dash_app
 from functools import partial
 
+matplotlib.use('Agg')
 app = Dash(__name__)
 mongo_client = MongoDbClient()
 db = mongo_client.client[DBNames.NET_GUARD_DB]
@@ -278,7 +278,6 @@ def update_packets_list_with_filter(filtered_packets):
         )
 
 
-
 @use_scope("latest")
 def put_latest_packets(rule_set):
     global current_page
@@ -305,12 +304,12 @@ def put_blocks_with_filter(field, value, rule_set):
         # Dropdown for choosing the search field
         pin.put_select(name='search_field', label='Select Field to Search', options=[
             ('Direction', 'direction'),
-            ('Source IP', 'src_ip'),
-            ('Destination IP', 'dest_ip'),
-            ('Protocol', 'protocol'),
-            ('Source Port', 'src_port'),
-            ('Destination Port', 'dest_port'),
-            ('Rule', 'matched_rule_id'),
+            ('Source IP', FIELDS.SRC_IP),
+            ('Destination IP', FIELDS.DEST_IP),
+            ('Protocol', FIELDS.PROTOCOL),
+            ('Source Port', FIELDS.SRC_PORT),
+            ('Destination Port', FIELDS.DEST_PORT),
+            ('Rule', FIELDS.MATCHED_RULE),
         ], value=field)  # Set the dropdown to match the rule field
 
         pin.put_input(name='search_value', placeholder="Enter value for the selected field", value=value)
@@ -474,9 +473,7 @@ def toggle_alert(rule_id, rule_set):
 @use_scope("dashboard", clear=True)
 def manage_rules(rule_set):
     put_markdown("## Manage Rules")
-
     rules = get_rules(rule_set)
-
     with use_scope("rules_table", clear=True):
         if rules:
             put_table(
@@ -484,23 +481,23 @@ def manage_rules(rule_set):
                     [
                         put_button("Get Packets", onclick=partial(show_packets_for_rule, rule[FIELDS.RULE_ID], rule_set), small=True),
                         rule[FIELDS.SRC_IP],
-                rule[FIELDS.DEST_IP],
-                rule[FIELDS.PROTOCOL],
-                rule[FIELDS.TCP_FLAGS],
-                rule[FIELDS.TTL],
-                rule[FIELDS.CHECKSUM],
-                rule[FIELDS.ACTION],
-                toggle_cell(rule[FIELDS.RULE_ID], rule[FIELDS.ALERT] == "on", rule_set),
-                put_row([
-                    put_button("Edit", onclick=lambda r=rule: edit_rule(r, rule_set), small=True),
-                    put_button("Delete", onclick=lambda r=rule: delete_rule(r[FIELDS.RULE_ID], rule_set), small=True)
-                ], size="auto auto")
-            ]
-            for rule in rules
-        ],
-        header=["Get Packets", LABELS.RULE_ID, LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, "Tcp Flags",
-                  LABELS.TTL, "Checksum", "Action", "Alert", ""]
-        )
+                        rule[FIELDS.DEST_IP],
+                        rule[FIELDS.PROTOCOL],
+                        rule[FIELDS.TCP_FLAGS],
+                        rule[FIELDS.TTL],
+                        rule[FIELDS.CHECKSUM],
+                        rule[FIELDS.ACTION],
+                        toggle_cell(rule[FIELDS.RULE_ID], rule[FIELDS.ALERT] == "on", rule_set),
+                        put_row([
+                            put_button("Edit", onclick=lambda r=rule: edit_rule(r, rule_set), small=True),
+                            put_button("Delete", onclick=lambda r=rule: delete_rule(r[FIELDS.RULE_ID], rule_set), small=True)
+                        ], size="auto auto")
+                    ]
+                    for rule in rules
+                ],
+                header=["Get Packets", LABELS.RULE_ID, LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, "Tcp Flags",
+                        LABELS.TTL, "Checksum", "Action", "Alert", ""]
+                )
 
         with use_scope("add_button", clear=True):
             put_button("Add New Rule", onclick=lambda: show_add_rule_form(rule_set), color="primary", outline=True)
