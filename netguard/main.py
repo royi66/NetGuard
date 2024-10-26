@@ -1,12 +1,12 @@
 #!/usr/bin/sudo python
 import threading
 
-import handle_network
-from rule_management import RuleSet
-from handle_db import MongoDbClient
+from backend.rule_management import RuleSet
+from backend.handle_db import MongoDbClient
+from backend.handle_network import capture_packet
 from pywebio.platform.tornado_http import start_server
 from pywebio import config
-from ui_module import main as ui_main
+from netguard.Frontened.ui_module import main as ui_main
 
 
 OUT_DIRECTION = "OUT"
@@ -28,8 +28,8 @@ def main():
     rule_set.print_all_rules()
     
     # Start packet capturing in separate threads
-    incoming_thread = threading.Thread(target=handle_network.capture_packet, args=[IN_DIRECTION, rule_set])
-    outgoing_thread = threading.Thread(target=handle_network.capture_packet, args=[OUT_DIRECTION, rule_set])
+    incoming_thread = threading.Thread(target=capture_packet, args=[IN_DIRECTION, rule_set])
+    outgoing_thread = threading.Thread(target=capture_packet, args=[OUT_DIRECTION, rule_set])
 
     # Start packet capture threads
     incoming_thread.start()
