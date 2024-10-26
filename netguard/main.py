@@ -6,7 +6,7 @@ from backend.handle_db import MongoDbClient
 from backend.handle_network import capture_packet
 from pywebio.platform.tornado_http import start_server
 from pywebio import config
-from netguard.Frontened.ui_module import main as ui_main
+from frontened.ui_module import main as ui_main
 
 
 OUT_DIRECTION = "OUT"
@@ -15,8 +15,6 @@ IN_DIRECTION = "IN"
 
 @config(theme="dark")
 def main():
-    from scapy.all import get_if_list
-    print(get_if_list())  # Print available interfaces
     db_client = MongoDbClient()
     rule_set = RuleSet(db_client)
 
