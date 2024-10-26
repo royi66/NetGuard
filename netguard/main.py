@@ -7,6 +7,7 @@ from handle_db import MongoDbClient
 from pywebio.platform.tornado_http import start_server
 from pywebio import config
 from ui_module import main as ui_main
+from logging_config import clear_log_file
 
 
 OUT_DIRECTION = "OUT"
@@ -16,6 +17,7 @@ IN_DIRECTION = "IN"
 @config(theme="dark")
 def main():
     from scapy.all import get_if_list
+    clear_log_file()
     print(get_if_list())  # Print available interfaces
     db_client = MongoDbClient()
     rule_set = RuleSet(db_client)
