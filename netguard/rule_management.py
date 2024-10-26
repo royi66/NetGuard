@@ -13,7 +13,8 @@ class Rule:
 
     def __init__(self, rule_id: int, src_ip: str = None, dest_ip: str = None,
                  src_port: int = None, dest_port: int = None, protocol: str = None,
-                 action: str = 'block', ttl: int = None, checksum: int = None, tcp_flags: str = None) -> None:
+                 action: str = 'block', ttl: int = None, checksum: int = None, tcp_flags: str = None,
+                 alert: bool =False) -> None:
         """
         Initialize the Rule object with optional filtering criteria.
 
@@ -36,6 +37,7 @@ class Rule:
         self.checksum = checksum
         self.tcp_flags = tcp_flags
         self.action: str = action
+        self.alert = alert
 
     def matches(self, packet) -> bool:
         """Check if the rule matches the given packet."""
@@ -53,7 +55,7 @@ def get_rule_dict(rule):
     return {FIELDS.RULE_ID: rule.rule_id, FIELDS.SRC_IP: rule.src_ip, FIELDS.DEST_IP: rule.dest_ip,
             FIELDS.SRC_PORT: rule.src_port, FIELDS.DEST_PORT: rule.dest_port, FIELDS.PROTOCOL: rule.protocol,
             FIELDS.ACTION: rule.action, FIELDS.TTL: rule.ttl, FIELDS.CHECKSUM: rule.checksum,
-            FIELDS.TCP_FLAGS: rule.tcp_flags}
+            FIELDS.TCP_FLAGS: rule.tcp_flags, FIELDS.ALERT: rule.alert}
 
 
 @singleton
@@ -73,6 +75,7 @@ class RuleSet:
 
     def load_rules_from_db(self) -> None:
         """Load rules from MongoDB into the ruleset."""
+        self.rules = []
         rules_data = self.db_client.client[self.db_name][self.collection_name].find()
         with self.lock:  # Acquire the lock before modifying shared data
             for rule_data in rules_data:
@@ -83,6 +86,7 @@ class RuleSet:
                     src_port=rule_data.get(FIELDS.SRC_PORT),
                     dest_port=rule_data.get(FIELDS.DEST_PORT),
                     protocol=rule_data.get(FIELDS.PROTOCOL),
+                    alert=rule_data.get(FIELDS.ALERT),
                     action=rule_data.get('action', 'block')
                 )
                 self.rules.append(rule)
@@ -90,7 +94,7 @@ class RuleSet:
     def add_rule(self, src_ip: str = None, dest_ip: str = None,
                  src_port: int = None, dest_port: int = None,
                  protocol: str = None, action: str = 'block', ttl: int = None,
-                 checksum:int = None, tcp_flags:str = None) -> None:
+                 checksum:int = None, tcp_flags:str = None, alert:bool = False) -> None:
         """Add a rule to the rule set and save it to the database.
 
         :param src_ip: Source IP address to match.
@@ -102,13 +106,14 @@ class RuleSet:
         :param ttl: Time to live of the packet
         :param checksum: The
         :param tcp_flags: Flags in the TCP packet
+        :param alert: Does the user wants to get an alert when a packet matches this rule
         """
         # TODO - Create same function that gets a Rule, or maybe change this one
-        with self.lock:  # Acquire the lock before modifying shared data
-            self.rule_id_counter += 1  # Increment the rule ID counter
+        with self.lock:
+            self.rule_id_counter += 1
             rule = Rule(rule_id=self.rule_id_counter, src_ip=src_ip, dest_ip=dest_ip,
                         src_port=src_port, dest_port=dest_port, protocol=protocol, action=action,
-                        ttl=ttl, checksum=checksum, tcp_flags=tcp_flags)
+                        ttl=ttl, checksum=checksum, tcp_flags=tcp_flags, alert=alert)
             self.rules.append(rule)
 
             # Save rule to the database
@@ -135,19 +140,19 @@ class RuleSet:
         :param rule_id: Unique identifier of the rule to edit.
         :param kwargs: Key-value pairs of attributes to update.
         """
-        with self.lock:  # Acquire the lock before modifying shared data
+        print("kwargs", kwargs)
+        with self.lock:
             for rule in self.rules:
                 if rule.rule_id == rule_id:
-                    # Update rule attributes based on provided keyword arguments
                     for key, value in kwargs.items():
                         if hasattr(rule, key) and value is not None:
                             setattr(rule, key, value)
 
-                    # Update the rule in the MongoDB collection
                     self.db_client.update_in_db(self.db_name, self.collection_name,
                                                 {FIELDS.RULE_ID: rule_id}, kwargs)
                     print(f"Edited rule with ID: {rule_id} to {kwargs}")
-                    return  # Exit once the rule is updated
+                    print("changed??? ", rule.alert)
+                    return
 
             raise ValueError(f"Rule with ID {rule_id} not found")
 
@@ -199,6 +204,10 @@ class RuleSet:
 
     def get_rule_by_id(self, rule_id):
         rule = self.db_client.get_data_by_field(self.db_name, self.collection_name, 'rule_id', rule_id)
-        print(rule)
         return rule[0]
+
+    def get_all_alerts(self):
+        """Retrieve all alerts."""
+        alerts_collection = self.db[Collections.ALERTS]
+        return list(alerts_collection.find())
 

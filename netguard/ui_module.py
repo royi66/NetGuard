@@ -247,7 +247,7 @@ def update_packets_list_with_filter(filtered_packets):
             if matched_rule_id:
                 if matched_rule_id > 0:
                     packet["rule"] = rule_set.get_rule_by_id(matched_rule_id)
-                    rule_style = 'color: #ff0000;'  # Example red color for visual emphasis
+                    rule_style = 'color: red;'
 
             # Create the row data
             packet_row = [
@@ -285,39 +285,29 @@ def put_latest_packets(rule_set):
     update_packets_list(rule_set, current_page)
 
 
-@use_scope("dashboard", clear=True)
-def manage_rules(rule_set):
-    put_markdown("## Manage Rules")
-    # Get rules from MongoDB
-    rules = get_rules(rule_set)
-    with use_scope("rules_table", clear=True):
-        if rules:
-            put_table(
-                tdata=[
-                    [
-                        put_button("Get Packets", onclick=lambda r=rule: show_packets_for_rule(r, rule_set), small=True),
-                        rule[FIELDS.RULE_ID],
-                        rule[FIELDS.SRC_IP],
-                        rule[FIELDS.DEST_IP],
-                        rule[FIELDS.PROTOCOL],
-                        rule[FIELDS.TCP_FLAGS],
-                        rule[FIELDS.TTL],
-                        rule[FIELDS.CHECKSUM],
-                        rule[FIELDS.ACTION],
-                        put_row([
-                            put_button("Edit", onclick=lambda r=rule: edit_rule(r, rule_set), small=True),
-                            put_button("Delete", onclick=lambda r=rule: delete_rule(r["rule_id"], rule_set), small=True)
-                        ], size="auto auto")
-                    ]
-                    for rule in rules
-                ],
-                header=["Get Packets", LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, "Tcp Flags",
-                        LABELS.TTL, "Checksum", "Action", ""]
-            )
+def show_add_alert_form(rule_set, rule_id=None):
+    """Display the form for adding a new alert."""
+    clear("alerts_table")
+    clear("add_alert_button")
 
-    # Use a scope for the Add New Rule button, so it can be cleared when needed
-    with use_scope("add_button", clear=True):
-        put_button("Add New Rule", onclick=lambda: show_add_rule_form(rule_set), color="primary", outline=True)
+    put_markdown("### Add New Alert")
+
+    # Form fields for the alert
+    pin.put_input("alert_name", label="Alert Name")
+    pin.put_textarea("description", label="Description")
+    if rule_id:
+        pin.put_input("rule_id", label="Rule ID", value=str(rule_id), readonly=True)
+    else:
+        pin.put_input("rule_id", label="Rule ID")
+
+    # Submit and Cancel buttons
+    put_buttons(
+        buttons=[
+            {'label': 'Submit', 'value': 'submit', 'color': 'success'},
+            {'label': 'Cancel', 'value': 'cancel', 'color': 'danger'}
+        ],
+        onclick=lambda btn: handle_alert_form_action(btn, rule_set)
+    )
 
 
 def show_packets_for_rule(rule, rule_set):
@@ -387,15 +377,17 @@ def add_rule(rule_set):
     with use_scope("add_rule_form", clear=True):  # Clear the scope to avoid form duplication
         put_markdown("### Add New Rule")
 
-        # Basic inputs
         pin.put_input(FIELDS.SRC_IP, label=LABELS.SRC_IP)
         pin.put_input(FIELDS.DEST_IP, label=LABELS.DEST_IP)
         pin.put_input(FIELDS.PROTOCOL, label="Protocol (e.g., TCP, UDP)")
 
-        # Action dropdown
         pin.put_select(FIELDS.ACTION, label="Action", options=[
             {'label': 'Allow', 'value': 'allow'},
             {'label': 'Deny', 'value': 'deny'}
+        ])
+        pin.put_select(FIELDS.ACTION, label="Alert", options=[
+            {'label': 'OFF', 'value': 'off'},
+            {'label': 'On', 'value': 'on'}
         ])
 
         # Button to toggle advanced options
@@ -425,10 +417,8 @@ def show_advanced_fields(visible):
 
 
 def handle_rule_form_action(action, rule_set):
-    #TODO: Add validation and fix submit butting when no input is given (display error)
     """Handle the form submission or cancellation."""
     if action == 'submit':
-        # Fetch the input data using pin
         new_rule = {
             FIELDS.SRC_IP: pin.pin[FIELDS.SRC_IP],
             FIELDS.DEST_IP: pin.pin[FIELDS.DEST_IP],
@@ -437,9 +427,11 @@ def handle_rule_form_action(action, rule_set):
             FIELDS.TTL: pin.pin[FIELDS.TTL],
             FIELDS.CHECKSUM: pin.pin[FIELDS.CHECKSUM],
             FIELDS.TCP_FLAGS: pin.pin[FIELDS.TCP_FLAGS],
-
+            "alert": pin.pin["alert"]
         }
-        rule_set.add_rule(**new_rule)  # Add the new rule to the database
+        rule_set.add_rule(src_ip=new_rule[FIELDS.SRC_IP], dest_ip=new_rule[FIELDS.DEST_IP],
+                 protocol=new_rule[FIELDS.PROTOCOL], action=new_rule[FIELDS.ACTION], ttl=new_rule[FIELDS.TTL],
+                 checksum=new_rule[FIELDS.CHECKSUM], tcp_flags=new_rule[FIELDS.TCP_FLAGS], alert=new_rule["alert"])
 
         # Refresh the rules display after adding the new rule
         manage_rules(rule_set)
@@ -459,10 +451,9 @@ def edit_rule(rule, rule_set):
         input("Action", name=FIELDS.ACTION, value=rule[FIELDS.ACTION])
     ])
 
-    rule_set.edit_rule(rule["_id"], updated_rule)
+    rule_set.edit_rule(rule[FIELDS.RULE_ID], **updated_rule)  # Update in the database
 
-    # db[Collections.RULES].update_one({"_id": rule["_id"]}, {"$set": updated_rule})
-
+    # Return to manage_rules to see the updated list with fresh data
     manage_rules(rule_set)
 
 
@@ -486,13 +477,99 @@ def put_dashboard():
     put_markdown("## Dashboard")
     put_markdown("###### Network packet distribution across directions (IN vs OUT).")
     put_markdown("---")
-    # Embed the Dash app into the PyWebIO dashboard using an iframe
-    # Set iframe container to dark mode
     iframe_style = 'border:#1f1f1f; background-color:#1f1f1f;'
     iframe_html = f'<iframe src="http://127.0.0.1:8050" width="100%" height="1000" style="{iframe_style}"></iframe>'
 
-    # Embed the Dash app into the PyWebIO dashboard using an iframe
     put_html(iframe_html)
+
+
+@use_scope("dashboard", clear=True)
+def manage_alerts():
+    pass
+
+
+def toggle_button(rule_id, is_on, rule_set):
+    """
+    Returns a toggle button that calls toggle_alert when clicked.
+
+    Parameters:
+    - rule_id: ID of the rule to toggle.
+    - is_on: Boolean indicating the current state of the toggle (True for "on", False for "off").
+    """
+    label = "ON" if is_on else "OFF"
+    color = "success" if is_on else "warning"
+
+    # Use put_button to toggle the alert status
+    return put_button(label, color=color, onclick=lambda: toggle_alert(rule_id, rule_set))
+
+
+@config(title="Toggle Alert")
+def toggle_alert(rule_id, rule_set):
+    """Toggle the alert field for a specific rule by rule_id."""
+    rule = rule_set.get_rule_by_id(rule_id)
+
+    if rule:
+        new_alert_status = "on" if rule[FIELDS.ALERT] == "off" else "off"
+        rule_set.edit_rule(rule_id, **{FIELDS.ALERT: new_alert_status})
+        manage_rules(rule_set)
+
+
+@use_scope("dashboard", clear=True)
+def manage_rules(rule_set):
+    put_html(Ui.TOGGLE_CSS)
+    put_markdown("## Manage Rules")
+
+    rules = get_rules(rule_set)
+
+    if rules:
+        headers = ["Get Packets", LABELS.RULE_ID, LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL,
+                   "Tcp Flags", LABELS.TTL, "Checksum", "Action", "Alert", ""]
+
+        rows = [
+            [
+                put_button("Get Packets", onclick=lambda r=rule: show_packets_for_rule(r, rule_set), small=True),
+                rule[FIELDS.RULE_ID],
+                rule[FIELDS.SRC_IP],
+                rule[FIELDS.DEST_IP],
+                rule[FIELDS.PROTOCOL],
+                rule[FIELDS.TCP_FLAGS],
+                rule[FIELDS.TTL],
+                rule[FIELDS.CHECKSUM],
+                rule[FIELDS.ACTION],
+                toggle_cell(rule[FIELDS.RULE_ID], rule[FIELDS.ALERT] == "on", rule_set),
+                put_row([
+                    put_button("Edit", onclick=lambda r=rule: edit_rule(r, rule_set), small=True),
+                    put_button("Delete", onclick=lambda r=rule: delete_rule(r[FIELDS.RULE_ID], rule_set), small=True)
+                ], size="auto auto")
+            ]
+            for rule in rules
+        ]
+
+        # Display table with dynamic rows
+        put_table(rows, header=headers)
+
+
+def toggle_cell(rule_id, is_on, rule_set):
+    """Generate a toggle button cell that updates only when toggled."""
+    label = "ON" if is_on else "OFF"
+    color = "success" if is_on else "warning"
+
+    return put_button(label, color=color,
+                      onclick=lambda: toggle_alert(rule_id, rule_set))
+
+
+def handle_alert_form_action(action, rule_set):
+    """Process the form submission or cancellation for an alert."""
+    if action == 'submit':
+        new_alert = {
+            "rule_id": pin.pin["rule_id"],
+            "alert_name": pin.pin["alert_name"],
+            "description": pin.pin["description"]
+        }
+        rule_set.add_alert(new_alert)  # Assuming `add_alert` method to save to the database
+        manage_alerts(rule_set)  # Refresh alerts view after addition
+    elif action == 'cancel':
+        manage_alerts(rule_set)  # Just refresh the alerts view
 
 
 @use_scope("left_navbar")
@@ -507,6 +584,7 @@ def put_navbar(rule_set):
                 put_markdown("#### Packets", 'sidebar-item').onclick(lambda: put_blocks(rule_set)),
                 put_markdown("#### Manage Rules", 'sidebar-item').onclick(lambda: manage_rules(rule_set)),
                 put_markdown("#### Dashboard", 'sidebar-item').onclick(lambda: put_dashboard()),
+                put_markdown("#### Manage Alerts", 'sidebar-item').onclick(lambda: manage_alerts(rule_set)),
             ]
         ],
         direction="column",
