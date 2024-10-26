@@ -15,9 +15,7 @@ IN_DIRECTION = "IN"
 
 @config(theme="dark")
 def main():
-    from scapy.all import get_if_list
     clear_log_file()
-    print(get_if_list())  # Print available interfaces
     db_client = MongoDbClient()
     rule_set = RuleSet(db_client)
 
