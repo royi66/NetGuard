@@ -62,10 +62,18 @@ def update_packets_list(rule_set, page=0):
     current_page = page
     packets, has_next_page = get_recent_packets(current_page)
 
-    with use_scope('latest', clear=True):
-        put_markdown(f"### Showing packets for page {current_page + 1}")
+    # Calculate start and end packet numbers
+    total_packets = db[Collections.PACKETS].count_documents(
+        {FIELDS.INSERTION_TIME: {"$gte": datetime.now() - timedelta(hours=Ui.HOURS_BACK)}})
+    start_packet = current_page * Ui.PAGE_SIZE + 1
+    end_packet = start_packet + len(packets) - 1
 
-        headers = ["More Info", "Direction", LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, LABELS.SRC_PORT, LABELS.DEST_PORT, "Rule"]
+    with use_scope('latest', clear=True):
+        # Display packet range and total number of packets
+        put_markdown(f"### Showing packets {start_packet}-{end_packet} out of {total_packets}")
+
+        headers = ["More Info", "Direction", LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, LABELS.SRC_PORT,
+                   LABELS.DEST_PORT, "Rule"]
 
         packet_rows = []
         for packet in packets:
@@ -87,7 +95,8 @@ def update_packets_list(rule_set, page=0):
                     packet_row.append(
                         put_button(packet[FIELDS.MATCHED_RULE],
                                    onclick=lambda x=packet[FIELDS.MATCHED_RULE]: rule_search(x, rule_set),
-                                   color="danger").style('background-color: red; color: white; border: none; padding: 5px;')
+                                   color="danger").style(
+                            'background-color: red; color: white; border: none; padding: 5px;')
                     )
             else:
                 packet_row.append(put_text(""))  # Placeholder if no matched_rule_id
