@@ -1,8 +1,8 @@
 from pymongo import MongoClient, errors
 from datetime import datetime
 from bson import ObjectId
-from netguard.consts import TYPES
-from logging_config import logger
+from consts import TYPES
+from backend.logging_config import logger
 
 
 class MongoDbClient:

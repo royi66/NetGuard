@@ -38,6 +38,10 @@ Install Mongo DB GUI for local run - ``` https://www.mongodb.com/try/download/co
 4. ```conda create -n pyqt-env python=3.9 pyqt```
 5. ```conda activate pyqt-env```
 
+## Run Program
+1. go to the main directory of the project - NetG/uard
+2. run ```sudo python netguard/main.py```
+
 
 
 
