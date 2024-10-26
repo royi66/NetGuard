@@ -2,7 +2,7 @@ import os
 import typing
 import platform
 
-from pymongo import MongoClient
+from logging_config import logger
 from scapy.all import IP
 from utils import singleton
 from handle_db import MongoDbClient
@@ -50,25 +50,21 @@ class Rule:
     def matches(self, packet) -> bool:
         """Check if the rule matches the given packet."""
 
-        return (
-                (self.src_ip is None or ('IP' in packet and packet[IP].src == self.src_ip)) and
+        match_result =((self.src_ip is None or ('IP' in packet and packet[IP].src == self.src_ip)) and
                 (self.dest_ip is None or ('IP' in packet and packet[IP].dst == self.dest_ip)) and
                 (self.src_port is None or hasattr(packet, 'sport') and packet.sport == self.src_port) and
                 (self.dest_port is None or hasattr(packet, 'dport') and packet.dport == self.dest_port) and
-                (self.protocol is None or hasattr(packet, 'proto') and packet.proto == self.protocol)
-        )
+                (self.protocol is None or hasattr(packet, 'proto') and packet.proto == self.protocol))
+        if match_result:
+            logger.info("Matched rule ID: {}".format(self.rule_id))
+        return match_result
 
     def raise_alert(self):
         """Trigger a system alert when a packet matches this rule."""
         alert_message = f"Alert: Packet matched rule ID {self.rule_id} - {self.action.upper()}"
-
         if platform.system() == "Darwin":  # macOS
             os.system(f"osascript -e 'display notification \"{alert_message}\" with title \"Network Alert\"'")
-        else:
-            print(alert_message)  # Fallback to printing for unsupported OSes
-
-        # Optionally log the alert to a database or file
-        #print("Alert raised:", alert_message)
+        logger.warning(alert_message)  # Fallback to printing for unsupported OSes
 
 
 @singleton
@@ -130,7 +126,7 @@ class RuleSet:
 
             # Save rule to the database
             self.db_client.insert_to_db(self.db_name, self.collection_name, get_rule_dict(rule))
-            print(f"Added rule: {rule.rule_id}")
+            logger.info(f"Added rule: {rule.rule_id}")
 
     def delete_rule(self, rule_id: int) -> None:
         """Remove a rule from the rule set by its unique identifier.
@@ -144,7 +140,7 @@ class RuleSet:
             # Reset rule ID counter if the deleted rule was the highest ID
             if self.rule_id_counter == rule_id:
                 self.rule_id_counter = max((rule.rule_id for rule in self.rules), default=0)
-            print(f"Deleted rule with ID: {rule_id}")
+            logger.info(f"Deleted rule with ID: {rule_id}")
 
     def edit_rule(self, rule_id: int, **kwargs: typing.Any) -> None:
         """Edit an existing rule in the rule set.
@@ -161,9 +157,10 @@ class RuleSet:
 
                     self.db_client.update_in_db(self.db_name, self.collection_name,
                                                 {FIELDS.RULE_ID: rule_id}, kwargs)
-                    print(f"Edited rule with ID: {rule_id} to {kwargs}")
+                    logger.info(f"Edited rule with ID: {rule_id} to {kwargs}")
                     return
 
+            logger.warning(f"Rule with ID {rule_id} not found")
             raise ValueError(f"Rule with ID {rule_id} not found")
 
     def check_packet(self, packet) -> int:
@@ -178,29 +175,22 @@ class RuleSet:
                     if rule.alert:
                         rule.raise_alert()
                     return rule.rule_id
-        # print(f"Packet didn't match any rule: {packet}")
         return ERROR_CODE.RULE_ERROR_ID
 
     def clear_all_rules(self) -> None:
         """Clear all rules from both the local ruleset and the database."""
-        with self.lock:  # Acquire the lock before modifying shared data
-            # Clear the rules from the local list
+        with self.lock:
             self.rules.clear()
-
-            # Clear the rules from the database
             self.db_client.clear_collection(self.db_name, self.collection_name)
-
-            # Reset rule ID counter
             self.rule_id_counter = 0
-            print("Cleared all rules from the rule set and database.")
+            logger.info("Cleared all rules from the rule set and database.")
 
     def print_all_rules(self) -> None:
         """Print all rules in a nicely formatted manner."""
-        with self.lock:  # Acquire the lock before reading shared data
+        with self.lock:
             if not self.rules:
-                print("No rules available.")
+                logger.info("No rules available.")
                 return
-
             print(
                 f"{'Rule ID':<10} {'Source IP':<20} {'Destination IP':<20} {'Source Port':<15} {'Destination Port':<15} {'Protocol':<10} {'Action':<10}")
             print("=" * 100)  # Separator line
