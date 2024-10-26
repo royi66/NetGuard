@@ -35,7 +35,6 @@ class Rule:
         :param protocol: Protocol to match (TCP/UDP) (default: None).
         :param action: Action to take if rule matches (allow/block) (default: 'block').
         """
-        # TODO - maybe no need of rule id because mongo db automatically adds an id
         self.rule_id: int = rule_id
         self.src_ip: typing.Optional[str] = src_ip
         self.dest_ip: typing.Optional[str] = dest_ip
@@ -101,7 +100,7 @@ class RuleSet:
                     dest_port=rule_data.get(FIELDS.DEST_PORT),
                     protocol=rule_data.get(FIELDS.PROTOCOL),
                     alert=rule_data.get(FIELDS.ALERT),
-                    action=rule_data.get('action', 'block')
+                    action=rule_data.get(FIELDS.ACTION, 'block')
                 )
                 self.rules.append(rule)
 
@@ -140,7 +139,7 @@ class RuleSet:
         """
         with self.lock:  # Acquire the lock before modifying shared data
             self.rules = [rule for rule in self.rules if rule.rule_id != rule_id]
-            self.db_client.delete_from_db(self.db_name, self.collection_name, {'rule_id': rule_id})
+            self.db_client.delete_from_db(self.db_name, self.collection_name, {FIELDS.RULE_ID: rule_id})
 
             # Reset rule ID counter if the deleted rule was the highest ID
             if self.rule_id_counter == rule_id:
@@ -219,10 +218,6 @@ class RuleSet:
         return all_rules
 
     def get_rule_by_id(self, rule_id):
-        rule = self.db_client.get_data_by_field(self.db_name, self.collection_name, 'rule_id', rule_id)
+        rule = self.db_client.get_data_by_field(self.db_name, self.collection_name, FIELDS.RULE_ID, rule_id)
         return rule[0]
 
-    def get_all_alerts(self):
-        """Retrieve all alerts."""
-        alerts_collection = self.db[Collections.ALERTS]
-        return list(alerts_collection.find())
