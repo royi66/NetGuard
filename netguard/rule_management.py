@@ -1,11 +1,20 @@
+import os
 import typing
+import platform
+
 from pymongo import MongoClient
 from scapy.all import IP
-
 from utils import singleton
 from handle_db import MongoDbClient
 from consts import DBNames, Collections, FIELDS, ERROR_CODE
 import threading
+
+
+def get_rule_dict(rule):
+    return {FIELDS.RULE_ID: rule.rule_id, FIELDS.SRC_IP: rule.src_ip, FIELDS.DEST_IP: rule.dest_ip,
+            FIELDS.SRC_PORT: rule.src_port, FIELDS.DEST_PORT: rule.dest_port, FIELDS.PROTOCOL: rule.protocol,
+            FIELDS.ACTION: rule.action, FIELDS.TTL: rule.ttl, FIELDS.CHECKSUM: rule.checksum,
+            FIELDS.TCP_FLAGS: rule.tcp_flags, FIELDS.ALERT: rule.alert}
 
 
 class Rule:
@@ -14,7 +23,7 @@ class Rule:
     def __init__(self, rule_id: int, src_ip: str = None, dest_ip: str = None,
                  src_port: int = None, dest_port: int = None, protocol: str = None,
                  action: str = 'block', ttl: int = None, checksum: int = None, tcp_flags: str = None,
-                 alert: bool =False) -> None:
+                 alert: bool = False) -> None:
         """
         Initialize the Rule object with optional filtering criteria.
 
@@ -50,12 +59,17 @@ class Rule:
                 (self.protocol is None or hasattr(packet, 'proto') and packet.proto == self.protocol)
         )
 
+    def raise_alert(self):
+        """Trigger a system alert when a packet matches this rule."""
+        alert_message = f"Alert: Packet matched rule ID {self.rule_id} - {self.action.upper()}"
 
-def get_rule_dict(rule):
-    return {FIELDS.RULE_ID: rule.rule_id, FIELDS.SRC_IP: rule.src_ip, FIELDS.DEST_IP: rule.dest_ip,
-            FIELDS.SRC_PORT: rule.src_port, FIELDS.DEST_PORT: rule.dest_port, FIELDS.PROTOCOL: rule.protocol,
-            FIELDS.ACTION: rule.action, FIELDS.TTL: rule.ttl, FIELDS.CHECKSUM: rule.checksum,
-            FIELDS.TCP_FLAGS: rule.tcp_flags, FIELDS.ALERT: rule.alert}
+        if platform.system() == "Darwin":  # macOS
+            os.system(f"osascript -e 'display notification \"{alert_message}\" with title \"Network Alert\"'")
+        else:
+            print(alert_message)  # Fallback to printing for unsupported OSes
+
+        # Optionally log the alert to a database or file
+        #print("Alert raised:", alert_message)
 
 
 @singleton
@@ -94,7 +108,7 @@ class RuleSet:
     def add_rule(self, src_ip: str = None, dest_ip: str = None,
                  src_port: int = None, dest_port: int = None,
                  protocol: str = None, action: str = 'block', ttl: int = None,
-                 checksum:int = None, tcp_flags:str = None, alert:bool = False) -> None:
+                 checksum: int = None, tcp_flags: str = None, alert: bool = False) -> None:
         """Add a rule to the rule set and save it to the database.
 
         :param src_ip: Source IP address to match.
@@ -108,7 +122,6 @@ class RuleSet:
         :param tcp_flags: Flags in the TCP packet
         :param alert: Does the user wants to get an alert when a packet matches this rule
         """
-        # TODO - Create same function that gets a Rule, or maybe change this one
         with self.lock:
             self.rule_id_counter += 1
             rule = Rule(rule_id=self.rule_id_counter, src_ip=src_ip, dest_ip=dest_ip,
@@ -151,12 +164,11 @@ class RuleSet:
                     self.db_client.update_in_db(self.db_name, self.collection_name,
                                                 {FIELDS.RULE_ID: rule_id}, kwargs)
                     print(f"Edited rule with ID: {rule_id} to {kwargs}")
-                    print("changed??? ", rule.alert)
                     return
 
             raise ValueError(f"Rule with ID {rule_id} not found")
 
-    def check_packet(self, packet) -> int :
+    def check_packet(self, packet) -> int:
         """Check a packet against all rules in the rule set.
 
         :param packet: The packet to check against the rules.
@@ -165,6 +177,8 @@ class RuleSet:
         with self.lock:  # Acquire the lock before reading shared data
             for rule in self.rules:
                 if rule.matches(packet):
+                    if rule.alert:
+                        rule.raise_alert()
                     return rule.rule_id
         # print(f"Packet didn't match any rule: {packet}")
         return ERROR_CODE.RULE_ERROR_ID
@@ -189,11 +203,13 @@ class RuleSet:
                 print("No rules available.")
                 return
 
-            print(f"{'Rule ID':<10} {'Source IP':<20} {'Destination IP':<20} {'Source Port':<15} {'Destination Port':<15} {'Protocol':<10} {'Action':<10}")
+            print(
+                f"{'Rule ID':<10} {'Source IP':<20} {'Destination IP':<20} {'Source Port':<15} {'Destination Port':<15} {'Protocol':<10} {'Action':<10}")
             print("=" * 100)  # Separator line
 
             for rule in self.rules:
-                print(f"{rule.rule_id:<10} {rule.src_ip or 'N/A':<20} {rule.dest_ip or 'N/A':<20} {rule.src_port or 'N/A':<15} {rule.dest_port or 'N/A':<15} {rule.protocol or 'N/A':<10} {rule.action:<10}")
+                print(
+                    f"{rule.rule_id:<10} {rule.src_ip or 'N/A':<20} {rule.dest_ip or 'N/A':<20} {rule.src_port or 'N/A':<15} {rule.dest_port or 'N/A':<15} {rule.protocol or 'N/A':<10} {rule.action:<10}")
 
     def get_all_rules(self):
         all_rules = []
@@ -210,4 +226,3 @@ class RuleSet:
         """Retrieve all alerts."""
         alerts_collection = self.db[Collections.ALERTS]
         return list(alerts_collection.find())
-

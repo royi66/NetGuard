@@ -3,6 +3,7 @@ from datetime import datetime
 from bson import ObjectId
 from consts import TYPES
 
+
 class MongoDbClient:
     def __init__(self):
         try:
@@ -113,7 +114,7 @@ class MongoDbClient:
         """Close the MongoDB connection."""
         try:
             self.client.close()
-            print("MongoDB connection closed successfully.")
+            #print("MongoDB connection closed successfully.")
         except Exception as e:
             print(f"Error closing MongoDB connection: {e}")
             raise e  # Raise the exception after logging the error
