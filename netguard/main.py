@@ -1,7 +1,7 @@
 #!/usr/bin/sudo python
 import threading
 
-import network_interface
+import handle_network
 from rule_management import RuleSet
 from handle_db import MongoDbClient
 from pywebio.platform.tornado_http import start_server
@@ -22,14 +22,14 @@ def main():
 
     # Clear all rules
     rule_set.clear_all_rules()
-    rule_set.add_rule(src_ip='10.0.0.5')
-    rule_set.add_rule(dest_ip='10.0.0.255')
+    rule_set.add_rule(src_ip='10.0.0.5', alert=True)
+    rule_set.add_rule(dest_ip='10.0.0.255', alert=True)
     # Add example rules
     rule_set.print_all_rules()
     
     # Start packet capturing in separate threads
-    incoming_thread = threading.Thread(target=network_interface.capture_packet, args=[IN_DIRECTION, rule_set])
-    outgoing_thread = threading.Thread(target=network_interface.capture_packet, args=[OUT_DIRECTION, rule_set])
+    incoming_thread = threading.Thread(target=handle_network.capture_packet, args=[IN_DIRECTION, rule_set])
+    outgoing_thread = threading.Thread(target=handle_network.capture_packet, args=[OUT_DIRECTION, rule_set])
 
     # Start packet capture threads
     incoming_thread.start()
