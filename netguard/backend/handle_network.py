@@ -3,7 +3,7 @@ Handles network interface - get output and input packets
 """
 from handle_db import MongoDbClient
 from scapy.all import sniff
-from consts import DBNames, Collections
+from netguard.consts import DBNames, Collections
 from packet import Packet
 from scapy.config import conf
 from logging_config import logger

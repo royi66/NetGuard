@@ -1,8 +1,7 @@
 from dash import Dash, dcc, html, Input, Output
 import plotly.graph_objs as go
-from pymongo import MongoClient
-from handle_db import MongoDbClient
-from consts import DBNames, Collections
+from netguard.backend.handle_db import MongoDbClient
+from netguard.consts import DBNames, Collections
 from datetime import datetime, timedelta
 
 # Connect to MongoDB
