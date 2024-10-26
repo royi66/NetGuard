@@ -2,10 +2,10 @@ from pywebio import *
 from pywebio.output import *
 from pywebio.input import *
 import os
-from netguard.handle_db import MongoDbClient
+from netguard.backend.handle_db import MongoDbClient
 from netguard.consts import DBNames, Collections, Ui, Paths, FIELDS, LABELS
 from datetime import timedelta, datetime
-from netguard.rule_management import RuleSet
+from netguard.backend.rule_management import RuleSet
 import matplotlib
 from dash import Dash
 from threading import Thread

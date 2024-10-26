@@ -1,7 +1,7 @@
 from pymongo import MongoClient, errors
 from datetime import datetime
 from bson import ObjectId
-from consts import TYPES
+from netguard.consts import TYPES
 from logging_config import logger
 
 
