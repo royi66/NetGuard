@@ -138,7 +138,6 @@ class RuleSet:
         :param rule_id: Unique identifier of the rule to edit.
         :param kwargs: Key-value pairs of attributes to update.
         """
-        print("kwargs", kwargs)
         with self.lock:
             for rule in self.rules:
                 if rule.rule_id == rule_id:

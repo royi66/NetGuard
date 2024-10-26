@@ -11,6 +11,7 @@ matplotlib.use('Agg')
 from dash import Dash
 from threading import Thread
 from dashboard import run_dash_app
+from functools import partial
 
 app = Dash(__name__)
 mongo_client = MongoDbClient()
@@ -96,7 +97,7 @@ def update_packets_list(rule_set, page=0):
                         put_button(packet[FIELDS.MATCHED_RULE],
                                    onclick=lambda x=packet[FIELDS.MATCHED_RULE]: rule_search(x, rule_set),
                                    color="danger").style(
-                            'background-color: red; color: white; border: none; padding: 5px;')
+                            'color: white; border: none; padding: 5px;')
                     )
             else:
                 packet_row.append(put_text(""))  # Placeholder if no matched_rule_id
@@ -215,16 +216,12 @@ def clear_filter(rule_set):
 
 @use_scope("results", clear=True)
 def put_packet_search_results(field, value, rule_set):
-    print("???", value)
     """Fetch and filter packets based on the search field and value, and update the existing table."""
     try:
-        # Fetch filtered packets from MongoDB based on the search field and value
         filtered_packets = mongo_client.get_data_by_field(DBNames.NET_GUARD_DB, Collections.PACKETS, field, value)
 
-        # Directly update the table by reusing the existing `update_packets_list` functionality
         update_packets_list_with_filter(filtered_packets)
 
-        # Show "Clear Filter" button if a filter is applied
         if value:
             put_clear_filter_button(rule_set)
 
@@ -244,29 +241,24 @@ def update_packets_list_with_filter(filtered_packets):
     with use_scope('latest', clear=True):
         put_markdown(f"### Showing filtered packets")
 
-        # Create headers for the table
         headers = ["More Info", "Direction", LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, LABELS.SRC_PORT, LABELS.DEST_PORT, "Rule"]
 
-        # Create rows for the filtered packets
         packet_rows = []
         for packet in filtered_packets:
-            rule_style = ''
             matched_rule_id = packet.get("matched_rule_id", None)  # Safely fetch `matched_rule_id`
 
             if matched_rule_id:
                 if matched_rule_id > 0:
                     packet["rule"] = rule_set.get_rule_by_id(matched_rule_id)
-                    rule_style = 'color: red;'
 
-            # Create the row data
             packet_row = [
-                put_button("+", onclick=lambda x=packet["_id"]: put_packet_search(x), link_style=True),
+                put_button("+", onclick=lambda x=packet[FIELDS.ID]: put_packet_search(x), link_style=True),
                 put_text(packet.get(FIELDS.DIRECTION, "")),
                 put_text(packet.get(FIELDS.SRC_IP, "")),
                 put_text(packet.get(FIELDS.DEST_IP, "")),
                 put_text(packet.get(FIELDS.PROTOCOL, "")),
-                put_text(packet.get("src_port", "")),
-                put_text(packet.get("dest_port", "")),
+                put_text(packet.get(FIELDS.SRC_PORT, "")),
+                put_text(packet.get(FIELDS.DEST_PORT, "")),
             ]
 
             if matched_rule_id and matched_rule_id > 0:
@@ -276,11 +268,10 @@ def update_packets_list_with_filter(filtered_packets):
                                color="danger").style('background-color: red; color: white; border: none; padding: 5px;')
                 )
             else:
-                packet_row.append(put_text(""))  # Placeholder if no matched_rule_id
+                packet_row.append(put_text(""))
 
             packet_rows.append(packet_row)
 
-        # Display the table with headers
         put_table(
             tdata=packet_rows,
             header=headers
@@ -290,34 +281,16 @@ def update_packets_list_with_filter(filtered_packets):
 
 @use_scope("latest")
 def put_latest_packets(rule_set):
-    global current_page  # Ensure the current page is tracked
+    global current_page
     update_packets_list(rule_set, current_page)
 
 
-def show_add_alert_form(rule_set, rule_id=None):
-    """Display the form for adding a new alert."""
-    clear("alerts_table")
-    clear("add_alert_button")
-
-    put_markdown("### Add New Alert")
-
-    # Form fields for the alert
-    pin.put_input("alert_name", label="Alert Name")
-    pin.put_textarea("description", label="Description")
-    if rule_id:
-        pin.put_input("rule_id", label="Rule ID", value=str(rule_id), readonly=True)
-    else:
-        pin.put_input("rule_id", label="Rule ID")
-
-
-def show_packets_for_rule(rule, rule_set):
-    """Redirect to the packets page and apply a filter based on the selected rule."""
+def show_packets_for_rule(rule_id, rule_set):
+    """Redirect to the packets page and apply a filter based on the selected rule ID."""
     field = FIELDS.MATCHED_RULE
-    value = rule.get(FIELDS.RULE_ID)
+    value = rule_id
 
-    # Update the blocks to display packets with the applied filter
     with use_scope("dashboard", clear=True):
-        # Directly call the `put_blocks` function and pass the rule filter
         put_blocks_with_filter(field, value, rule_set)
 
 
@@ -331,28 +304,28 @@ def put_blocks_with_filter(field, value, rule_set):
     with use_scope("search"):
         # Dropdown for choosing the search field
         pin.put_select(name='search_field', label='Select Field to Search', options=[
-            (LABELS.DIRECTION, FIELDS.DIRECTION),
-            (LABELS.SRC_IP, FIELDS.SRC_IP),
-            (LABELS.DEST_IP, FIELDS.DEST_IP),
-            (LABELS.PROTOCOL, FIELDS.PROTOCOL),
-            (LABELS.SRC_PORT, FIELDS.SRC_PORT),
-            (LABELS.DEST_PORT, FIELDS.DEST_PORT),
-            ('Rule', FIELDS.MATCHED_RULE),
+            ('Direction', 'direction'),
+            ('Source IP', 'src_ip'),
+            ('Destination IP', 'dest_ip'),
+            ('Protocol', 'protocol'),
+            ('Source Port', 'src_port'),
+            ('Destination Port', 'dest_port'),
+            ('Rule', 'matched_rule_id'),
         ], value=field)  # Set the dropdown to match the rule field
 
         pin.put_input(name='search_value', placeholder="Enter value for the selected field", value=value)
 
         put_button("Search", onclick=lambda: put_packet_search_results(field, value, rule_set), color="primary")
 
+    # Directly display the filtered packets
     put_packet_search_results(field, value, rule_set)
 
 
 def show_add_rule_form(rule_set):
     """Show the form and hide the Add New Rule button."""
     clear("rules_table")
-    clear("add_button")  # Clear the add button scope to hide the button
-    add_rule(rule_set)  # Display the form for adding a new rule
-
+    clear("add_button")
+    add_rule(rule_set)
 
 @use_scope("latest")
 def get_rules(rule_set):
@@ -363,40 +336,35 @@ def get_rules(rule_set):
 @use_scope("latest")
 def add_rule(rule_set):
     """Show form to add a new rule and insert it into MongoDB directly under the Add New Rule button."""
-    put_html(Ui.DARK_MODE_CSS)  # Apply the dark mode CSS globally
+    put_html(Ui.DARK_MODE_CSS)
 
-    # State to track if the advanced options should be shown
     advanced_visible = False
 
     def toggle_advanced():
         nonlocal advanced_visible
         advanced_visible = not advanced_visible
-        show_advanced_fields(advanced_visible)  # Show/hide advanced fields based on toggle
+        show_advanced_fields(advanced_visible)
 
-    # Display the input fields for adding a new rule directly below the Add New Rule button
     with use_scope("add_rule_form", clear=True):  # Clear the scope to avoid form duplication
         put_markdown("### Add New Rule")
 
-        pin.put_input(FIELDS.SRC_IP, label=LABELS.SRC_IP)
-        pin.put_input(FIELDS.DEST_IP, label=LABELS.DEST_IP)
+        # Separate inputs without input_group
+        pin.put_input(FIELDS.SRC_IP, label="Source IP")
+        pin.put_input(FIELDS.DEST_IP, label="Destination IP")
         pin.put_input(FIELDS.PROTOCOL, label="Protocol (e.g., TCP, UDP)")
 
         pin.put_select(FIELDS.ACTION, label="Action", options=[
             {'label': 'Allow', 'value': 'allow'},
             {'label': 'Deny', 'value': 'deny'}
         ])
-        pin.put_select(FIELDS.ACTION, label="Alert", options=[
-            {'label': 'OFF', 'value': 'off'},
-            {'label': 'On', 'value': 'on'}
+        pin.put_select(FIELDS.ALERT, label="Alert", options=[
+            {'label': 'On', 'value': 'on'},
+            {'label': 'Off', 'value': 'off'}
         ])
 
-        # Button to toggle advanced options
         put_button("Advanced", onclick=toggle_advanced, outline=True, color="info")
 
-        # Placeholder for advanced fields, added above the Submit and Cancel buttons
         put_scope("advanced_fields")
-
-        # Display the buttons below the input fields
         put_buttons(
             buttons=[
                 {'label': 'Submit', 'value': 'submit', 'color': 'success'},
@@ -433,12 +401,10 @@ def handle_rule_form_action(action, rule_set):
                  protocol=new_rule[FIELDS.PROTOCOL], action=new_rule[FIELDS.ACTION], ttl=new_rule[FIELDS.TTL],
                  checksum=new_rule[FIELDS.CHECKSUM], tcp_flags=new_rule[FIELDS.TCP_FLAGS], alert=new_rule["alert"])
 
-        # Refresh the rules display after adding the new rule
         manage_rules(rule_set)
     elif action == 'cancel':
-        # If the cancel button is clicked, clear the form and go back to manage_rules
         clear("add_rule_form")
-        manage_rules(rule_set)  # Refresh the rules view after cancellation
+        manage_rules(rule_set)
 
 
 @use_scope("latest")
@@ -451,9 +417,8 @@ def edit_rule(rule, rule_set):
         input("Action", name=FIELDS.ACTION, value=rule[FIELDS.ACTION])
     ])
 
-    rule_set.edit_rule(rule[FIELDS.RULE_ID], **updated_rule)  # Update in the database
+    rule_set.edit_rule(rule[FIELDS.RULE_ID], **updated_rule)
 
-    # Return to manage_rules to see the updated list with fresh data
     manage_rules(rule_set)
 
 
@@ -461,8 +426,6 @@ def edit_rule(rule, rule_set):
 def delete_rule(rule_id, rule_set):
     """Delete a rule from MongoDB."""
     rule_set.delete_rule(rule_id)
-    # db[Collections.RULES].delete_one({"_id": rule_id})
-
     manage_rules(rule_set)
 
 
@@ -494,7 +457,6 @@ def toggle_button(rule_id, is_on, rule_set):
     label = "ON" if is_on else "OFF"
     color = "success" if is_on else "warning"
 
-    # Use put_button to toggle the alert status
     return put_button(label, color=color, onclick=lambda: toggle_alert(rule_id, rule_set))
 
 
@@ -511,20 +473,17 @@ def toggle_alert(rule_id, rule_set):
 
 @use_scope("dashboard", clear=True)
 def manage_rules(rule_set):
-    put_html(Ui.TOGGLE_CSS)
     put_markdown("## Manage Rules")
 
     rules = get_rules(rule_set)
 
-    if rules:
-        headers = ["Get Packets", LABELS.RULE_ID, LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL,
-                   "Tcp Flags", LABELS.TTL, "Checksum", "Action", "Alert", ""]
-
-        rows = [
-            [
-                put_button("Get Packets", onclick=lambda r=rule: show_packets_for_rule(r, rule_set), small=True),
-                rule[FIELDS.RULE_ID],
-                rule[FIELDS.SRC_IP],
+    with use_scope("rules_table", clear=True):
+        if rules:
+            put_table(
+                tdata=[
+                    [
+                        put_button("Get Packets", onclick=partial(show_packets_for_rule, rule[FIELDS.RULE_ID], rule_set), small=True),
+                        rule[FIELDS.SRC_IP],
                 rule[FIELDS.DEST_IP],
                 rule[FIELDS.PROTOCOL],
                 rule[FIELDS.TCP_FLAGS],
@@ -538,10 +497,13 @@ def manage_rules(rule_set):
                 ], size="auto auto")
             ]
             for rule in rules
-        ]
+        ],
+        header=["Get Packets", LABELS.RULE_ID, LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, "Tcp Flags",
+                  LABELS.TTL, "Checksum", "Action", "Alert", ""]
+        )
 
-        # Display table with dynamic rows
-        put_table(rows, header=headers)
+        with use_scope("add_button", clear=True):
+            put_button("Add New Rule", onclick=lambda: show_add_rule_form(rule_set), color="primary", outline=True)
 
 
 def toggle_cell(rule_id, is_on, rule_set):
@@ -555,7 +517,7 @@ def toggle_cell(rule_id, is_on, rule_set):
 
 @use_scope("left_navbar")
 def put_navbar(rule_set):
-    put_html(Ui.DARK_MODE_CSS)  # Apply the dark mode CSS
+    put_html(Ui.DARK_MODE_CSS)
     put_grid(
         [
             [
@@ -574,7 +536,7 @@ def put_navbar(rule_set):
 @config(theme="dark")
 def main(rule_set):
     start_dash_thread()
-    session.set_env(title="NetGuard", output_max_width="100%",)  # Apply the theme dynamically
+    session.set_env(title="NetGuard", output_max_width="100%",)
     put_html(Ui.DARK_MODE_CSS)
 
     put_row(
