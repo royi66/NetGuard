@@ -1,0 +1,1192 @@
+2024-10-26 15:07:22,573 - MainThread - INFO - Max rule found: {'_id': ObjectId('671cd527e7a6a38f519251b1'), 'rule_id': 2, 'src_ip': None, 'dest_ip': '10.0.0.255', 'src_port': None, 'dest_port': None, 'protocol': None, 'action': 'block', 'ttl': None, 'checksum': None, 'tcp_flags': None, 'alert': True, 'insertion_time': datetime.datetime(2024, 10, 26, 14, 40, 23, 111000)}
+2024-10-26 15:07:22,574 - MainThread - INFO - Deleted 2 documents from the collection.
+2024-10-26 15:07:22,574 - MainThread - INFO - Document inserted successfully
+2024-10-26 15:07:22,575 - MainThread - INFO - Document inserted successfully
+2024-10-26 15:07:22,613 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:22,614 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:22,614 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:22,614 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,181 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,182 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,182 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,184 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,189 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,189 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,189 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,190 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,195 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,195 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,195 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,196 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,200 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,200 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,201 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,201 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,206 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,206 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,207 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,207 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,212 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,212 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,212 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,213 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,217 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,217 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,218 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,218 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,224 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,224 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,224 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,224 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,229 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,229 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,230 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,230 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,234 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,234 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,235 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,236 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,241 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,241 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,241 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,241 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,253 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,253 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,253 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,253 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,401 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,401 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,402 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,402 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,407 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,407 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,407 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,408 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,412 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,413 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,413 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,413 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,417 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,417 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,418 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,418 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,423 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,423 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,423 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,424 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,446 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,446 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,446 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,447 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,452 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,452 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,452 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,453 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,457 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,457 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,457 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,458 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,462 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,462 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,462 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,463 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,467 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,467 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,467 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,468 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,471 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,471 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:24,471 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:24,471 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:25,822 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:25,822 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:25,879 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:25,879 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:28,373 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:28,373 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:28,374 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:28,374 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:28,434 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:28,434 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:28,435 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:28,435 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:28,619 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:28,619 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:28,620 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:28,620 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:28,985 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:28,985 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:28,986 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:28,986 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:29,092 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:29,092 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:29,092 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:29,093 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:29,106 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:29,106 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:29,108 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:29,108 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:31,949 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:31,949 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:32,013 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:32,013 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:32,368 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:32,368 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:32,369 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:32,369 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:33,701 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:33,701 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:33,702 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:33,702 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:33,713 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:33,713 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:33,713 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:33,713 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:33,832 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:33,832 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:33,879 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:33,879 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:33,880 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:33,881 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:33,885 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:33,885 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:33,953 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:33,954 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:34,019 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:34,019 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:34,019 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:34,019 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:34,022 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:34,023 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:34,518 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:34,518 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:34,518 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:34,519 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:34,610 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:34,610 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:34,610 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:34,611 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:36,466 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:36,467 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:36,467 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:36,467 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:37,836 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:37,836 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:37,937 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:37,937 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:40,561 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:40,561 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:40,562 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:40,564 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:40,570 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:40,571 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:40,571 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:40,571 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:40,610 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:40,610 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:40,611 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:40,611 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,377 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,378 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,378 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,379 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,386 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,387 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,387 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,387 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,394 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,394 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,394 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,395 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,419 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,419 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,420 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,420 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,427 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,427 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,427 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,428 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,433 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,434 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,434 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,435 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,440 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,440 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,440 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,441 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,446 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,446 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:41,446 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:41,446 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:43,840 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:43,841 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:43,841 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:43,842 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:43,961 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:43,962 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:44,030 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:44,032 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:44,033 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:44,033 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:44,037 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:44,037 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:44,038 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:44,038 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:44,041 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:44,041 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:44,548 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:44,549 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:44,549 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:44,549 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:44,961 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:44,961 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:44,962 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:44,962 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:46,602 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:46,602 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:46,603 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:46,603 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:46,610 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:46,610 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:46,611 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:46,611 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:48,646 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:48,646 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:48,646 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:48,647 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:49,779 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:49,779 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:49,854 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:49,854 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:52,643 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:52,644 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:52,645 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:52,648 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:52,654 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:52,654 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:52,656 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:52,656 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:52,665 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:52,665 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:52,665 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:52,666 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:52,743 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:52,744 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:52,744 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:52,747 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:52,754 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:52,755 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:52,755 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:52,758 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:52,764 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:52,764 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:52,764 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:52,765 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:52,772 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:52,772 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:52,772 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:52,772 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:53,057 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:53,058 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:53,058 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:53,059 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,183 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,183 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,183 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,185 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,193 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,193 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,193 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,193 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,202 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,203 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,203 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,205 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,214 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,215 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,215 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,217 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,224 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,224 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,224 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,226 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,232 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,232 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,233 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,234 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,238 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,238 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,238 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,239 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,243 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,243 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,243 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,244 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,250 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,250 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,250 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,251 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,255 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,255 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,256 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,257 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,261 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,261 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,262 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,262 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,486 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,486 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,487 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,488 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,496 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,497 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,498 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,498 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,506 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,506 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,507 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,508 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,517 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,518 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,519 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,520 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,526 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,527 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,527 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,527 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,532 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,533 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,533 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,534 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,538 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,539 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,539 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,539 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,545 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,545 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,545 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,545 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,552 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,552 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,553 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,553 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,558 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,558 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,558 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,559 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,563 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,563 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:54,563 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:54,563 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:55,946 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:55,946 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:56,041 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:56,041 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:56,734 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:56,734 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:56,734 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:56,734 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:58,683 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:58,683 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:58,684 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:58,686 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:58,692 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:58,692 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:58,692 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:58,693 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:58,897 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:58,897 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:58,897 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:58,898 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:58,902 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:58,902 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:07:58,902 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:07:58,902 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:00,834 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:00,834 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:00,835 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:00,835 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,344 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,344 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,344 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,344 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,348 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,348 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,348 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,349 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,351 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,352 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,352 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,352 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,356 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,356 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,356 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,356 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,388 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,389 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,389 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,389 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,393 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,393 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,393 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,394 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,397 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,397 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,398 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,398 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,401 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,401 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:01,401 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:01,401 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:05,442 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:05,442 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:05,443 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:05,444 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:05,482 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:05,482 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:05,483 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:05,484 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:05,490 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:05,491 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:05,491 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:05,491 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:07,900 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:07,901 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:07,973 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:07,973 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:08,924 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:08,924 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:08,925 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:08,925 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:09,953 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:09,954 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:09,954 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:09,956 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:09,962 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:09,962 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:09,962 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:09,962 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:10,664 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:10,664 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:10,665 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:10,666 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:10,688 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:10,688 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:10,688 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:10,688 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:12,917 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:12,917 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:12,917 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:12,918 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:13,742 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:13,742 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:13,810 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:13,811 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:13,947 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:13,947 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:13,947 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:13,948 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:13,952 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:13,952 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:13,952 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:13,952 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:16,705 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:16,705 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:16,706 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:16,707 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:16,713 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:16,713 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:16,714 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:16,714 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:17,011 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:17,011 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:17,012 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:17,012 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:17,018 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:17,018 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:17,019 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:17,020 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:17,026 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:17,026 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:17,027 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:17,027 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:18,042 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:18,042 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:18,123 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:18,123 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:18,123 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:18,124 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:18,127 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:18,127 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:18,127 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:18,128 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:18,131 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:18,131 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:18,200 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:18,200 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:18,260 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:18,261 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:18,261 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:18,261 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:18,265 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:18,265 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:19,882 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:19,882 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:19,948 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:19,949 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,002 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,002 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,002 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,003 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,313 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,313 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,313 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,314 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,322 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,323 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,323 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,323 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,330 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,330 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,330 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,330 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,337 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,337 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,337 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,337 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,401 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,401 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,402 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,403 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,408 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,408 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,409 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,409 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,415 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,415 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,416 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,417 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,421 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,421 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:21,421 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:21,422 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:22,645 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:22,645 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:22,645 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:22,646 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:22,749 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:22,749 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:22,750 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:22,750 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,182 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,182 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,183 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,184 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,189 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,190 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,190 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,191 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,195 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,195 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,195 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,196 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,201 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,201 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,201 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,201 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,210 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,210 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,210 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,211 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,216 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,216 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,216 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,217 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,222 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,222 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,222 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,223 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,227 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,227 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,227 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,228 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,232 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,232 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,233 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,233 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,243 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,243 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,243 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,244 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,248 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,248 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,248 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,248 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,487 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,488 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,488 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,488 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,509 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,510 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,513 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,513 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,516 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,516 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,521 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,522 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,525 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,525 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,530 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,530 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,531 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,532 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,536 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,536 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,536 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,537 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,542 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,542 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,543 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,543 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,547 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,548 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,548 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,548 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,551 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,552 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,552 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,552 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,556 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,556 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,557 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,557 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,561 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,561 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,561 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,562 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:24,565 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:24,565 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:25,099 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:25,099 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:25,100 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:25,100 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:26,024 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:26,024 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:26,091 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:26,092 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:26,225 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:26,225 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:26,225 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:26,225 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:26,231 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:26,232 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:26,232 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:26,232 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:26,240 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:26,240 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:26,240 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:26,241 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:26,245 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:26,245 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:26,245 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:26,246 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:26,329 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:26,330 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:26,449 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:26,450 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:26,533 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:26,533 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:26,533 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:26,533 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:28,681 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:28,681 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:28,682 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:28,682 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:28,796 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:28,796 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:28,796 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:28,797 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:28,998 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:28,998 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:28,998 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:28,998 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:29,003 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:29,003 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:29,003 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:29,004 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:29,109 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:29,110 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:29,110 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:29,110 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:31,853 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:31,853 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:31,928 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:31,928 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:33,192 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:33,192 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:33,192 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:33,192 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:34,728 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:34,728 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:34,729 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:34,729 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:34,829 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:34,829 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:34,830 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:34,830 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,471 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,471 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,472 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,472 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,479 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,479 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,479 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,480 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,485 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,485 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,485 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,485 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,491 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,491 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,491 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,492 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,498 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,498 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,498 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,499 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,503 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,504 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,504 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,504 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,509 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,509 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,509 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,509 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,514 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,514 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,514 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,515 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,519 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,519 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,520 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,520 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,524 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,524 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,524 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,524 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,529 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,529 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,529 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,529 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,533 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,533 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,533 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,533 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,554 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,554 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,555 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,555 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,561 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,561 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,561 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,561 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,565 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,565 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,565 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,565 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,570 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,570 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,571 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,571 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,574 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,574 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,575 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,575 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,581 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,581 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,581 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,582 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,585 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,585 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,585 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,586 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,589 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,589 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:36,589 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:36,589 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:37,287 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:37,287 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:37,288 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:37,288 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:38,011 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:38,011 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:38,097 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:38,098 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:40,664 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:40,664 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:40,665 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:40,665 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:40,867 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:40,867 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:40,868 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:40,868 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,383 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,383 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,383 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,383 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,389 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,390 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,390 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,391 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,395 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,395 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,396 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,396 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,401 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,401 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,402 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,402 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,407 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,407 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,407 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,407 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,412 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,412 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,412 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,413 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,417 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,417 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,417 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,417 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,422 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,422 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,422 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,423 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,427 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,427 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:41,427 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:41,428 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:43,433 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:43,433 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:43,434 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:43,434 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:43,488 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:43,489 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:43,489 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:43,489 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:43,844 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:43,844 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:43,913 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:43,916 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:44,052 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:44,052 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:44,052 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:44,052 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:44,058 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:44,059 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:44,059 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:44,060 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:44,063 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:44,063 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:44,064 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:44,064 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:44,354 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:44,354 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:44,354 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:44,355 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:45,344 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:45,344 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:45,345 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:45,345 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,302 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,302 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,303 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,303 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,310 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,310 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,310 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,311 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,499 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,500 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,502 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,503 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,507 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,507 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,507 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,508 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,513 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,514 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,514 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,514 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,519 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,519 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,519 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,520 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,525 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,525 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,525 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,526 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,531 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,531 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,531 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,531 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,578 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,578 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,579 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,579 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,622 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,622 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:46,622 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:46,622 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:47,019 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:47,020 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:47,020 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:47,021 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:47,422 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:47,422 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:47,422 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:47,424 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:47,431 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:47,431 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:47,431 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:47,432 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:49,474 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:49,474 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:49,475 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:49,475 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:49,984 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:49,984 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:50,062 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:50,063 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:50,500 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:50,500 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:50,500 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:50,500 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:52,649 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:52,649 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:52,650 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:52,650 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:53,059 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:53,059 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:53,059 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:53,060 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:53,465 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:53,465 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:53,465 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:53,465 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,285 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,285 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,286 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,287 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,293 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,294 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,294 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,294 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,300 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,300 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,301 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,302 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,307 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,307 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,307 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,307 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,312 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,312 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,313 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,314 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,318 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,318 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,319 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,319 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,325 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,325 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,325 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,326 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,331 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,331 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,331 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,332 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,336 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,336 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,337 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,337 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,341 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,341 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,342 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,342 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,346 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,347 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,347 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,347 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,425 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,425 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,425 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,425 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,430 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,430 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,431 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,431 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,436 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,436 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,436 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,436 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,441 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,441 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,441 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,442 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,464 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,464 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,465 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,465 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,469 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,469 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,469 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,470 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,474 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,474 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,474 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,475 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,479 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,479 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,479 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,480 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,483 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,483 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,483 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,483 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,486 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,487 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,487 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,487 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,491 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,492 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:54,492 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:54,492 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:55,619 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:55,619 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:55,619 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:55,619 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:55,693 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:55,693 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:55,694 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:55,694 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:55,802 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:55,802 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:55,883 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:55,884 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:56,336 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:56,337 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:56,337 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:56,337 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:56,949 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:56,949 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:56,950 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:56,950 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:57,560 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:57,561 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:57,561 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:57,561 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:57,865 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:57,865 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:57,865 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:57,865 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:58,689 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:58,690 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:58,690 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:58,690 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:58,785 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:58,785 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:58,786 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:58,786 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:58,993 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:58,993 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:58,994 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:58,994 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:59,104 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:59,105 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:59,105 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:59,105 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:59,111 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:59,111 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:59,111 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:59,111 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:59,404 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:59,405 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:08:59,405 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:08:59,405 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:00,021 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:00,021 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:00,022 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:00,022 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:00,942 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:00,943 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:00,944 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:00,944 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,351 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,351 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,351 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,352 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,363 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,363 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,363 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,364 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,370 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,370 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,370 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,371 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,376 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,377 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,377 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,378 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,382 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,382 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,382 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,382 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,388 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,388 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,388 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,389 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,397 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,397 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,397 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,398 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,402 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,403 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,403 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,403 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,553 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,553 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,553 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,553 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:01,964 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:01,964 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:02,042 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:02,043 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:02,043 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:02,043 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:02,046 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:02,047 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:02,785 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:02,785 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:02,786 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:02,786 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:04,013 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:04,013 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:04,014 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:04,014 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:04,733 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:04,733 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:04,734 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:04,734 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:05,040 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:05,040 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:05,040 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:05,040 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:05,652 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:05,652 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:05,653 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:05,653 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:07,752 - Thread-1 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:07,752 - Thread-1 (capture_packet) - INFO - MongoDB connection closed successfully.
+2024-10-26 15:09:07,832 - Thread-2 (capture_packet) - INFO - Document inserted successfully
+2024-10-26 15:09:07,832 - Thread-2 (capture_packet) - INFO - MongoDB connection closed successfully.
