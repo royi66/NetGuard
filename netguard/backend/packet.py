@@ -1,4 +1,5 @@
 from scapy.all import IP, TCP, UDP, ICMP, Raw
+from backend.logging_config import logger
 from typing import Optional
 
 PROTOCOL_MAP = {
