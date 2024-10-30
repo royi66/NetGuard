@@ -24,7 +24,7 @@ def manage_sniffed_packet(packet, direction, rule_set):
         new_packet = Packet(packet, direction)
         matched_rule_id = rule_set.check_packet(packet)
         if matched_rule_id >= 0:
-            print(f"Matched rule: {matched_rule_id}")
+            logger.info(f"Matched rule: {matched_rule_id}")
             new_packet.matched_rule_id = matched_rule_id
         save_packet(new_packet, DBNames.NET_GUARD_DB, Collections.PACKETS)
     except Exception as e:

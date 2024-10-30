@@ -6,6 +6,7 @@ class DBNames:
 class Collections:
     PACKETS = 'all_packets'
     RULES = 'rules'
+    ANOMALIES = 'anomalies'
 
 
 class TYPES:
@@ -34,7 +35,9 @@ class FIELDS:
     INSERTION_TIME = 'insertion_time'
     RULE_ID = 'rule_id'
     ALERT = 'alert'
-
+    ANOMALY_NAME = 'anomaly_name'
+    ANOMALY_TIME = 'anomaly_time'
+    ANOMALY_RESULT = 'anomaly_result'
 
 class LABELS:
     SRC_IP = "Source IP"
