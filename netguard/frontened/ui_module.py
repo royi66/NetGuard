@@ -2,14 +2,14 @@ from pywebio import *
 from pywebio.output import *
 from pywebio.input import *
 import os
-from netguard.backend.handle_db import MongoDbClient
-from netguard.consts import DBNames, Collections, Ui, Paths, FIELDS, LABELS
+from backend.handle_db import MongoDbClient
+from consts import DBNames, Collections, Ui, Paths, FIELDS, LABELS
 from datetime import timedelta, datetime
-from netguard.backend.rule_management import RuleSet
+from backend.rule_management import RuleSet
 import matplotlib
 from dash import Dash
 from threading import Thread
-from dashboard import run_dash_app
+from frontened.dashboard import run_dash_app
 from functools import partial
 
 matplotlib.use('Agg')
