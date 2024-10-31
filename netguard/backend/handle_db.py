@@ -44,7 +44,7 @@ class MongoDbClient:
             collection = db[collection_name]
             result = collection.delete_one(query)
             if result.deleted_count > 0:
-               logger.info("Document deleted successfully.")
+                logger.info("Document deleted successfully.")
             else:
                 logger.warning("No document matched the query.")
         except Exception as e:
@@ -121,3 +121,26 @@ class MongoDbClient:
         except Exception as e:
             logger.error(f"Error closing MongoDB connection: {e}")
             raise e  # Raise the exception after logging the error
+
+    def anomaly_query(self, db_name: str, collection_name: str, pipeline: list):
+        """
+        Executes a custom aggregation pipeline to detect anomalies in MongoDB.
+
+        :param db_name: The name of the database.
+        :param collection_name: The name of the collection to query.
+        :param pipeline: The aggregation pipeline for the anomaly detection query.
+        :return: List of documents that meet the anomaly condition.
+        """
+        try:
+            db = self.client[db_name]
+            collection = db[collection_name]
+            results = list(collection.aggregate(pipeline))
+            if results:
+                logger.info(f"Anomalies detected: {results}")
+            else:
+                logger.info("No anomalies detected.")
+
+            return results  # Returns list of documents that match the anomaly condition
+        except Exception as e:
+            logger.error(f"Error running anomaly query: {e}")
+            raise e
