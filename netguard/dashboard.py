@@ -1,7 +1,7 @@
 from dash import Dash, dcc, html, Input, Output
 import plotly.graph_objs as go
-from backend.handle_db import MongoDbClient
-from consts import DBNames, Collections
+from netguard.backend.handle_db import MongoDbClient
+from netguard.consts import DBNames, Collections
 from datetime import datetime, timedelta
 
 # Connect to MongoDB
@@ -9,6 +9,7 @@ mongo_client = MongoDbClient()
 db = mongo_client.client[DBNames.NET_GUARD_DB]
 
 app = Dash(__name__)
+
 
 def get_packet_distribution_by_direction(days_back):
     packets_collection = db[Collections.PACKETS]
