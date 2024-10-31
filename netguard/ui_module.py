@@ -9,7 +9,7 @@ from backend.rule_management import RuleSet
 import matplotlib
 from dash import Dash
 from threading import Thread
-from frontened.dashboard import run_dash_app
+from netguard.dashboard import run_dash_app
 from functools import partial
 
 matplotlib.use('Agg')

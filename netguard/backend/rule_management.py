@@ -2,11 +2,11 @@ import os
 import typing
 import platform
 
-from backend.logging_config import logger
+from netguard.backend.logging_config import logger
 from scapy.all import IP
-from utils import singleton
-from backend.handle_db import MongoDbClient
-from consts import DBNames, Collections, FIELDS, ERROR_CODE
+from netguard.utils import singleton
+from netguard.backend.handle_db import MongoDbClient
+from netguard.consts import DBNames, Collections, FIELDS, ERROR_CODE
 import threading
 
 

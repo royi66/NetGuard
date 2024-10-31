@@ -40,7 +40,8 @@ Install Mongo DB GUI for local run - ``` https://www.mongodb.com/try/download/co
 
 ## Run Program
 1. go to the main directory of the project - NetG/uard
-2. run ```sudo python netguard/main.py```
+2. ```export PYTHONPATH="${PYTHONPATH}:/path/to/NetGuard"```
+2. ```sudo python netguard/main.py```
 
 
 
