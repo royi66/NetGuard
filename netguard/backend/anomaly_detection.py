@@ -61,5 +61,24 @@ class AnomalyDetector:
     def save_anomaly_result(self, anomaly_name, anomaly_result):
         logger.info(f"Anomaly detected: {anomaly_result}")
         anomaly_dict = {FIELDS.ANOMALY_NAME: anomaly_name, FIELDS.ANOMALY_TIME: datetime.now(),
-                        FIELDS.ANOMALY_RESULT: anomaly_result}
+                        FIELDS.ANOMALY_RESULT: anomaly_result, FIELDS.ANOMALY_APPROVED: False}
         self.db_client.insert_to_db(self.db_name, self.collection_name, anomaly_dict)
+
+    def get_anomalies(self):
+        try:
+            anomalies = self.db_client.get_all_documents(self.db_name, self.collection_name)
+            logger.info(f"Retrieved {len(anomalies)} anomalies from the database.")
+            return anomalies
+        except Exception as e:
+            logger.error(f"Error retrieving anomalies: {e}")
+            return []
+
+    def approve_anomaly(self, anomaly_id):
+        """Mark an anomaly as approved in the database."""
+        try:
+            self.db_client.update_in_db(self.db_name, self.collection_name,
+                                        {FIELDS.ID: anomaly_id}, {FIELDS.ANOMALY_APPROVED: True})
+            logger.info(f"Anomaly with ID {anomaly_id} approved.")
+        except Exception as e:
+            logger.warning(f"Anomaly with ID {anomaly_id} not found or already approved.")
+
