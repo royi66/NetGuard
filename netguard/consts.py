@@ -38,6 +38,8 @@ class FIELDS:
     ANOMALY_NAME = 'anomaly_name'
     ANOMALY_TIME = 'anomaly_time'
     ANOMALY_RESULT = 'anomaly_result'
+    ANOMALY_APPROVED = 'anomaly_approved'
+
 
 class LABELS:
     SRC_IP = "Source IP"

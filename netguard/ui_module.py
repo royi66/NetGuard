@@ -9,8 +9,10 @@ from backend.rule_management import RuleSet
 import matplotlib
 from dash import Dash
 from threading import Thread
-from netguard.dashboard import run_dash_app
+from dashboard import run_dash_app
 from functools import partial
+from backend.anomaly_detection import AnomalyDetector
+
 
 matplotlib.use('Agg')
 app = Dash(__name__)
@@ -198,7 +200,6 @@ def put_blocks(rule_set):
 
         # Fetch field and value when the button is clicked
         put_button("Search", onclick=lambda: put_packet_search_results(pin.pin["search_field"], pin.pin["search_value"], rule_set), color="primary")
-
 
     put_latest_packets(rule_set)
 
@@ -465,7 +466,7 @@ def toggle_alert(rule_id, rule_set):
     rule = rule_set.get_rule_by_id(rule_id)
 
     if rule:
-        new_alert_status = "on" if rule[FIELDS.ALERT] == "off" else "off"
+        new_alert_status = not rule[FIELDS.ALERT]
         rule_set.edit_rule(rule_id, **{FIELDS.ALERT: new_alert_status})
         manage_rules(rule_set)
 
@@ -487,16 +488,16 @@ def manage_rules(rule_set):
                         rule[FIELDS.TTL],
                         rule[FIELDS.CHECKSUM],
                         rule[FIELDS.ACTION],
-                        toggle_cell(rule[FIELDS.RULE_ID], rule[FIELDS.ALERT] == "on", rule_set),
                         put_row([
                             put_button("Edit", onclick=lambda r=rule: edit_rule(r, rule_set), small=True),
                             put_button("Delete", onclick=lambda r=rule: delete_rule(r[FIELDS.RULE_ID], rule_set), small=True)
-                        ], size="auto auto")
+                        ], size="auto auto"),
+                        toggle_cell(rule[FIELDS.RULE_ID], rule[FIELDS.ALERT], rule_set)
                     ]
                     for rule in rules
                 ],
                 header=["Get Packets", LABELS.RULE_ID, LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, "Tcp Flags",
-                        LABELS.TTL, "Checksum", "Action", "Alert", ""]
+                        LABELS.TTL, "Checksum", "Action", "Alert"]
                 )
 
         with use_scope("add_button", clear=True):
@@ -504,7 +505,7 @@ def manage_rules(rule_set):
 
 
 def toggle_cell(rule_id, is_on, rule_set):
-    """Generate a toggle button cell that updates only when toggled."""
+    """Generate a toggle button cell based on the alert status (True = ON, False = OFF)."""
     label = "ON" if is_on else "OFF"
     color = "success" if is_on else "warning"
 
@@ -513,7 +514,7 @@ def toggle_cell(rule_id, is_on, rule_set):
 
 
 @use_scope("left_navbar")
-def put_navbar(rule_set):
+def put_navbar(rule_set, anomaly_detector):
     put_html(Ui.DARK_MODE_CSS)
     put_grid(
         [
@@ -524,14 +525,56 @@ def put_navbar(rule_set):
                 put_markdown("#### Packets", 'sidebar-item').onclick(lambda: put_blocks(rule_set)),
                 put_markdown("#### Manage Rules", 'sidebar-item').onclick(lambda: manage_rules(rule_set)),
                 put_markdown("#### Dashboard", 'sidebar-item').onclick(lambda: put_dashboard()),
+                put_markdown("#### Anomalies", 'sidebar-item').onclick(lambda: show_anomalies(anomaly_detector))
             ]
         ],
         direction="column",
     )
 
 
+@use_scope("dashboard", clear=True)
+def show_anomalies(anomaly_detector):
+    """Display the anomalies tab content with the anomalies table and approve option."""
+    put_markdown("## Anomalies")
+    anomalies = anomaly_detector.get_anomalies()
+
+    if anomalies:
+        table_data = []
+        for anomaly in anomalies:
+            for result in anomaly[FIELDS.ANOMALY_RESULT]:
+                is_approved = anomaly.get(FIELDS.ANOMALY_APPROVED, False)
+                approve_button = put_button(
+                    "Approve" if not is_approved else "Approved",
+                    color="success" if not is_approved else "secondary",
+                    onclick=partial(anomaly_detector.approve_anomaly, anomaly['_id']),
+                    disabled=is_approved
+                )
+
+                table_data.append([
+                    anomaly[FIELDS.ANOMALY_NAME],
+                    anomaly[FIELDS.ANOMALY_TIME].strftime('%Y-%m-%d %H:%M:%S'),
+                    result[FIELDS.ID],
+                    result.get('packetCount', result.get('distinctDestinationsCount', 'N/A')),
+                    approve_button
+                ])
+
+        put_table(
+            tdata=table_data,
+            header=["Anomaly Name", "Anomaly Time", "Detail", "Count", "Action"]
+        )
+    else:
+        put_text("No anomalies detected").style("color: gray")
+
+
+def approve_anomaly(anomaly_detector, anomaly_id):
+    """Mark an anomaly as approved in the database and refresh the anomalies display."""
+    anomaly_detector.approve_anomaly(anomaly_id)
+    toast("Anomaly approved", color="success")
+    show_anomalies(anomaly_detector)
+
+
 @config(theme="dark")
-def main(rule_set):
+def main(rule_set, anomaly_detector):
     start_dash_thread()
     session.set_env(title="NetGuard", output_max_width="100%",)
     put_html(Ui.DARK_MODE_CSS)
@@ -540,11 +583,12 @@ def main(rule_set):
         [put_scope("left_navbar"), None, put_scope("dashboard")],
         size="0.5fr 20px 4fr",
     )
-    put_navbar(rule_set)
+    put_navbar(rule_set, anomaly_detector)
     put_blocks(rule_set)
 
 
 if __name__ == "__main__":
     db_client = MongoDbClient()
     rule_set = RuleSet(db_client)
-    start_server(lambda: main(rule_set), port=8081)
+    anomaly_detector = AnomalyDetector(db_client)
+    start_server(lambda: main(rule_set, anomaly_detector), port=8081)

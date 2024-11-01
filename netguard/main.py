@@ -6,7 +6,7 @@ from backend.handle_db import MongoDbClient
 from backend.handle_network import capture_packet
 from pywebio.platform.tornado_http import start_server
 from pywebio import config
-from netguard.ui_module import main as ui_main
+from ui_module import main as ui_main
 from backend.logging_config import clear_log_file
 from backend.anomaly_detection import AnomalyDetector
 
@@ -37,7 +37,7 @@ def main():
     anomaly_thread.start()
 
     # Start the UI server on the main thread (crucial for GUI to work on macOS)
-    start_server(lambda: ui_main(rule_set), port=8088)
+    start_server(lambda: ui_main(rule_set, anomaly_detector), port=8088)
 
     # Join the packet capture threads (optional if they need to be waited for)
     incoming_thread.join()

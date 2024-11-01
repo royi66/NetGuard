@@ -144,3 +144,14 @@ class MongoDbClient:
         except Exception as e:
             logger.error(f"Error running anomaly query: {e}")
             raise e
+
+    def get_all_documents(self, db_name, collection_name):
+        """Retrieve all documents from a specified collection in the database."""
+        try:
+            db = self.client[db_name]
+            collection = db[collection_name]
+            documents = list(collection.find())
+            return documents
+        except Exception as e:
+            logger.error(f"Error retrieving documents from {collection_name}: {e}")
+            return []
