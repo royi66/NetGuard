@@ -12,6 +12,7 @@ from threading import Thread
 from dashboard import run_dash_app
 from functools import partial
 from backend.anomaly_detection import AnomalyDetector
+from backend.logging_config import logger
 
 
 matplotlib.use('Agg')
@@ -327,6 +328,7 @@ def show_add_rule_form(rule_set):
     clear("add_button")
     add_rule(rule_set)
 
+
 @use_scope("latest")
 def get_rules(rule_set):
     """Fetch rules from MongoDB."""
@@ -336,6 +338,7 @@ def get_rules(rule_set):
 @use_scope("latest")
 def add_rule(rule_set):
     """Show form to add a new rule and insert it into MongoDB directly under the Add New Rule button."""
+    logger.info(f"UI - Enter add_rule")
     put_html(Ui.DARK_MODE_CSS)
 
     advanced_visible = False
@@ -410,6 +413,7 @@ def handle_rule_form_action(action, rule_set):
 @use_scope("latest")
 def edit_rule(rule, rule_set):
     """Edit an existing rule."""
+    logger.info(f"UI - Enter delete_rule for rule {rule[FIELDS.RULE_ID]}")
     updated_rule = input_group("Edit Rule", [
         input(LABELS.SRC_IP, name=FIELDS.SRC_IP, value=rule[FIELDS.SRC_IP]),
         input(LABELS.DEST_IP, name=FIELDS.DEST_IP, value=rule[FIELDS.DEST_IP]),
@@ -425,6 +429,7 @@ def edit_rule(rule, rule_set):
 @use_scope("latest")
 def delete_rule(rule_id, rule_set):
     """Delete a rule from MongoDB."""
+    logger.info(f"UI - Enter delete_rule for rule {rule_id}")
     rule_set.delete_rule(rule_id)
     manage_rules(rule_set)
 
@@ -437,6 +442,7 @@ def start_dash_thread():
 
 @use_scope("dashboard", clear=True)
 def put_dashboard():
+    logger.info(f"UI - Enter put_dashboard")
     put_markdown("## Dashboard")
     put_markdown("###### Network packet distribution across directions (IN vs OUT).")
     put_markdown("---")
@@ -473,6 +479,7 @@ def toggle_alert(rule_id, rule_set):
 
 @use_scope("dashboard", clear=True)
 def manage_rules(rule_set):
+    logger.info(f"UI - Enter ManageRules")
     put_markdown("## Manage Rules")
     rules = get_rules(rule_set)
     with use_scope("rules_table", clear=True):
@@ -535,8 +542,10 @@ def put_navbar(rule_set, anomaly_detector):
 @use_scope("dashboard", clear=True)
 def show_anomalies(anomaly_detector):
     """Display the anomalies tab content with the anomalies table and approve option."""
+    logger.info(f"UI - Enter show_anomalies")
     put_markdown("## Anomalies")
     anomalies = anomaly_detector.get_anomalies()
+    logger.info(f"UI - Get anomalies {anomalies}")
 
     if anomalies:
         table_data = []
