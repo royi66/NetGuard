@@ -207,6 +207,14 @@ class RuleSet:
         return all_rules
 
     def get_rule_by_id(self, rule_id):
-        rule = self.db_client.get_data_by_field(self.db_name, self.collection_name, FIELDS.RULE_ID, rule_id)
-        return rule[0]
+        try:
+            rule = self.db_client.get_data_by_field(self.db_name, self.collection_name, FIELDS.RULE_ID, rule_id)
+
+            return rule[0]
+        except IndexError:
+            logger.error(f"Rule {rule_id} not found in db")
+
+        except Exception as e:
+            logger.error(f"Error: {e} in get_rule_by_id - {rule_id}")
+
 

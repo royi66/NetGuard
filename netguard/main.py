@@ -6,7 +6,7 @@ from backend.handle_db import MongoDbClient
 from backend.handle_network import capture_packet
 from pywebio.platform.tornado_http import start_server
 from pywebio import config
-from ui_module import main as ui_main
+from ui_module import ui_main
 from backend.logging_config import clear_log_file
 from backend.anomaly_detection import AnomalyDetector
 

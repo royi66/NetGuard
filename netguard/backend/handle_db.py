@@ -3,6 +3,8 @@ from datetime import datetime
 from bson import ObjectId
 from consts import TYPES
 from backend.logging_config import logger
+from datetime import timedelta, datetime
+from consts import FIELDS
 
 
 class MongoDbClient:
@@ -78,12 +80,12 @@ class MongoDbClient:
             logger.error(f"Error clearing collection: {e}")
             raise e  # Raise the exception after logging the error
 
-    def get_data_by_field(self, db_name: str, collection_name: str, field: str, value):
+    def get_data_by_field(self, db_name: str, collection_name: str, field: str, value, return_type="list"):
         try:
             db = self.client[db_name]
             collection = db[collection_name]
 
-            if field == "_id":
+            if field == FIELDS.ID:
                 return self.find_by_id(db_name, collection_name, value)
             else:
                 if field in TYPES.INTEGER_VALUES_IN_DB:
@@ -92,7 +94,9 @@ class MongoDbClient:
                     value = value.upper()
                 query = {field: value}
                 result = collection.find(query)
-                return list(result)
+                if return_type == "list":
+                    return list(result)
+                return result
         except Exception as e:
             logger.error(f"Error fetching data by field '{field}': {e}")
             raise e
@@ -102,16 +106,15 @@ class MongoDbClient:
             db = self.client[db_name]
             packets_collection = db[collection_name]
 
-            # Find the document by ObjectId
             packet = packets_collection.find_one({"_id": ObjectId(packet_id)})
             if packet:
                 logger.info(f"Found packet with id {packet_id}")
-                return packet  # Return the found document
+                return packet
             else:
-                return None  # Return None if no document is found
+                return None
         except Exception as e:
             logger.error(f"Error while retrieving packet: {e}")
-            raise e  # Raise the exception after logging the error
+            raise e
 
     def close_connection(self):
         """Close the MongoDB connection."""
@@ -155,3 +158,16 @@ class MongoDbClient:
         except Exception as e:
             logger.error(f"Error retrieving documents from {collection_name}: {e}")
             return []
+
+    def get_data_counter_in_timedelta(self, db_name, collection_name, time_back, time_field_name):
+        try:
+            db = self.client[db_name]
+            collection = db[collection_name]
+            count = collection.count_documents(
+                {time_field_name: {"$gte": datetime.now() - timedelta(hours=time_back)}}
+            )
+            return count
+        except Exception as e:
+            logger.error(f"Error in get_data_counter_in_timedelta: {e}")
+            return None
+
