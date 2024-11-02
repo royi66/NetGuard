@@ -541,7 +541,7 @@ def put_navbar(rule_set, anomaly_detector):
 
 @use_scope("dashboard", clear=True)
 def show_anomalies(anomaly_detector):
-    """Display the anomalies tab content with the anomalies table and approve option."""
+    """Display the anomalies tab content with the anomalies table."""
     logger.info(f"UI - Enter show_anomalies")
     put_markdown("## Anomalies")
     anomalies = anomaly_detector.get_anomalies()
@@ -551,35 +551,19 @@ def show_anomalies(anomaly_detector):
         table_data = []
         for anomaly in anomalies:
             for result in anomaly[FIELDS.ANOMALY_RESULT]:
-                is_approved = anomaly.get(FIELDS.ANOMALY_APPROVED, False)
-                approve_button = put_button(
-                    "Approve" if not is_approved else "Approved",
-                    color="success" if not is_approved else "secondary",
-                    onclick=partial(anomaly_detector.approve_anomaly, anomaly['_id']),
-                    disabled=is_approved
-                )
-
                 table_data.append([
                     anomaly[FIELDS.ANOMALY_NAME],
                     anomaly[FIELDS.ANOMALY_TIME].strftime('%Y-%m-%d %H:%M:%S'),
                     result[FIELDS.ID],
-                    result.get('packetCount', result.get('distinctDestinationsCount', 'N/A')),
-                    approve_button
+                    result.get('packetCount', result.get('distinctDestinationsCount', 'N/A'))
                 ])
 
         put_table(
             tdata=table_data,
-            header=["Anomaly Name", "Anomaly Time", "Detail", "Count", "Action"]
+            header=["Anomaly Name", "Anomaly Time", "Detail", "Count"]
         )
     else:
         put_text("No anomalies detected").style("color: gray")
-
-
-def approve_anomaly(anomaly_detector, anomaly_id):
-    """Mark an anomaly as approved in the database and refresh the anomalies display."""
-    anomaly_detector.approve_anomaly(anomaly_id)
-    toast("Anomaly approved", color="success")
-    show_anomalies(anomaly_detector)
 
 
 @config(theme="dark")
