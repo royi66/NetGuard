@@ -20,6 +20,7 @@ def get_packet_distribution_by_direction(days_back):
 
     return {'IN': in_count, 'OUT': out_count}
 
+
 def get_packet_count_by_hour(days_back):
     packets_collection = db[Collections.PACKETS]
     now = datetime.now()
@@ -197,8 +198,10 @@ def update_charts(days_back):
     matched_rules_chart = create_matched_rules_pie_chart(days_back)
     return pie_chart, line_graph, rule_match_chart, matched_rules_chart
 
+
 def run_dash_app():
     app.run_server(debug=True, use_reloader=False, port=8050)
+
 
 if __name__ == '__main__':
     run_dash_app()
