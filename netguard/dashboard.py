@@ -121,10 +121,11 @@ def create_rule_match_pie_chart(days_back):
 
     return fig
 
+
 def create_matched_rules_pie_chart(days_back):
     rule_ids, counts = get_matched_rule_distribution(days_back)
     fig = go.Figure(data=[go.Pie(labels=rule_ids, values=counts, hole=.3)])
-
+    # TODO - fix
     fig.update_layout(
         title="Distribution of Packets by Matched Rules",
         paper_bgcolor='#1f1f1f',
@@ -183,6 +184,7 @@ app.layout = html.Div(
     ]
 
 )
+
 
 @app.callback(
     [Output('direction-pie-chart', 'figure'),

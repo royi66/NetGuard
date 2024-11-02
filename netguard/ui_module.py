@@ -21,6 +21,7 @@ mongo_client = MongoDbClient()
 db = mongo_client.client[DBNames.NET_GUARD_DB]
 images_dir = os.path.join(os.path.dirname(__file__), '../Images')
 current_page = 0
+current_filter_page = 0
 
 
 def get_recent_packets(page=0):
@@ -65,10 +66,8 @@ def update_packets_list(rule_set, page=0):
     global current_page
     current_page = page
     packets, has_next_page = get_recent_packets(current_page)
-
-    # Calculate start and end packet numbers
-    total_packets = db[Collections.PACKETS].count_documents(
-        {FIELDS.INSERTION_TIME: {"$gte": datetime.now() - timedelta(hours=Ui.HOURS_BACK)}})
+    total_packets = mongo_client.get_data_counter_in_timedelta(DBNames.NET_GUARD_DB, Collections.PACKETS,
+                                                                Ui.HOURS_BACK, FIELDS.INSERTION_TIME)
     start_packet = current_page * Ui.PAGE_SIZE + 1
     end_packet = start_packet + len(packets) - 1
 
@@ -179,7 +178,7 @@ def put_packet_search(packet_id):
 
 
 @use_scope("dashboard", clear=True)
-def put_blocks(rule_set):
+def show_packets(rule_set):
     put_markdown("## Network Packets")
     put_scope("search")
     put_scope("results")
@@ -199,7 +198,6 @@ def put_blocks(rule_set):
 
         pin.put_input(name='search_value', placeholder="Enter value for the selected field")
 
-        # Fetch field and value when the button is clicked
         put_button("Search", onclick=lambda: put_packet_search_results(pin.pin["search_field"], pin.pin["search_value"], rule_set), color="primary")
 
     put_latest_packets(rule_set)
@@ -217,18 +215,39 @@ def clear_filter(rule_set):
 
 
 @use_scope("results", clear=True)
-def put_packet_search_results(field, value, rule_set):
-    """Fetch and filter packets based on the search field and value, and update the existing table."""
-    try:
-        filtered_packets = mongo_client.get_data_by_field(DBNames.NET_GUARD_DB, Collections.PACKETS, field, value)
+def put_packet_search_results(field, value, rule_set, page=0):
+    """Fetch and filter packets based on the search field and value, and update the existing table with pagination."""
+    global current_filter_page
+    current_filter_page = page
 
-        update_packets_list_with_filter(filtered_packets)
+    # Define the page size
+    page_size = Ui.PAGE_SIZE
+    skip = page * page_size
+
+    try:
+        # Set up the query and collection
+        packets_collection = db[Collections.PACKETS]
+        query = {field: value}
+
+        # Get the total count of matching packets
+        total_filtered_count = packets_collection.count_documents(query)
+
+        # Check if there are packets to show
+        if total_filtered_count == 0:
+            put_text("No packets found for the given filter.").style("color: gray;")
+            return  # Exit if there are no packets
+
+        filtered_packets = list(packets_collection.find(query).skip(skip).limit(page_size))
+
+        has_next_page = total_filtered_count > ((page + 1) * page_size)
+
+        update_packets_list_with_filter(filtered_packets, rule_set, page, has_next_page, field, value)
 
         if value:
             put_clear_filter_button(rule_set)
 
     except Exception as e:
-        print(f"Error: {e}")
+        logger.error(f"Error: {e}")
         put_text("Error fetching search results.").style("color: red;")
 
 
@@ -238,17 +257,21 @@ def put_clear_filter_button(rule_set):
         put_button("Clear Filter", onclick=lambda: clear_filter(rule_set), color="warning", outline=True)
 
 
-def update_packets_list_with_filter(filtered_packets):
-    """Update the existing packets table with filtered packets based on search criteria."""
-    with use_scope('latest', clear=True):
-        put_markdown(f"### Showing filtered packets")
+def update_packets_list_with_filter(filtered_packets, rule_set, page, has_next_page, field, value):
+    """Update the existing packets table with filtered packets based on search criteria, with pagination."""
+    global current_filter_page
+    current_filter_page = page
 
-        headers = ["More Info", "Direction", LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, LABELS.SRC_PORT, LABELS.DEST_PORT, "Rule"]
+    with use_scope('latest', clear=True):
+        put_markdown(f"### Showing filtered packets - Page {page + 1}")
+
+        headers = ["More Info", "Direction", LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, LABELS.SRC_PORT,
+                   LABELS.DEST_PORT, "Rule"]
 
         packet_rows = []
+        counter = 1
         for packet in filtered_packets:
             matched_rule_id = packet.get("matched_rule_id", None)  # Safely fetch `matched_rule_id`
-
             if matched_rule_id:
                 if matched_rule_id > 0:
                     packet["rule"] = rule_set.get_rule_by_id(matched_rule_id)
@@ -273,11 +296,23 @@ def update_packets_list_with_filter(filtered_packets):
                 packet_row.append(put_text(""))
 
             packet_rows.append(packet_row)
+            counter += 1
 
-        put_table(
-            tdata=packet_rows,
-            header=headers
-        )
+        put_table(tdata=packet_rows, header=headers)
+
+        # Pagination controls: Next and Previous buttons
+        buttons = []
+        if page > 0:
+            buttons.append(
+                put_button("Previous", onclick=lambda: put_packet_search_results(field, value, rule_set, page - 1),
+                           color="warning"))
+        if has_next_page:
+            buttons.append(
+                put_button("Next", onclick=lambda: put_packet_search_results(field, value, rule_set, page + 1),
+                           color="success"))
+
+        if buttons:
+            put_row(buttons, size="auto auto auto")
 
 
 @use_scope("latest")
@@ -412,6 +447,7 @@ def handle_rule_form_action(action, rule_set):
 
 @use_scope("latest")
 def edit_rule(rule, rule_set):
+    # TODO - fixxxx
     """Edit an existing rule."""
     logger.info(f"UI - Enter delete_rule for rule {rule[FIELDS.RULE_ID]}")
     updated_rule = input_group("Edit Rule", [
@@ -529,7 +565,7 @@ def put_navbar(rule_set, anomaly_detector):
                 put_markdown("### NetGuard", 'sidebar-item'),
                 put_image(open(os.path.join(images_dir, Paths.ICON_URL), 'rb').read(), format='png')
                 .style("width: 150px; height: auto; background-color: #1f1f1f; margin-left: -20px;"),
-                put_markdown("#### Packets", 'sidebar-item').onclick(lambda: put_blocks(rule_set)),
+                put_markdown("#### Packets", 'sidebar-item').onclick(lambda: show_packets(rule_set)),
                 put_markdown("#### Manage Rules", 'sidebar-item').onclick(lambda: manage_rules(rule_set)),
                 put_markdown("#### Dashboard", 'sidebar-item').onclick(lambda: put_dashboard()),
                 put_markdown("#### Anomalies", 'sidebar-item').onclick(lambda: show_anomalies(anomaly_detector))
@@ -567,7 +603,7 @@ def show_anomalies(anomaly_detector):
 
 
 @config(theme="dark")
-def main(rule_set, anomaly_detector):
+def ui_main(rule_set, anomaly_detector):
     start_dash_thread()
     session.set_env(title="NetGuard", output_max_width="100%",)
     put_html(Ui.DARK_MODE_CSS)
@@ -577,11 +613,11 @@ def main(rule_set, anomaly_detector):
         size="0.5fr 20px 4fr",
     )
     put_navbar(rule_set, anomaly_detector)
-    put_blocks(rule_set)
+    show_packets(rule_set)
 
 
 if __name__ == "__main__":
     db_client = MongoDbClient()
     rule_set = RuleSet(db_client)
     anomaly_detector = AnomalyDetector(db_client)
-    start_server(lambda: main(rule_set, anomaly_detector), port=8081)
+    start_server(lambda: ui_main(rule_set, anomaly_detector), port=8081)

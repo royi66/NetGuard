@@ -36,3 +36,4 @@ def save_packet(packet: Packet, db_name: str, collection_name: str) -> None:
     packet_data = packet.to_dict()
     mongo_db_client.insert_to_db(db_name, collection_name, packet_data)
     mongo_db_client.close_connection()
+
