@@ -14,6 +14,7 @@ from functools import partial
 from backend.anomaly_detection import AnomalyDetector
 from backend.logging_config import logger
 
+# TODO - Change all calls to db
 
 matplotlib.use('Agg')
 app = Dash(__name__)
