@@ -171,3 +171,35 @@ class MongoDbClient:
             logger.error(f"Error in get_data_counter_in_timedelta: {e}")
             return None
 
+    def get_data_time_back(self, db_name, collection_name, time_back, time_field_name, skip=None, page_size=None):
+        try:
+            db = self.client[db_name]
+            collection = db[collection_name]
+            query = {time_field_name: {"$gte": time_back}}
+            return list(collection.find(query).skip(skip).limit(page_size))
+        except Exception as e:
+            logger.error(f"Error in get_data_time_back: {e}")
+            return None
+
+    def has_more_recent_packets(self, db_name, collection_name, skip, page_size, time_back, time_field_name):
+        """
+        Checks if there are more packets in the collection that were inserted in the last hour
+        beyond the current page.
+
+        Args:
+            packets_collection (Collection): The MongoDB collection containing the packets.
+            skip (int): The number of documents to skip, typically calculated for pagination.
+            page_size (int): The number of packets displayed per page.
+
+        Returns:
+            bool: True if there are more recent packets beyond the current page, False otherwise.
+        """
+        db = self.client[db_name]
+        collection = db[collection_name]
+        query = {time_field_name: {"$gte": time_back}}
+
+        total_matching_packets = collection.count_documents(query)
+
+        return total_matching_packets > (skip + page_size)
+
+

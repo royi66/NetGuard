@@ -14,7 +14,6 @@ from functools import partial
 from backend.anomaly_detection import AnomalyDetector
 from backend.logging_config import logger
 
-
 matplotlib.use('Agg')
 app = Dash(__name__)
 mongo_client = MongoDbClient()
@@ -26,15 +25,15 @@ current_filter_page = 0
 
 def get_recent_packets(page=0):
     """Retrieve 20 packets per page with pagination."""
-    packets_collection = db[Collections.PACKETS]
     one_hour_ago = datetime.now() - timedelta(hours=Ui.HOURS_BACK)
-
-    # Query to find packets in the last hour
-    query = {FIELDS.INSERTION_TIME: {"$gte": one_hour_ago}}
-
     skip = page * Ui.PAGE_SIZE
-    matching_packets = list(packets_collection.find(query).skip(skip).limit(Ui.PAGE_SIZE))
-    more_packets = packets_collection.count_documents(query) > (skip + Ui.PAGE_SIZE)
+
+    matching_packets = mongo_client.get_data_time_back(db_name=DBNames.NET_GUARD_DB,
+                                                       collection_name=Collections.PACKETS, time_back=one_hour_ago,
+                                                       time_field_name=FIELDS.INSERTION_TIME,
+                                                       skip=skip, page_size=Ui.PAGE_SIZE)
+
+    more_packets = mongo_client.has_more_recent_packets(DBNames.NET_GUARD_DB, Collections.PACKETS, skip, Ui.PAGE_SIZE, one_hour_ago, FIELDS.INSERTION_TIME)
 
     return [
         {
@@ -126,7 +125,6 @@ def update_packets_list(rule_set, page=0):
 def rule_search(rule_id, rule_set):
     popup("Rule Info", [put_scope("popup_content")], PopupSize.LARGE)
     with use_scope("popup_content"):
-        # Query MongoDB for the packet by src_ip
         rules = rule_set.get_rule_by_id(rule_id)
 
         if rules:
@@ -149,7 +147,6 @@ def put_packet_search(packet_id):
     """Retrieve and display the packet details based on src_ip or packet_id."""
     popup("Packet Info", [put_scope("popup_content")], PopupSize.LARGE)
     with use_scope("popup_content"):
-        # Query MongoDB for the packet by src_ip
         packet = mongo_client.get_data_by_field(DBNames.NET_GUARD_DB, Collections.PACKETS, "_id", packet_id)
 
         if packet:
@@ -217,6 +214,7 @@ def clear_filter(rule_set):
 @use_scope("results", clear=True)
 def put_packet_search_results(field, value, rule_set, page=0):
     """Fetch and filter packets based on the search field and value, and update the existing table with pagination."""
+    # TODO - use handle_db
     global current_filter_page
     current_filter_page = page
 
@@ -447,19 +445,39 @@ def handle_rule_form_action(action, rule_set):
 
 @use_scope("latest")
 def edit_rule(rule, rule_set):
-    # TODO - fixxxx
     """Edit an existing rule."""
-    logger.info(f"UI - Enter delete_rule for rule {rule[FIELDS.RULE_ID]}")
-    updated_rule = input_group("Edit Rule", [
-        input(LABELS.SRC_IP, name=FIELDS.SRC_IP, value=rule[FIELDS.SRC_IP]),
-        input(LABELS.DEST_IP, name=FIELDS.DEST_IP, value=rule[FIELDS.DEST_IP]),
-        input(LABELS.PROTOCOL, name=FIELDS.PROTOCOL, value=rule[FIELDS.PROTOCOL]),
-        input("Action", name=FIELDS.ACTION, value=rule[FIELDS.ACTION])
-    ])
+    logger.info(f"UI - Enter edit_rule for rule {rule[FIELDS.RULE_ID]}")
 
-    rule_set.edit_rule(rule[FIELDS.RULE_ID], **updated_rule)
+    # Clear previous content
+    clear("rules_table")
+    clear("add_button")
 
-    manage_rules(rule_set)
+    # Apply Dark Mode CSS
+    put_html(Ui.DARK_MODE_CSS)
+
+    # Open a new scope for the edit form
+    with use_scope("edit_rule_form", clear=True):  # Clear to avoid duplication
+        put_markdown("### Edit Rule")
+
+        # Display input fields with initial values from the selected rule
+        pin.put_input(name=FIELDS.SRC_IP, label=LABELS.SRC_IP, value=rule.get(FIELDS.SRC_IP, ""))
+        pin.put_input(name=FIELDS.DEST_IP, label=LABELS.DEST_IP, value=rule.get(FIELDS.DEST_IP, ""))
+        pin.put_input(name=FIELDS.PROTOCOL, label=LABELS.PROTOCOL, value=rule.get(FIELDS.PROTOCOL, ""))
+        pin.put_input(name=FIELDS.ACTION, label="Action", value=rule.get(FIELDS.ACTION, "block"))
+
+        # Update the rule after submission
+        def on_submit():
+            updated_rule = {
+                FIELDS.SRC_IP: pin.pin[FIELDS.SRC_IP],
+                FIELDS.DEST_IP: pin.pin[FIELDS.DEST_IP],
+                FIELDS.PROTOCOL: pin.pin[FIELDS.PROTOCOL],
+                FIELDS.ACTION: pin.pin[FIELDS.ACTION]
+            }
+            rule_set.edit_rule(rule[FIELDS.RULE_ID], **updated_rule)
+            manage_rules(rule_set)  # Refresh the rules list
+
+        # Submit button for the form
+        put_buttons(["Save Changes"], onclick=[on_submit])
 
 
 @use_scope("latest")
