@@ -171,12 +171,19 @@ class MongoDbClient:
             logger.error(f"Error in get_data_counter_in_timedelta: {e}")
             return None
 
-    def get_data_time_back(self, db_name, collection_name, time_back, time_field_name, skip=None, page_size=None):
+    def get_data_time_back(self, db_name, collection_name, time_back, time_field_name, skip, page_size, sort_field=None,
+                           sort_order=1):
         try:
             db = self.client[db_name]
             collection = db[collection_name]
             query = {time_field_name: {"$gte": time_back}}
-            return list(collection.find(query).skip(skip).limit(page_size))
+            if sort_field:
+                cursor = collection.find(query).sort(sort_field, sort_order).skip(skip).limit(page_size)
+            else:
+                cursor = collection.find(query).skip(skip).limit(page_size)
+
+            return list(cursor)
+
         except Exception as e:
             logger.error(f"Error in get_data_time_back: {e}")
             return None

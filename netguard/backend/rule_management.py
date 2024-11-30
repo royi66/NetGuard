@@ -49,12 +49,11 @@ class Rule:
 
     def matches(self, packet) -> bool:
         """Check if the rule matches the given packet."""
-
-        match_result =((self.src_ip is None or ('IP' in packet and packet[IP].src == self.src_ip)) and
-                (self.dest_ip is None or ('IP' in packet and packet[IP].dst == self.dest_ip)) and
-                (self.src_port is None or hasattr(packet, 'sport') and packet.sport == self.src_port) and
-                (self.dest_port is None or hasattr(packet, 'dport') and packet.dport == self.dest_port) and
-                (self.protocol is None or hasattr(packet, 'proto') and packet.proto == self.protocol))
+        match_result =((self.src_ip in (None, "") or ('IP' in packet and packet[IP].src == self.src_ip)) and
+                (self.dest_ip in (None, "") or ('IP' in packet and packet[IP].dst == self.dest_ip)) and
+                (self.src_port in (None, "") or hasattr(packet, 'sport') and packet.sport == self.src_port) and
+                (self.dest_port in (None, "") or hasattr(packet, 'dport') and packet.dport == self.dest_port) and
+                (self.protocol in (None, "") or hasattr(packet, 'proto') and packet.proto == self.protocol))
         if match_result:
             logger.info("Matched rule ID: {}".format(self.rule_id))
         return match_result

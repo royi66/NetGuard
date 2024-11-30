@@ -21,10 +21,10 @@ def main():
     rule_set = RuleSet(db_client)
     anomaly_detector = AnomalyDetector(db_client)
     # Clear all rules
-    rule_set.clear_all_rules()
-    rule_set.add_rule(src_ip='10.0.0.5', alert=True)
-    rule_set.add_rule(dest_ip='10.0.0.255', alert=True)
-    # Add example rules
+    # rule_set.clear_all_rules()
+    # rule_set.add_rule(src_ip='10.0.0.5', alert=True)
+    # rule_set.add_rule(dest_ip='10.0.0.255', alert=True)
+
     rule_set.print_all_rules()
     
     # Start packet capturing in separate threads
