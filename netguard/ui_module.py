@@ -28,16 +28,27 @@ def get_recent_packets(page=0):
     one_hour_ago = datetime.now() - timedelta(hours=Ui.HOURS_BACK)
     skip = page * Ui.PAGE_SIZE
 
-    matching_packets = mongo_client.get_data_time_back(db_name=DBNames.NET_GUARD_DB,
-                                                       collection_name=Collections.PACKETS, time_back=one_hour_ago,
-                                                       time_field_name=FIELDS.INSERTION_TIME,
-                                                       skip=skip, page_size=Ui.PAGE_SIZE)
+    matching_packets = mongo_client.get_data_time_back(
+        db_name=DBNames.NET_GUARD_DB,
+        collection_name=Collections.PACKETS,
+        time_back=one_hour_ago,
+        time_field_name=FIELDS.INSERTION_TIME,
+        skip=skip,
+        page_size=Ui.PAGE_SIZE,
+        sort_field=FIELDS.INSERTION_TIME,  # Add this parameter
+        sort_order=-1  # Descending order
+    )
 
-    more_packets = mongo_client.has_more_recent_packets(DBNames.NET_GUARD_DB, Collections.PACKETS, skip, Ui.PAGE_SIZE, one_hour_ago, FIELDS.INSERTION_TIME)
+    more_packets = mongo_client.has_more_recent_packets(
+        DBNames.NET_GUARD_DB,
+        Collections.PACKETS,
+        skip, Ui.PAGE_SIZE, one_hour_ago, FIELDS.INSERTION_TIME
+    )
 
     return [
         {
             FIELDS.ID: packet.get(FIELDS.ID, None),
+            FIELDS.INSERTION_TIME: packet.get(FIELDS.INSERTION_TIME, None),
             FIELDS.DIRECTION: packet.get(FIELDS.DIRECTION, ""),
             FIELDS.SRC_IP: packet.get(FIELDS.SRC_IP, ""),
             FIELDS.DEST_IP: packet.get(FIELDS.DEST_IP, ""),
@@ -74,7 +85,7 @@ def update_packets_list(rule_set, page=0):
         # Display packet range and total number of packets
         put_markdown(f"### Showing packets {start_packet}-{end_packet} out of {total_packets}")
 
-        headers = ["More Info", "Direction", LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, LABELS.SRC_PORT,
+        headers = ["More Info", "Time", "Direction", LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, LABELS.SRC_PORT,
                    LABELS.DEST_PORT, "Rule"]
 
         packet_rows = []
@@ -85,6 +96,7 @@ def update_packets_list(rule_set, page=0):
 
             packet_row = [
                 put_button("+", onclick=lambda x=packet[FIELDS.ID]: put_packet_search(x), link_style=True),
+                put_text(str(packet[FIELDS.INSERTION_TIME])),
                 put_text(packet[FIELDS.DIRECTION]),
                 put_text(packet[FIELDS.SRC_IP]),
                 put_text(packet[FIELDS.DEST_IP]),
@@ -95,10 +107,10 @@ def update_packets_list(rule_set, page=0):
             if packet.get(FIELDS.MATCHED_RULE):
                 if packet[FIELDS.MATCHED_RULE] > 0:
                     packet_row.append(
-                        put_button(packet[FIELDS.MATCHED_RULE],
+                        put_button(str(packet[FIELDS.MATCHED_RULE]),
                                    onclick=lambda x=packet[FIELDS.MATCHED_RULE]: rule_search(x, rule_set),
                                    color="danger").style(
-                            'color: white; border: none; padding: 5px;')
+                            'background-color: red; color: white; border: none; padding: 5px;')
                     )
             else:
                 packet_row.append(put_text(""))  # Placeholder if no matched_rule_id
@@ -262,7 +274,7 @@ def update_packets_list_with_filter(filtered_packets, rule_set, page, has_next_p
     with use_scope('latest', clear=True):
         put_markdown(f"### Showing filtered packets - Page {page + 1}")
 
-        headers = ["More Info", "Direction", LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, LABELS.SRC_PORT,
+        headers = ["More Info", LABELS.INSERTION_TIME, "Direction", LABELS.SRC_IP, LABELS.DEST_IP, LABELS.PROTOCOL, LABELS.SRC_PORT,
                    LABELS.DEST_PORT, "Rule"]
 
         packet_rows = []
@@ -275,6 +287,7 @@ def update_packets_list_with_filter(filtered_packets, rule_set, page, has_next_p
 
             packet_row = [
                 put_button("+", onclick=lambda x=packet[FIELDS.ID]: put_packet_search(x), link_style=True),
+                put_text(str(packet[FIELDS.INSERTION_TIME])),
                 put_text(packet.get(FIELDS.DIRECTION, "")),
                 put_text(packet.get(FIELDS.SRC_IP, "")),
                 put_text(packet.get(FIELDS.DEST_IP, "")),
@@ -541,6 +554,7 @@ def manage_rules(rule_set):
                 tdata=[
                     [
                         put_button("Get Packets", onclick=partial(show_packets_for_rule, rule[FIELDS.RULE_ID], rule_set), small=True),
+                        rule[FIELDS.RULE_ID],
                         rule[FIELDS.SRC_IP],
                         rule[FIELDS.DEST_IP],
                         rule[FIELDS.PROTOCOL],
