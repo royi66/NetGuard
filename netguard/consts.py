@@ -143,3 +143,6 @@ class Ui:
 class Paths:
     ICON_URL = 'icon2.png'
 
+class Directions:
+    OUT_DIRECTION = "OUT"
+    IN_DIRECTION = "IN"

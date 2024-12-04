@@ -214,7 +214,6 @@ def clear_filter(rule_set):
 @use_scope("results", clear=True)
 def put_packet_search_results(field, value, rule_set, page=0):
     """Fetch and filter packets based on the search field and value, and update the existing table with pagination."""
-    # TODO - use handle_db
     global current_filter_page
     current_filter_page = page
 
