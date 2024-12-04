@@ -9,3 +9,7 @@ Define MVP features
 4. Save logs - Define which
 5. Show all traffic on PC
 6. Check python versions
+
+
+DB - Think how to pass the DB connection and should we open and close in the same function
+Create a logger for the project
